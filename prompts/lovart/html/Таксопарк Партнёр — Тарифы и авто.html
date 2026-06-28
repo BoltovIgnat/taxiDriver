@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1440">
+    <title>Тарифы и авто — Таксопарк Партнёр</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg: #F5F6F7;
+            --surface: #FFFFFF;
+            --text: #1A1D21;
+            --muted: #6B7280;
+            --steel: #4A5568;
+            --accent: #2563EB;
+            --border: #E5E7EB;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg);
+            color: var(--text);
+            width: 1440px; /* Fixed width as requested */
+            margin: 0 auto;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 28px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav a {
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--steel);
+            transition: color 0.2s;
+        }
+
+        .nav a:hover, .nav a.active {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .phone {
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #FFFFFF;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 48px 0;
+        }
+
+        .breadcrumbs {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 24px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .hero-section h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .hero-section p {
+            font-size: 18px;
+            color: var(--steel);
+            max-width: 600px;
+        }
+
+        /* Cards Section */
+        .cards-section {
+            padding-bottom: 80px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            min-height: 280px;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            background-color: #EFF6FF;
+            color: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--steel);
+            font-size: 16px;
+            flex-grow: 1;
+        }
+
+        .card-arrow {
+            align-self: flex-end;
+            margin-top: 24px;
+            font-size: 24px;
+            color: var(--muted);
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .card:hover .card-arrow {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background-color: #EBF1FF;
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-inner {
+            background-color: var(--surface);
+            border-radius: 24px;
+            padding: 48px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+
+        .cta-text h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-text p {
+            color: var(--steel);
+            font-size: 16px;
+        }
+
+        .cta-form form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="tel"] {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: var(--font-family);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input[type="text"]:focus,
+        .input-group input[type="tel"]:focus {
+            border-color: var(--accent);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .checkbox-group input {
+            margin-top: 4px;
+        }
+
+        .cta-form button {
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text);
+            color: #FFFFFF;
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-col h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #FFFFFF;
+        }
+
+        .footer-col p {
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-bottom: 16px;
+            max-width: 280px;
+        }
+
+        .footer-col ul {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-col a {
+            color: #9CA3AF;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: #FFFFFF;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 32px;
+            display: flex;
+            justify-content: space-between;
+            color: #9CA3AF;
+            font-size: 13px;
+        }
+
+        /* Floating Buttons */
+        .floating-buttons {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .fab-wa { background-color: #25D366; }
+        .fab-tg { background-color: #0088cc; }
+        .fab-call { background-color: var(--accent); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">
+                <i class="ri-steering-2-fill"></i>
+                Таксопарк Партнёр
+            </a>
+            <nav class="nav">
+                <a href="#">Города</a>
+                <a href="#">Условия</a>
+                <a href="#" class="active">Тарифы и авто</a>
+                <a href="#">Калькулятор</a>
+                <a href="#">Отзывы</a>
+                <a href="#">FAQ</a>
+                <a href="#">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <a href="tel:88001234567" class="phone">
+                    <i class="ri-phone-fill" style="color: var(--accent)"></i>
+                    8 (800) 123-45-67
+                </a>
+                <button class="btn-primary">Оставить заявку</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="#">Главная</a>
+                <span><i class="ri-arrow-right-s-line"></i></span>
+                <span style="color: var(--text);">Тарифы и авто</span>
+            </div>
+            <h1>Тарифы и авто</h1>
+            <p>Выберите формат работы — мы подберём оптимальный вариант в вашем городе</p>
+        </div>
+    </section>
+
+    <!-- Cards Section -->
+    <section class="cards-section">
+        <div class="container">
+            <div class="cards-grid">
+                
+                <!-- Card 1 -->
+                <a href="#" class="card">
+                    <div class="card-icon">
+                        <i class="ri-car-fill"></i>
+                    </div>
+                    <h2>На своём авто</h2>
+                    <p>Максимальный доход — не платите аренду. Поможем с лицензией.</p>
+                    <i class="ri-arrow-right-line card-arrow"></i>
+                </a>
+
+                <!-- Card 2 -->
+                <a href="#" class="card">
+                    <div class="card-icon">
+                        <i class="ri-key-fill"></i>
+                    </div>
+                    <h2>Аренда авто</h2>
+                    <p>От 800 ₽/сутки. Эконом и комфорт. Без залога.</p>
+                    <i class="ri-arrow-right-line card-arrow"></i>
+                </a>
+
+                <!-- Card 3 -->
+                <a href="#" class="card">
+                    <div class="card-icon">
+                        <i class="ri-check-double-line"></i>
+                    </div>
+                    <h2>Без залога</h2>
+                    <p>Начните работать без депозита — платите только за смену.</p>
+                    <i class="ri-arrow-right-line card-arrow"></i>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-inner">
+                <div class="cta-text">
+                    <h2>Не знаете, что выбрать?</h2>
+                    <p>Оставьте заявку, и наш менеджер свяжется с вами, чтобы подобрать лучшие условия работы в вашем городе. Мы ответим на все вопросы и поможем с оформлением документов.</p>
+                </div>
+                <div class="cta-form">
+                    <form action="#">
+                        <div class="input-group">
+                            <input type="text" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="tel" placeholder="+7 (___) ___-__-__" required>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="agreement" checked required>
+                            <label for="agreement">Я согласен на обработку персональных данных в соответствии с политикой конфиденциальности.</label>
+                        </div>
+                        <button type="submit" class="btn-primary">Оставить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="color: white; margin-bottom: 24px;">
+                        <i class="ri-steering-2-fill"></i>
+                        Таксопарк Партнёр
+                    </div>
+                    <p>Официальный партнёр крупнейших агрегаторов такси. Надёжный сервис для водителей с 2015 года.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Разделы</h3>
+                    <ul>
+                        <li><a href="#">На своём авто</a></li>
+                        <li><a href="#">Аренда авто</a></li>
+                        <li><a href="#">Города присутствия</a></li>
+                        <li><a href="#">Калькулятор дохода</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Информация</h3>
+                    <ul>
+                        <li><a href="#">Отзывы водителей</a></li>
+                        <li><a href="#">Вопрос - ответ</a></li>
+                        <li><a href="#">Условия работы</a></li>
+                        <li><a href="#">Блог</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><a href="tel:88001234567" style="font-size: 16px; font-weight: 600; color: white;">8 (800) 123-45-67</a></li>
+                        <li><a href="/cdn-cgi/l/email-protection#f29b9c949db286938a9bdf829380869c9780dc8087"><span class="__cf_email__" data-cfemail="b8d1d6ded7f8ccd9c0d195c8d9caccd6ddca96cacd">[email&#160;protected]</span></a></li>
+                        <li style="color: #9CA3AF; font-size: 14px; margin-top: 12px;">Ежедневно с 9:00 до 21:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2023 Таксопарк Партнёр. Все права защищены.</div>
+                <div style="display: flex; gap: 24px;">
+                    <a href="#">Политика конфиденциальности</a>
+                    <a href="#">Пользовательское соглашение</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <a href="#" class="fab fab-wa" title="WhatsApp"><i class="ri-whatsapp-line"></i></a>
+        <a href="#" class="fab fab-tg" title="Telegram"><i class="ri-telegram-line"></i></a>
+        <a href="tel:88001234567" class="fab fab-call" title="Позвонить"><i class="ri-phone-fill"></i></a>
+    </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Политика конфиденциальности - Таксопарк Партнёр</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F6F7;
+            --surface: #FFFFFF;
+            --text: #1A1D21;
+            --muted: #6B7280;
+            --steel: #4A5568;
+            --accent: #2563EB;
+            --border: #E5E7EB;
+            --footer-bg: #1A1D21;
+            --footer-text: #9CA3AF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            width: 1440px;
+            margin: 0 auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--steel);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .phone {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .btn {
+            background-color: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #1D4ED8;
+        }
+
+        /* Main Content */
+        main {
+            padding: 48px 0 80px;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .content-wrapper {
+            background-color: var(--surface);
+            border-radius: 12px;
+            padding: 64px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .content-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 40px;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .policy-text {
+            font-size: 14px;
+            color: var(--steel);
+        }
+
+        .intro {
+            font-size: 16px;
+            margin-bottom: 40px;
+            color: var(--text);
+        }
+
+        .policy-section {
+            margin-bottom: 32px;
+        }
+
+        .policy-section h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .policy-section p {
+            margin-bottom: 16px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 64px 0 32px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 48px;
+        }
+
+        .footer-col h3 {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-col a {
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .footer-logo {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">
+                <i class="ri-steering-2-fill"></i>
+                Таксопарк Партнёр
+            </a>
+            <nav class="nav-links">
+                <a href="#">Города</a>
+                <a href="#">Условия</a>
+                <a href="#">Тарифы и авто</a>
+                <a href="#">Калькулятор</a>
+                <a href="#">Отзывы</a>
+                <a href="#">FAQ</a>
+                <a href="#">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <a href="tel:88001234567" class="phone">8 (800) 123-45-67</a>
+                <button class="btn">Оставить заявку</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="#">Главная</a>
+                <span>/</span>
+                <span style="color: var(--text);">Политика конфиденциальности</span>
+            </div>
+            
+            <div class="content-wrapper">
+                <div class="content-inner">
+                    <h1>Политика конфиденциальности</h1>
+                    
+                    <div class="policy-text">
+                        <p class="intro">Настоящая Политика определяет порядок обработки персональных данных пользователей сайта в соответствии с Федеральным законом № 152-ФЗ.</p>
+                        
+                        <div class="policy-section">
+                            <h2>1. Какие данные мы собираем</h2>
+                            <p>Имя, номер телефона, город, данные калькулятора дохода, URL страницы отправки формы.</p>
+                        </div>
+                        
+                        <div class="policy-section">
+                            <h2>2. Цели обработки</h2>
+                            <p>Обработка заявок на подключение водителей, обратная связь, передача данных таксопарку-партнёру.</p>
+                        </div>
+                        
+                        <div class="policy-section">
+                            <h2>3. Хранение данных</h2>
+                            <p>Данные хранятся на серверах на территории Российской Федерации. Срок хранения — до достижения целей обработки или отзыва согласия.</p>
+                        </div>
+                        
+                        <div class="policy-section">
+                            <h2>4. Права пользователя</h2>
+                            <p>Вы вправе запросить удаление или изменение персональных данных, направив запрос на контактный телефон или email, указанный на сайте.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i class="ri-steering-2-fill" style="color: var(--accent);"></i>
+                        Таксопарк Партнёр
+                    </div>
+                    <p class="footer-desc">Надежный партнер для работы в такси. Официальное подключение, прозрачные условия и поддержка водителей 24/7.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Разделы</h3>
+                    <ul>
+                        <li><a href="#">Условия</a></li>
+                        <li><a href="#">Тарифы</a></li>
+                        <li><a href="#">Калькулятор</a></li>
+                        <li><a href="#">Города</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Информация</h3>
+                    <ul>
+                        <li><a href="#">О компании</a></li>
+                        <li><a href="#">Отзывы</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#" style="color: white;">Политика конфиденциальности</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><a href="tel:88001234567" style="color: white; font-weight: 500;">8 (800) 123-45-67</a></li>
+                        <li><a href="/cdn-cgi/l/email-protection#a6cfc8c0c9e6d2c7decfd6c7d4d2c8c3d488d4d3"><span class="__cf_email__" data-cfemail="147d7a727b5460756c7d647566607a71663a6661">[email&#160;protected]</span></a></li>
+                        <li>г. Москва, ул. Примерная, д. 1</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Таксопарк Партнёр. Все права защищены.</p>
+                <div style="display: flex; gap: 16px;">
+                    <a href="#" style="font-size: 20px;"><i class="ri-telegram-fill"></i></a>
+                    <a href="#" style="font-size: 20px;"><i class="ri-whatsapp-fill"></i></a>
+                    <a href="#" style="font-size: 20px;"><i class="ri-vk-fill"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

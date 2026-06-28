@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О сервисе | Таксопарк Партнёр</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F6F7;
+            --surface: #FFFFFF;
+            --text: #1A1D21;
+            --muted: #6B7280;
+            --steel: #4A5568;
+            --accent: #2563EB;
+            --border: #E5E7EB;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            --container-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            width: 1440px; /* Fixed width as requested */
+            margin: 0 auto;
+            position: relative;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Utility */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-family: var(--font-family);
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background-color: var(--surface);
+            color: var(--text);
+            border: 1px solid #D1D5DB;
+        }
+
+        .btn-secondary:hover {
+            background-color: #F9FAFB;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--text);
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--steel);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .header-phone {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        /* Main Content */
+        .main {
+            padding: 48px 0 80px;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumbs i {
+            font-size: 16px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 64px;
+            align-items: start;
+        }
+
+        .text-content {
+            max-width: 720px;
+        }
+
+        .text-content p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--steel);
+            margin-bottom: 24px;
+        }
+
+        .trust-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 40px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: #EFF6FF;
+            color: var(--accent);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .badge i {
+            font-size: 18px;
+        }
+
+        /* CTA Form Card */
+        .cta-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            position: sticky;
+            top: 112px;
+        }
+
+        .cta-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: var(--font-family);
+            transition: border-color 0.2s;
+            background-color: #F9FAFB;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background-color: var(--surface);
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 20px;
+            margin-bottom: 24px;
+        }
+
+        .form-checkbox input[type="checkbox"] {
+            margin-top: 4px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent);
+        }
+
+        .form-checkbox label {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .cta-card .btn-primary {
+            width: 100%;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1A1D21;
+            color: white;
+            padding: 64px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-col h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #E5E7EB;
+        }
+
+        .footer-col ul {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .footer-col a {
+            color: #9CA3AF;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: white;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .footer-logo i {
+            color: var(--accent);
+            font-size: 28px;
+        }
+
+        .footer-desc {
+            color: #9CA3AF;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+
+        /* Floating Actions */
+        .floating-actions {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 90;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .fab:hover {
+            transform: scale(1.05);
+        }
+
+        .fab-whatsapp { background-color: #25D366; }
+        .fab-telegram { background-color: #0088cc; }
+        .fab-call { background-color: var(--accent); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">
+                <i class="ri-taxi-line"></i>
+                Таксопарк Партнёр
+            </a>
+            <nav class="nav-links">
+                <a href="#">Города</a>
+                <a href="#">Условия</a>
+                <a href="#">Тарифы и авто</a>
+                <a href="#">Калькулятор</a>
+                <a href="#">Отзывы</a>
+                <a href="#">FAQ</a>
+                <a href="#">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <a href="tel:88001234567" class="header-phone">8 (800) 123-45-67</a>
+                <button class="btn btn-primary">Оставить заявку</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="#">Главная</a>
+                <i class="ri-arrow-right-s-line"></i>
+                <span>О сервисе</span>
+            </div>
+
+            <h1>О сервисе</h1>
+
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <p>Мы — официальный партнёр крупнейших агрегаторов такси. Подключаем водителей в 25+ городах России: от Москвы до Владивостока. Работаем с 2019 года, за это время помогли тысячам водителей выйти на стабильный доход.</p>
+
+                    <p>Наша задача — убрать барьеры на входе: сложное оформление документов, залог за авто, непрозрачные комиссии. Вы оставляете заявку — мы берём на себя всё остальное.</p>
+
+                    <p>Прямое подключение без посредников. Ежедневные выплаты. Поддержка 24/7 в Telegram.</p>
+
+                    <div class="trust-badges">
+                        <div class="badge"><i class="ri-money-dollar-circle-line"></i> Без залога за авто</div>
+                        <div class="badge"><i class="ri-car-line"></i> Авто предоставляем</div>
+                        <div class="badge"><i class="ri-steering-2-line"></i> Можно на своём авто</div>
+                        <div class="badge"><i class="ri-bank-card-line"></i> Выплаты ежедневно</div>
+                        <div class="badge"><i class="ri-file-list-3-line"></i> Поможем с лицензией</div>
+                        <div class="badge"><i class="ri-links-line"></i> Прямое подключение</div>
+                    </div>
+                </div>
+
+                <div class="cta-sidebar">
+                    <div class="cta-card">
+                        <h3>Станьте нашим водителем</h3>
+                        <form>
+                            <div class="form-group">
+                                <input type="text" class="form-input" placeholder="Ваше имя" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" class="form-input" placeholder="+7 (___) ___-__-__" required>
+                            </div>
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="consent" required checked>
+                                <label for="consent">Я согласен на обработку персональных данных и принимаю условия пользовательского соглашения</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Оставить заявку</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i class="ri-taxi-line"></i>
+                        Таксопарк Партнёр
+                    </div>
+                    <p class="footer-desc">Официальный партнёр крупнейших агрегаторов такси. Подключаем водителей по всей России, предоставляем авто без залога и обеспечиваем стабильные выплаты.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul>
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#">Условия работы</a></li>
+                        <li><a href="#">Каталог авто</a></li>
+                        <li><a href="#">Города присутствия</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="#">О сервисе</a></li>
+                        <li><a href="#">Вопросы и ответы</a></li>
+                        <li><a href="#">Отзывы водителей</a></li>
+                        <li><a href="#">Блог</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><a href="tel:88001234567">8 (800) 123-45-67</a></li>
+                        <li><a href="/cdn-cgi/l/email-protection#5831363e37182c39203128392a2c363d2a762a2d"><span class="__cf_email__" data-cfemail="c0a9aea6af80b4a1b8a9b0a1b2b4aea5b2eeb2b5">[email&#160;protected]</span></a></li>
+                        <li><a href="#">г. Москва, ул. Примерная, д. 1</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2023 Таксопарк Партнёр. Все права защищены.</span>
+                <span>Политика конфиденциальности</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Actions -->
+    <div class="floating-actions">
+        <a href="#" class="fab fab-whatsapp" title="WhatsApp">
+            <i class="ri-whatsapp-line"></i>
+        </a>
+        <a href="#" class="fab fab-telegram" title="Telegram">
+            <i class="ri-telegram-line"></i>
+        </a>
+        <a href="#" class="fab fab-call" title="Позвонить">
+            <i class="ri-phone-line"></i>
+        </a>
+    </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

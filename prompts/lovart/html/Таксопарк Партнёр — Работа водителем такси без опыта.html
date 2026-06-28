@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Работа водителем такси без опыта: с чего начать</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F6F7;
+            --surface: #FFFFFF;
+            --text: #1A1D21;
+            --muted: #6B7280;
+            --steel: #4A5568;
+            --accent: #2563EB;
+            --border: #E5E7EB;
+            --container-padding: 16px;
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --container-padding: 32px;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            width: 1440px; /* Force width as requested */
+            margin: 0 auto;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: #1D4ED8;
+        }
+
+        .btn-secondary {
+            background-color: var(--surface);
+            color: var(--text);
+            border: 1px solid #D1D5DB;
+        }
+
+        .btn-secondary:hover {
+            background-color: #F3F4F6;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 16px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        nav.desktop-nav {
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            nav.desktop-nav {
+                display: flex;
+                gap: 24px;
+            }
+            nav.desktop-nav a {
+                color: var(--steel);
+                font-weight: 500;
+                font-size: 15px;
+                transition: color 0.2s;
+            }
+            nav.desktop-nav a:hover {
+                color: var(--accent);
+            }
+        }
+
+        .header-actions {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .header-actions {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+            .header-phone {
+                font-weight: 600;
+                color: var(--text);
+            }
+        }
+
+        .mobile-menu-btn {
+            display: block;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
+        /* Main Content */
+        main {
+            padding: 32px 0 80px;
+        }
+
+        @media (min-width: 768px) {
+            main {
+                padding: 48px 0 80px;
+            }
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 32px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumbs a {
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumbs span.separator {
+            color: #D1D5DB;
+        }
+
+        .breadcrumbs span.current {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        /* Layout */
+        .page-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        @media (min-width: 1024px) {
+            .page-layout {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 64px;
+            }
+        }
+
+        /* Article */
+        .article-content {
+            flex: 1;
+            max-width: 720px;
+            background-color: transparent; /* Changed from surface to bg for general layout, using surface for some elements if needed, but per instruction, article is just text area */
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 32px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 48px;
+            }
+        }
+
+        .article-body {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--steel);
+        }
+
+        @media (min-width: 768px) {
+            .article-body {
+                font-size: 18px;
+            }
+        }
+
+        .article-body p {
+            margin-bottom: 24px;
+        }
+
+        .article-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 100%;
+        }
+
+        @media (min-width: 1024px) {
+            .sidebar {
+                width: 380px;
+                flex-shrink: 0;
+                position: sticky;
+                top: 100px;
+            }
+        }
+
+        .form-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .form-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .form-card p.subtitle {
+            color: var(--muted);
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #D1D5DB;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            color: var(--text);
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 24px;
+            margin-top: 16px;
+        }
+
+        .checkbox-group input {
+            margin-top: 4px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent);
+        }
+
+        .checkbox-group label {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .checkbox-group label a {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .form-card .btn-primary {
+            width: 100%;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1A1D21;
+            color: #D1D5DB;
+            padding: 64px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 48px;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .footer-col h4 {
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            transition: color 0.2s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #FFFFFF;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-logo i {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            font-size: 14px;
+            color: #9CA3AF;
+        }
+
+        @media (min-width: 768px) {
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        /* Floating Action Buttons */
+        .fabs {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 90;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .fab:hover {
+            transform: scale(1.05);
+        }
+
+        .fab-wa {
+            background-color: #25D366;
+        }
+
+        .fab-tg {
+            background-color: #0088CC;
+        }
+
+        .fab-call {
+            background-color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <i class="ri-taxi-line"></i>
+                Таксопарк Партнёр
+            </a>
+            
+            <nav class="desktop-nav">
+                <a href="#">Города</a>
+                <a href="#">Условия</a>
+                <a href="#">Тарифы и авто</a>
+                <a href="#">Калькулятор</a>
+                <a href="#">Отзывы</a>
+                <a href="#">FAQ</a>
+                <a href="#">Контакты</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="tel:88001234567" class="header-phone">8 (800) 123-45-67</a>
+                <button class="btn btn-primary">Оставить заявку</button>
+            </div>
+
+            <button class="mobile-menu-btn">
+                <i class="ri-menu-line"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs">
+                <a href="#">Главная</a>
+                <span class="separator">/</span>
+                <a href="#">Блог</a>
+                <span class="separator">/</span>
+                <span class="current">Работа водителем такси без опыта</span>
+            </div>
+
+            <div class="page-layout">
+                <!-- Article -->
+                <article class="article-content">
+                    <div class="article-meta">
+                        <span>1 ноября 2025</span>
+                        <span>·</span>
+                        <span><i class="ri-time-line" style="vertical-align: middle; margin-right: 4px;"></i> 5 мин чтения</span>
+                    </div>
+
+                    <h1>«Работа водителем такси без опыта: с чего начать»</h1>
+
+                    <div class="article-body">
+                        <p>«Многие думают, что для работы в такси нужен многолетний стаж. На самом деле достаточно водительского удостоверения категории B со стажем от 3 лет — опыт работы именно в такси не требуется.</p>
+
+                        <p>Первый шаг — оставить заявку и получить консультацию. Менеджер расскажет условия в вашем городе, поможет выбрать формат работы — на своём авто или в аренде — и ответит на все вопросы. Консультация бесплатная и ни к чему не обязывает.</p>
+
+                        <p>Второй шаг — подготовить документы. Вам понадобятся: паспорт гражданина РФ, водительское удостоверение категории B со стажем от 3 лет, СНИЛС и ИНН. Если планируете работать на своём автомобиле — также ПТС, СТС и полис ОСАГО.</p>
+
+                        <p>Третий шаг — оформить самозанятость. Это статус «Налог на профессиональный доход» через приложение «Мой налог». Регистрация занимает около 10 минут, налоговая ставка — 4% при оплате от физических лиц и 6% от юридических. Мы помогаем оформить самозанятость бесплатно.</p>
+
+                        <p>Четвёртый шаг — подключение и обучение. Мы устанавливаем приложение агрегатора, оформляем лицензию на такси и проводим инструктаж. Первые смены можно отработать с наставником, который подскажет нюансы работы.</p>
+
+                        <p>Средний доход новичка — 70–90 тысяч рублей при графике 5–6 дней в неделю по 8–10 часов. Через 2–3 месяца, когда вы освоитесь и поймёте, где и когда лучше работать, доход вырастет до 100–120 тысяч.»</p>
+                    </div>
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="form-card">
+                        <h3>Работа в такси в вашем городе</h3>
+                        <p class="subtitle">Рассчитайте доход и оставьте заявку</p>
+                        
+                        <form action="#" method="POST">
+                            <div class="form-group">
+                                <input type="text" placeholder="Ваше имя" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" placeholder="+7 (___) ___-__-__" required>
+                            </div>
+                            
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="consent" required checked>
+                                <label for="consent">Я согласен на обработку персональных данных в соответствии с <a href="#">политикой конфиденциальности</a></label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Оставить заявку</button>
+                        </form>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i class="ri-taxi-line"></i>
+                        Таксопарк
+                    </div>
+                    <p style="font-size: 14px; color: #9CA3AF; margin-bottom: 24px;">Надёжный партнёр для водителей такси по всей России. Официальное подключение, прозрачные выплаты и круглосуточная поддержка.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul>
+                        <li><a href="#">Города присутствия</a></li>
+                        <li><a href="#">Условия работы</a></li>
+                        <li><a href="#">Тарифы и автомобили</a></li>
+                        <li><a href="#">Блог водителя</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="#">Калькулятор дохода</a></li>
+                        <li><a href="#">Частые вопросы (FAQ)</a></li>
+                        <li><a href="#">Отзывы водителей</a></li>
+                        <li><a href="#">О компании</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li style="display: flex; align-items: center; gap: 8px;"><i class="ri-phone-line"></i> <a href="tel:88001234567">8 (800) 123-45-67</a></li>
+                        <li style="display: flex; align-items: center; gap: 8px;"><i class="ri-mail-line"></i> <a href="/cdn-cgi/l/email-protection#dbb2b5bdb49bafbaa3b2abbaa9afb5bea9f5a9ae"><span class="__cf_email__" data-cfemail="fd94939b92bd899c85948d9c8f8993988fd38f88">[email&#160;protected]</span></a></li>
+                        <li style="display: flex; align-items: center; gap: 8px;"><i class="ri-map-pin-line"></i> г. Москва, ул. Примерная, д. 1</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Таксопарк Партнёр. Все права защищены.</p>
+                <div style="display: flex; gap: 16px;">
+                    <a href="#">Политика конфиденциальности</a>
+                    <a href="#">Пользовательское соглашение</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Action Buttons -->
+    <div class="fabs">
+        <a href="#" class="fab fab-wa" title="WhatsApp">
+            <i class="ri-whatsapp-line"></i>
+        </a>
+        <a href="#" class="fab fab-tg" title="Telegram">
+            <i class="ri-telegram-line"></i>
+        </a>
+        <a href="tel:88001234567" class="fab fab-call" title="Позвонить">
+            <i class="ri-phone-line"></i>
+        </a>
+    </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

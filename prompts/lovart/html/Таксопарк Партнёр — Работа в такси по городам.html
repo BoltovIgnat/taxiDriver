@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Работа в такси по городам</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F6F7;
+            --surface: #FFFFFF;
+            --text: #1A1D21;
+            --muted: #6B7280;
+            --steel: #4A5568;
+            --accent: #2563EB;
+            --accent-hover: #1D4ED8;
+            --border: #E5E7EB;
+            --font-family: 'Inter', system-ui, sans-serif;
+            --max-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            width: 1440px; /* Fixed width as requested */
+            margin: 0 auto;
+            position: relative;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            outline: none;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--steel);
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .phone-number {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 32px 0 16px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .breadcrumbs a {
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumbs span {
+            margin: 0 8px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 48px 0 64px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--steel);
+            max-width: 600px;
+            margin-bottom: 48px;
+        }
+
+        .hero-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 400px;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: var(--surface);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .city-count {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--steel);
+        }
+
+        /* Cities Grid */
+        .cities-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            padding-bottom: 80px;
+        }
+
+        .city-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .city-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+            border-color: var(--accent);
+        }
+
+        .city-name {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .city-region {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .city-income {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .city-income i {
+            font-size: 18px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background-color: var(--surface);
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .cta-subtitle {
+            font-size: 16px;
+            color: var(--steel);
+            margin-bottom: 40px;
+        }
+
+        .cta-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background-color: var(--bg);
+            padding: 40px;
+            border-radius: 24px;
+            text-align: left;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--steel);
+        }
+
+        .form-input {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: var(--surface);
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent);
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .form-checkbox input {
+            margin-top: 4px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent);
+        }
+
+        .form-checkbox label {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .cta-form .btn-primary {
+            margin-top: 16px;
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1A1D21;
+            color: #FFFFFF;
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 48px;
+            margin-bottom: 64px;
+        }
+
+        .footer-col h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #F5F6F7;
+        }
+
+        .footer-col p {
+            color: #9CA3AF;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: #9CA3AF;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #FFFFFF;
+        }
+
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+
+        .contact-item i {
+            font-size: 20px;
+            color: #FFFFFF;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #9CA3AF;
+            font-size: 13px;
+        }
+
+        /* Floating Actions */
+        .floating-actions {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 90;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        .fab-wa { background-color: #25D366; }
+        .fab-tg { background-color: #0088cc; }
+        .fab-call { background-color: var(--accent); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <div class="logo">
+                <i class="ri-steering-fill"></i>
+                Таксопарк Партнёр
+            </div>
+            <nav class="nav-links">
+                <a href="#">Города</a>
+                <a href="#">Условия</a>
+                <a href="#">Тарифы и авто</a>
+                <a href="#">Калькулятор</a>
+                <a href="#">Отзывы</a>
+                <a href="#">FAQ</a>
+                <a href="#">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <span class="phone-number">8 (800) 123-45-67</span>
+                <button class="btn-primary">Оставить заявку</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="#">Главная</a>
+                <span>/</span>
+                <span style="color: var(--text);">Города</span>
+            </div>
+
+            <section class="hero">
+                <h1>Работа в такси по городам</h1>
+                <p>Выберите свой город — посмотрите условия, рассчитайте доход и оставьте заявку</p>
+                
+                <div class="hero-controls">
+                    <div class="search-wrapper">
+                        <i class="ri-search-line"></i>
+                        <input type="text" class="search-input" placeholder="Поиск города...">
+                    </div>
+                    <div class="city-count">
+                        25 городов
+                    </div>
+                </div>
+
+                <div class="cities-grid">
+                    <!-- City Cards Array -->
+                    <a href="#" class="city-card">
+                        <div class="city-name">Москва</div>
+                        <div class="city-region">Москва и область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 150 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Санкт-Петербург</div>
+                        <div class="city-region">Ленинградская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 130 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Казань</div>
+                        <div class="city-region">Татарстан</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 110 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Новосибирск</div>
+                        <div class="city-region">Новосибирская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 105 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Екатеринбург</div>
+                        <div class="city-region">Свердловская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 108 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Нижний Новгород</div>
+                        <div class="city-region">Нижегородская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 100 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Краснодар</div>
+                        <div class="city-region">Краснодарский край</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 102 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Ростов-на-Дону</div>
+                        <div class="city-region">Ростовская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 98 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Самара</div>
+                        <div class="city-region">Самарская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 95 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Уфа</div>
+                        <div class="city-region">Башкортостан</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 92 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Воронеж</div>
+                        <div class="city-region">Воронежская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 90 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Пермь</div>
+                        <div class="city-region">Пермский край</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 88 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Волгоград</div>
+                        <div class="city-region">Волгоградская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 85 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Челябинск</div>
+                        <div class="city-region">Челябинская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 87 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Омск</div>
+                        <div class="city-region">Омская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 82 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Красноярск</div>
+                        <div class="city-region">Красноярский край</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 86 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Тюмень</div>
+                        <div class="city-region">Тюменская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 94 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Ижевск</div>
+                        <div class="city-region">Удмуртия</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 80 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Барнаул</div>
+                        <div class="city-region">Алтайский край</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 78 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Иркутск</div>
+                        <div class="city-region">Иркутская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 84 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Хабаровск</div>
+                        <div class="city-region">Хабаровский край</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 89 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Владивосток</div>
+                        <div class="city-region">Приморский край</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 91 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Сочи</div>
+                        <div class="city-region">Краснодарский край</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 96 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Тольятти</div>
+                        <div class="city-region">Самарская область</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 83 000 ₽/мес</div>
+                    </a>
+                    <a href="#" class="city-card">
+                        <div class="city-name">Анапа</div>
+                        <div class="city-region">Краснодарский край</div>
+                        <div class="city-income"><i class="ri-wallet-3-line"></i> от 88 000 ₽/мес</div>
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-container">
+                    <h2 class="cta-title">Не нашли свой город?</h2>
+                    <p class="cta-subtitle">Оставьте заявку — работаем по всей России</p>
+                    
+                    <form class="cta-form">
+                        <div class="form-group">
+                            <label class="form-label">Ваше имя</label>
+                            <input type="text" class="form-input" placeholder="Иван Иванов">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Телефон</label>
+                            <input type="tel" class="form-input" placeholder="+7 (999) 000-00-00">
+                        </div>
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="consent" checked>
+                            <label for="consent">Я согласен(на) на обработку персональных данных и принимаю условия политики конфиденциальности</label>
+                        </div>
+                        <button type="button" class="btn-primary">Оставить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="color: white; margin-bottom: 24px;">
+                        <i class="ri-steering-fill"></i>
+                        Таксопарк Партнёр
+                    </div>
+                    <p>Официальный партнер Яндекс Такси. Надежный автопарк, прозрачные условия и поддержка водителей 24/7 по всей России.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <div class="footer-links">
+                        <a href="#">Города присутствия</a>
+                        <a href="#">Условия работы</a>
+                        <a href="#">Тарифы</a>
+                        <a href="#">Аренда авто</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <div class="footer-links">
+                        <a href="#">О компании</a>
+                        <a href="#">Отзывы водителей</a>
+                        <a href="#">Частые вопросы</a>
+                        <a href="#">Блог</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Контакты</h4>
+                    <div class="footer-contact">
+                        <div class="contact-item">
+                            <i class="ri-phone-line"></i>
+                            8 (800) 123-45-67
+                        </div>
+                        <div class="contact-item">
+                            <i class="ri-mail-line"></i>
+                            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f990979f96b98d98819089988b8d979c8bd78b8c">[email&#160;protected]</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="ri-map-pin-line"></i>
+                            г. Москва, ул. Примерная, 10
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2023 Таксопарк Партнёр. Все права защищены.</div>
+                <div style="display: flex; gap: 24px;">
+                    <a href="#">Политика конфиденциальности</a>
+                    <a href="#">Пользовательское соглашение</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="floating-actions">
+        <a href="#" class="fab fab-wa"><i class="ri-whatsapp-line"></i></a>
+        <a href="#" class="fab fab-tg"><i class="ri-telegram-line"></i></a>
+        <a href="#" class="fab fab-call"><i class="ri-phone-fill"></i></a>
+    </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

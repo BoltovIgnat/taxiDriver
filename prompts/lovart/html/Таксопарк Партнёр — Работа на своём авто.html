@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Работа на своём авто - Таксопарк Партнёр</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F6F7;
+            --surface: #FFFFFF;
+            --text: #1A1D21;
+            --muted: #6B7280;
+            --steel: #4A5568;
+            --accent: #2563EB;
+            --border: #E5E7EB;
+            --footer-bg: #1A1D21;
+            --footer-text: #D1D5DB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            min-width: 1440px; /* Enforced expected width */
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+
+        h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        p {
+            font-size: 18px;
+            color: var(--steel);
+            line-height: 1.6;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #1D4ED8;
+        }
+
+        .btn-secondary {
+            background-color: var(--surface);
+            color: var(--text);
+            border: 1px solid #D1D5DB;
+        }
+
+        .btn-secondary:hover {
+            background-color: #F3F4F6;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 28px;
+        }
+
+        nav.main-nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        nav.main-nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav.main-nav a:hover {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .phone {
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .phone i {
+            color: var(--muted);
+        }
+
+        /* Main Section */
+        main {
+            padding: 48px 0 80px;
+        }
+
+        .breadcrumbs {
+            margin-bottom: 32px;
+            font-size: 14px;
+            color: var(--muted);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .breadcrumbs a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumbs span {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .hero-text {
+            max-width: 720px;
+            margin-bottom: 64px;
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .feature-card h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            margin: 0;
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+
+        .calc-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 15px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+            background: var(--bg);
+            padding: 6px;
+            border-radius: 12px;
+        }
+
+        .radio-label {
+            flex: 1;
+            position: relative;
+        }
+
+        .radio-label input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-button {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .radio-label input:checked + .radio-button {
+            background: var(--surface);
+            color: var(--text);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        select {
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            color: var(--text);
+            background-color: var(--surface);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: var(--accent);
+        }
+
+        .range-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .range-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .range-value {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #E5E7EB;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 2px solid var(--accent);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .calc-result {
+            background: var(--bg);
+            border-radius: 16px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 16px;
+            color: var(--steel);
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 16px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .result-details {
+            font-size: 15px;
+            color: var(--steel);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .result-details span.dot {
+            color: var(--muted);
+        }
+
+        .disclaimer {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+
+        .application-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .application-form input {
+            flex: 1;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .application-form input:focus {
+            border-color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 64px;
+        }
+
+        .footer-col h4 {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .footer-col p {
+            color: var(--footer-text);
+            font-size: 15px;
+            margin-bottom: 24px;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: var(--footer-text);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #9CA3AF;
+        }
+
+        /* Floating Action Buttons */
+        .fab-container {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 1000;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .fab:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .fab-wa { background-color: #25D366; }
+        .fab-tg { background-color: #0088cc; }
+        .fab-call { background-color: var(--accent); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <i class="ri-steering-2-fill"></i>
+                Таксопарк Партнёр
+            </a>
+            <nav class="main-nav">
+                <a href="#">Города</a>
+                <a href="#">Условия</a>
+                <a href="#" style="color: var(--accent);">Тарифы и авто</a>
+                <a href="#">Калькулятор</a>
+                <a href="#">Отзывы</a>
+                <a href="#">FAQ</a>
+                <a href="#">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <a href="tel:88001234567" class="phone">
+                    <i class="ri-phone-fill"></i>
+                    8 (800) 123-45-67
+                </a>
+                <button class="btn btn-primary">Оставить заявку</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="#">Главная</a>
+                <i class="ri-arrow-right-s-line"></i>
+                <a href="#">Тарифы и авто</a>
+                <i class="ri-arrow-right-s-line"></i>
+                <span>На своём авто</span>
+            </div>
+
+            <div class="hero-text">
+                <h1>Работа на своём авто</h1>
+                <p>Если у вас есть подходящий автомобиль — это самый выгодный формат. Не платите аренду, забираете весь доход за вычетом комиссии парка (от 15%). Поможем оформить лицензию такси, разрешение на перевозку и подключим к агрегаторам за 1 день.</p>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-money-dollar-circle-line"></i>
+                    </div>
+                    <h3>Максимальный доход</h3>
+                    <p>Забирайте весь заработок себе, работая без ежедневных арендных платежей за автомобиль.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-file-list-3-line"></i>
+                    </div>
+                    <h3>Помощь с лицензией</h3>
+                    <p>Бесплатно подготовим и подадим документы для получения лицензии и разрешения на перевозку.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-flashlight-line"></i>
+                    </div>
+                    <h3>Подключение за 1 день</h3>
+                    <p>Быстрая регистрация в агрегаторах. Начните принимать заказы уже сегодня после проверки.</p>
+                </div>
+            </div>
+
+            <h2 id="calculator">Калькулятор дохода</h2>
+            <div class="calculator-section">
+                <div class="calc-controls">
+                    <div class="form-group">
+                        <label class="form-label">Формат работы</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="format" checked>
+                                <span class="radio-button">Своё авто</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="format">
+                                <span class="radio-button">Аренда</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="city">Город</label>
+                        <select id="city">
+                            <option value="msk">Москва</option>
+                            <option value="spb">Санкт-Петербург</option>
+                            <option value="kzn">Казань</option>
+                            <option value="ekb">Екатеринбург</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="range-header">
+                            <label class="form-label">Часов в день</label>
+                            <span class="range-value">8 ч</span>
+                        </div>
+                        <div class="range-wrapper">
+                            <input type="range" min="4" max="12" value="8" step="1">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="range-header">
+                            <label class="form-label">Дней в неделю</label>
+                            <span class="range-value">5 дней</span>
+                        </div>
+                        <div class="range-wrapper">
+                            <input type="range" min="5" max="7" value="5" step="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calc-result">
+                    <div class="result-label">Ваш примерный доход</div>
+                    <div class="result-value">~150 000 ₽/мес</div>
+                    <div class="result-details">
+                        <span>~5 000 ₽/день</span>
+                        <span class="dot">•</span>
+                        <span>~35 000 ₽/нед</span>
+                    </div>
+                    <div class="disclaimer">
+                        Примерный расчёт. Фактический доход зависит от спроса, тарифа, количества выполненных заказов и чаевых.
+                    </div>
+                    
+                    <form class="application-form">
+                        <input type="tel" placeholder="+7 (999) 000-00-00">
+                        <button type="button" class="btn btn-primary">Оставить заявку</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo" style="color: white; margin-bottom: 24px; display: inline-flex;">
+                        <i class="ri-steering-2-fill"></i>
+                        Таксопарк Партнёр
+                    </a>
+                    <p>Надёжный партнёр для водителей такси. Официальное подключение, прозрачные выплаты и круглосуточная поддержка.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#">Аренда авто</a></li>
+                        <li><a href="#">На своём авто</a></li>
+                        <li><a href="#">Калькулятор</a></li>
+                        <li><a href="#">Отзывы</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">О компании</a></li>
+                        <li><a href="#">Условия работы</a></li>
+                        <li><a href="#">Частые вопросы</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Контакты</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:88001234567" style="color: white; font-size: 18px; font-weight: 600;">8 (800) 123-45-67</a></li>
+                        <li><a href="/cdn-cgi/l/email-protection#c3aaada5ac83b7a2bbaaeeb3a2b1b7ada6b1edb1b6"><span class="__cf_email__" data-cfemail="2d44434b426d594c5544005d4c5f5943485f035f58">[email&#160;protected]</span></a></li>
+                        <li><span>Ежедневно, 24/7</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2023 Таксопарк Партнёр. Все права защищены.</div>
+                <div style="display: flex; gap: 24px;">
+                    <a href="#" style="color: #9CA3AF; text-decoration: none;">Политика конфиденциальности</a>
+                    <a href="#" style="color: #9CA3AF; text-decoration: none;">Пользовательское соглашение</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="fab-container">
+        <a href="#" class="fab fab-wa" title="WhatsApp">
+            <i class="ri-whatsapp-line"></i>
+        </a>
+        <a href="#" class="fab fab-tg" title="Telegram">
+            <i class="ri-telegram-line"></i>
+        </a>
+        <a href="#" class="fab fab-call" title="Позвонить">
+            <i class="ri-phone-line"></i>
+        </a>
+    </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

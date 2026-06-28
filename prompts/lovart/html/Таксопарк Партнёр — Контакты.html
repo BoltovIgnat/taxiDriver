@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты - Таксопарк Партнёр</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F6F7;
+            --surface: #FFFFFF;
+            --text: #1A1D21;
+            --muted: #6B7280;
+            --steel: #4A5568;
+            --accent: #2563EB;
+            --border: #E5E7EB;
+            --radius-card: 16px;
+            --radius-btn: 12px;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            width: 1440px;
+            margin: 0 auto;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            border-radius: var(--radius-btn);
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: #1D4ED8;
+        }
+
+        .btn-secondary {
+            background-color: var(--surface);
+            border: 1px solid #D1D5DB;
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background-color: #F3F4F6;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 28px;
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        nav a {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--steel);
+            transition: var(--transition);
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .header-phone {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 32px 0 16px;
+            display: flex;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .breadcrumbs a {
+            transition: var(--transition);
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        /* Main Content */
+        main {
+            padding-bottom: 80px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 48px;
+            letter-spacing: -0.02em;
+        }
+
+        .contacts-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* Left Column */
+        .subtitle {
+            font-size: 18px;
+            color: var(--steel);
+            margin-bottom: 32px;
+        }
+
+        .contact-items {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background-color: #EFF6FF;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .contact-item.whatsapp .contact-icon {
+            background-color: #DCFCE7;
+            color: #16A34A;
+        }
+
+        .contact-item.telegram .contact-icon {
+            background-color: #E0F2FE;
+            color: #0284C7;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .contact-label {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .contact-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent);
+            transition: var(--transition);
+        }
+
+        .contact-value.large {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .contact-value:hover {
+            opacity: 0.8;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: var(--border);
+            border-radius: var(--radius-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-size: 18px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-placeholder i {
+            font-size: 48px;
+            opacity: 0.5;
+            margin-bottom: 8px;
+        }
+        
+        .map-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Right Column */
+        .form-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-card);
+            padding: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            position: sticky;
+            top: 100px;
+        }
+
+        .form-card h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-card > p {
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--steel);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: var(--transition);
+            background-color: #F9FAFB;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background-color: var(--surface);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 32px;
+            cursor: pointer;
+        }
+
+        .form-checkbox input {
+            margin-top: 4px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+
+        .form-checkbox label {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        .form-checkbox a {
+            color: var(--accent);
+        }
+
+        .form-card .btn-primary {
+            width: 100%;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1A1D21;
+            color: #FFFFFF;
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 64px;
+        }
+
+        .footer-brand .logo {
+            color: #FFFFFF;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            color: #9CA3AF;
+            font-size: 14px;
+            max-width: 280px;
+        }
+
+        .footer-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #F3F4F6;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: #9CA3AF;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: #FFFFFF;
+        }
+
+        .footer-contact {
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-contact strong {
+            color: #FFFFFF;
+            font-size: 18px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+
+        /* Floating Buttons */
+        .floating-buttons {
+            position: fixed;
+            right: 32px;
+            bottom: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 90;
+        }
+
+        .float-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s;
+        }
+
+        .float-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .float-whatsapp { background-color: #25D366; }
+        .float-telegram { background-color: #0088cc; }
+        .float-call { background-color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="ri-steering-2-fill"></i>
+                Таксопарк Партнёр
+            </div>
+            <nav>
+                <a href="#">Города</a>
+                <a href="#">Условия</a>
+                <a href="#">Тарифы и авто</a>
+                <a href="#">Калькулятор</a>
+                <a href="#">Отзывы</a>
+                <a href="#">FAQ</a>
+                <a href="#" class="active">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <a href="tel:88001234567" class="header-phone">8 (800) 123-45-67</a>
+                <button class="btn btn-primary">Оставить заявку</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="breadcrumbs">
+            <a href="#">Главная</a>
+            <span>/</span>
+            <span>Контакты</span>
+        </div>
+
+        <h1>Контакты</h1>
+
+        <div class="contacts-layout">
+            <div class="left-col">
+                <div class="subtitle">Работаем ежедневно с 9:00 до 21:00 (МСК)</div>
+                
+                <div class="contact-items">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="ri-phone-fill"></i>
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-label">Бесплатный звонок по РФ</span>
+                            <a href="tel:88001234567" class="contact-value large">8 (800) 123-45-67</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item whatsapp">
+                        <div class="contact-icon">
+                            <i class="ri-whatsapp-line"></i>
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-label">Поддержка в мессенджере</span>
+                            <a href="#" class="contact-value">Написать в WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item telegram">
+                        <div class="contact-icon">
+                            <i class="ri-telegram-line"></i>
+                        </div>
+                        <div class="contact-info">
+                            <span class="contact-label">Наш Telegram-канал и бот</span>
+                            <a href="#" class="contact-value">@taxi_partner</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-placeholder">
+                    <div class="map-content">
+                        <i class="ri-map-pin-2-fill"></i>
+                        <span>Интерактивная карта</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="form-card">
+                    <h2>Оставить заявку</h2>
+                    <p>Перезвоним за 15 минут и ответим на все вопросы</p>
+
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Ваше имя</label>
+                            <input type="text" class="form-input" placeholder="Иван Иванов">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Номер телефона</label>
+                            <input type="tel" class="form-input" placeholder="+7 (999) 000-00-00" value="+7 ">
+                        </div>
+
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="consent" checked>
+                            <label for="consent">
+                                Я согласен на обработку персональных данных в соответствии с <a href="#">политикой конфиденциальности</a>
+                            </label>
+                        </div>
+
+                        <button type="button" class="btn btn-primary">Оставить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="ri-steering-2-fill"></i>
+                        Таксопарк Партнёр
+                    </div>
+                    <p>Надёжный партнёр для работы в такси. Подключаем водителей с 2015 года, предлагаем лучшие условия и круглосуточную поддержку.</p>
+                </div>
+                
+                <div>
+                    <div class="footer-title">Разделы</div>
+                    <div class="footer-links">
+                        <a href="#">О компании</a>
+                        <a href="#">Условия работы</a>
+                        <a href="#">Тарифы</a>
+                        <a href="#">Автопарк</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="footer-title">Информация</div>
+                    <div class="footer-links">
+                        <a href="#">Частые вопросы</a>
+                        <a href="#">Отзывы водителей</a>
+                        <a href="#">Новости</a>
+                        <a href="#">Документы</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="footer-title">Контакты</div>
+                    <div class="footer-contact">
+                        <strong>8 (800) 123-45-67</strong>
+                        Ежедневно с 9:00 до 21:00
+                    </div>
+                    <div class="footer-contact">
+                        г. Москва, ул. Примерная, д. 10, БЦ "Авто", офис 205
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>© 2024 Таксопарк Партнёр. Все права защищены.</span>
+                <span>Политика конфиденциальности</span>
+            </div>
+        </div>
+    </footer>
+
+    <div class="floating-buttons">
+        <a href="#" class="float-btn float-whatsapp" title="WhatsApp"><i class="ri-whatsapp-line"></i></a>
+        <a href="#" class="float-btn float-telegram" title="Telegram"><i class="ri-telegram-line"></i></a>
+        <a href="tel:88001234567" class="float-btn float-call" title="Позвонить"><i class="ri-phone-fill"></i></a>
+    </div>
+
+</body>
+</html>

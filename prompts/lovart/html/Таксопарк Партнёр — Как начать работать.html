@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Как начать работать — Таксопарк Партнёр</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F6F7;
+            --surface: #FFFFFF;
+            --text: #1A1D21;
+            --muted: #6B7280;
+            --steel: #4A5568;
+            --accent: #2563EB;
+            --accent-hover: #1D4ED8;
+            --border: #E5E7EB;
+            --footer-bg: #1A1D21;
+            --whatsapp: #25D366;
+            --telegram: #0088cc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            width: 1440px; /* Expected Width */
+            margin: 0 auto; /* Center content */
+            position: relative;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        nav.desktop-nav ul {
+            display: flex;
+            gap: 24px;
+        }
+
+        nav.desktop-nav a {
+            font-size: 15px;
+            color: var(--steel);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav.desktop-nav a:hover {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .phone {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--surface);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg);
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 24px 0;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .breadcrumbs a {
+            color: var(--steel);
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumbs span {
+            margin: 0 8px;
+        }
+
+        /* Main Content Section */
+        .hero-section {
+            padding: 40px 0 80px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--steel);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 0 0 80px;
+        }
+
+        .timeline {
+            max-width: 720px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: 24px;
+            bottom: 24px;
+            width: 2px;
+            background-color: var(--border);
+            z-index: 0;
+        }
+
+        .step-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            gap: 24px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 8px var(--bg);
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .step-desc {
+            font-size: 16px;
+            color: var(--steel);
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+            background-color: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .cta-text h2 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-text p {
+            font-size: 18px;
+            color: var(--steel);
+            margin-bottom: 32px;
+        }
+
+        .form-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 4px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .form-card .btn-primary {
+            width: 100%;
+            font-size: 16px;
+            padding: 16px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: #D1D5DB;
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 64px;
+        }
+
+        .footer-logo {
+            color: var(--surface);
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .footer-logo i {
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            color: #9CA3AF;
+            line-height: 1.6;
+        }
+
+        .footer-col h4 {
+            color: var(--surface);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .footer-col ul {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .footer-col a {
+            font-size: 14px;
+            color: #9CA3AF;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--surface);
+        }
+
+        .footer-bottom {
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        /* Floating Actions */
+        .floating-actions {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 100;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .fab:hover {
+            transform: scale(1.05);
+        }
+
+        .fab-wa { background-color: var(--whatsapp); }
+        .fab-tg { background-color: var(--telegram); }
+        .fab-call { background-color: var(--accent); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <i class="ri-steering-fill"></i>
+                Таксопарк Партнёр
+            </a>
+            
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="#">Города</a></li>
+                    <li><a href="#">Условия</a></li>
+                    <li><a href="#">Тарифы и авто</a></li>
+                    <li><a href="#">Калькулятор</a></li>
+                    <li><a href="#">Отзывы</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <span class="phone">8 (800) 123-45-67</span>
+                <button class="btn btn-primary">Оставить заявку</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs">
+                <a href="#">Главная</a> <span>/</span> Как начать
+            </div>
+
+            <!-- Hero -->
+            <section class="hero-section">
+                <h1>Как начать работать</h1>
+                <p class="subtitle">От заявки до первого заработка — 1–2 дня</p>
+            </section>
+
+            <!-- Timeline -->
+            <section class="timeline-section">
+                <div class="timeline">
+                    <!-- Step 1 -->
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Оставьте заявку</h3>
+                            <p class="step-desc">Заполните короткую форму — имя и телефон. Менеджер перезвонит за 15 минут.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Подготовьте документы</h3>
+                            <p class="step-desc">Паспорт, водительское удостоверение (стаж от 3 лет), СНИЛС, ИНН. Для своего авто — ПТС, СТС, ОСАГО.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Оформите самозанятость</h3>
+                            <p class="step-desc">Регистрация в «Мой налог» — 10 минут. Мы поможем бесплатно.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Получите авто</h3>
+                            <p class="step-desc">Работайте на своём или возьмите в аренду без залога — от 800 ₽/сутки.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Пройдите подключение</h3>
+                            <p class="step-desc">Установим приложение, оформим лицензию, проведём инструктаж.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="step-card">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Выходите на линию</h3>
+                            <p class="step-desc">Начинайте зарабатывать. Первые выплаты — вечером первого рабочего дня.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container cta-container">
+                <div class="cta-text">
+                    <h2>Готовы начать?</h2>
+                    <p>Оставьте заявку прямо сейчас, и наш менеджер свяжется с вами для уточнения деталей.</p>
+                    <button class="btn btn-primary" style="padding: 16px 32px; font-size: 18px;">Оставить заявку</button>
+                </div>
+                <div class="form-card">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" class="form-control" placeholder="+7 (___) ___-__-__" required>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="consent" required checked>
+                            <label for="consent" class="checkbox-label">
+                                Я согласен на обработку персональных данных и принимаю политику конфиденциальности
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Оставить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="footer-logo">
+                        <i class="ri-steering-fill"></i>
+                        Таксопарк Партнёр
+                    </a>
+                    <p class="footer-desc">Надёжный партнер для водителей. Официальное подключение, прозрачные выплаты и круглосуточная поддержка.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul>
+                        <li><a href="#">Условия работы</a></li>
+                        <li><a href="#">Аренда авто</a></li>
+                        <li><a href="#">Тарифы</a></li>
+                        <li><a href="#">Вопрос-ответ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="#">О компании</a></li>
+                        <li><a href="#">Документы</a></li>
+                        <li><a href="#">Политика конфиденциальности</a></li>
+                        <li><a href="#">Пользовательское соглашение</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><a href="tel:88001234567" style="font-size: 18px; color: white; font-weight: 600;">8 (800) 123-45-67</a></li>
+                        <li><a href="/cdn-cgi/l/email-protection#076e6961684773667f6e2a77667573696275297572"><span class="__cf_email__" data-cfemail="452c2b232a0531243d2c68352437312b20376b3730">[email&#160;protected]</span></a></li>
+                        <li>г. Москва, ул. Примерная, д. 10, офис 205</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Таксопарк Партнёр. Все права защищены.</p>
+                <p>Сделано с заботой о водителях</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Actions -->
+    <div class="floating-actions">
+        <a href="#" class="fab fab-wa"><i class="ri-whatsapp-line"></i></a>
+        <a href="#" class="fab fab-tg"><i class="ri-telegram-line"></i></a>
+        <a href="#" class="fab fab-call"><i class="ri-phone-fill"></i></a>
+    </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

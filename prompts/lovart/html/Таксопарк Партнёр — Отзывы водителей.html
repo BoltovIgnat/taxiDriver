@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отзывы водителей - Таксопарк Партнёр</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F6F7;
+            --surface: #FFFFFF;
+            --text: #1A1D21;
+            --muted: #6B7280;
+            --steel: #4A5568;
+            --accent: #2563EB;
+            --accent-hover: #1d4ed8;
+            --accent-light: rgba(37, 99, 235, 0.1);
+            --border: #E5E7EB;
+            --success: #10B981;
+            --telegram: #0088cc;
+            
+            --max-width: 1200px;
+            --header-height: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            width: 1440px; /* Fixed as requested */
+            margin: 0 auto;
+            position: relative;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--steel);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .phone {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Main Content */
+        main {
+            padding-bottom: 80px;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 24px 0;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .breadcrumbs a {
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumbs span {
+            margin: 0 8px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 48px 0 64px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Reviews Grid */
+        .reviews-section {
+            padding: 40px 0;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .review-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .reviewer-city {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .stars {
+            color: #FBBF24;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+        
+        .stars .empty {
+            color: var(--border);
+        }
+
+        .review-text {
+            font-size: 16px;
+            color: var(--steel);
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .review-text::before {
+            content: '"';
+            font-size: 32px;
+            color: var(--border);
+            font-family: serif;
+            line-height: 1;
+            margin-right: 8px;
+            vertical-align: text-top;
+        }
+
+        /* Video Reviews */
+        .video-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .video-card {
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .video-placeholder {
+            aspect-ratio: 16 / 9;
+            background-color: #E5E7EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+
+        .video-placeholder:hover {
+            background-color: #D1D5DB;
+        }
+
+        .play-icon {
+            width: 64px;
+            height: 64px;
+            background-color: var(--surface);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            color: var(--accent);
+            font-size: 32px;
+            transition: transform 0.2s;
+        }
+
+        .video-placeholder:hover .play-icon {
+            transform: scale(1.1);
+        }
+
+        .video-info {
+            padding: 24px;
+        }
+
+        .video-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background-color: var(--accent-light);
+            padding: 80px 0;
+            margin-top: 40px;
+            border-radius: 24px;
+        }
+
+        .cta-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .cta-text h2 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .cta-text p {
+            font-size: 20px;
+            color: var(--steel);
+            margin-bottom: 32px;
+        }
+
+        .cta-form {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            background-color: #F9FAFB;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background-color: white;
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .checkbox-input {
+            margin-top: 4px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.5;
+            cursor: pointer;
+        }
+
+        .checkbox-label a {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .btn-submit {
+            width: 100%;
+            font-size: 18px;
+            padding: 16px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1A1D21;
+            color: #9CA3AF;
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 64px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .footer-logo i {
+            color: var(--accent);
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            max-width: 300px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            transition: background 0.2s, color 0.2s;
+        }
+        
+        .social-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .footer-title {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .footer-links a {
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-contact {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .footer-contact i {
+            font-size: 18px;
+            color: var(--accent);
+            margin-top: -2px;
+        }
+        
+        .footer-phone {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 32px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        /* Floating Buttons */
+        .floating-buttons {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 90;
+        }
+
+        .float-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .float-whatsapp {
+            background-color: #25D366;
+        }
+
+        .float-telegram {
+            background-color: #0088cc;
+        }
+
+        .float-call {
+            background-color: var(--accent);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <i class="ri-taxi-fill"></i>
+                Таксопарк Партнёр
+            </a>
+            
+            <nav class="nav-links">
+                <a href="#">Города</a>
+                <a href="#">Условия</a>
+                <a href="#">Тарифы и авто</a>
+                <a href="#">Калькулятор</a>
+                <a href="#" class="active">Отзывы</a>
+                <a href="#">FAQ</a>
+                <a href="#">Контакты</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="tel:88001234567" class="phone">8 (800) 123-45-67</a>
+                <button class="btn btn-primary">Оставить заявку</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs">
+                <a href="#">Главная</a>
+                <span>/</span>
+                <span style="color: var(--text)">Отзывы</span>
+            </div>
+
+            <!-- Hero -->
+            <section class="hero">
+                <h1>Отзывы водителей</h1>
+                <p class="subtitle">Реальные истории водителей о доходе и условиях работы в нашем таксопарке</p>
+            </section>
+
+            <!-- Text Reviews -->
+            <section class="reviews-section">
+                <div class="reviews-grid">
+                    <!-- Review 1 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">А</div>
+                                <div>
+                                    <div class="reviewer-name">Алексей М.</div>
+                                    <div class="reviewer-city">Москва</div>
+                                </div>
+                            </div>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">
+                            За первый месяц ~145 000 ₽. Выплаты каждый вечер. Машина в отличном состоянии, техподдержка отвечает быстро.
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">Д</div>
+                                <div>
+                                    <div class="reviewer-name">Дмитрий К.</div>
+                                    <div class="reviewer-city">Казань</div>
+                                </div>
+                            </div>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">
+                            На своём авто, стабильно 100–110 тысяч. Подключили за полчаса, комиссия парка минимальная на рынке.
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">С</div>
+                                <div>
+                                    <div class="reviewer-name">Сергей В.</div>
+                                    <div class="reviewer-city">Санкт-Петербург</div>
+                                </div>
+                            </div>
+                            <div class="stars">★★★★<span class="empty">★</span></div>
+                        </div>
+                        <div class="review-text">
+                            Пришёл без опыта, дали авто на следующий день. Всему обучили, показали рыбные места. Работать комфортно.
+                        </div>
+                    </div>
+
+                    <!-- Review 4 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">И</div>
+                                <div>
+                                    <div class="reviewer-name">Игорь П.</div>
+                                    <div class="reviewer-city">Новосибирск</div>
+                                </div>
+                            </div>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">
+                            Без скрытых комиссий, аренда 1 300 ₽. Прозрачные условия, путевые листы делают без проблем.
+                        </div>
+                    </div>
+
+                    <!-- Review 5 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">А</div>
+                                <div>
+                                    <div class="reviewer-name">Андрей Л.</div>
+                                    <div class="reviewer-city">Краснодар</div>
+                                </div>
+                            </div>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">
+                            Летом в Сочи доход вырос до 150 тысяч. Отличный парк, всегда идут навстречу, если нужны выходные.
+                        </div>
+                    </div>
+
+                    <!-- Review 6 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="avatar">М</div>
+                                <div>
+                                    <div class="reviewer-name">Максим Р.</div>
+                                    <div class="reviewer-city">Екатеринбург</div>
+                                </div>
+                            </div>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                        <div class="review-text">
+                            4 часа в день — 50–55 тысяч дополнительно. Отличная подработка после основной работы. Вывожу деньги сразу на карту.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Video Reviews -->
+            <section class="video-section">
+                <h2 class="section-title">Видеоотзывы наших водителей</h2>
+                <div class="video-grid">
+                    <div class="video-card">
+                        <div class="video-placeholder">
+                            <div class="play-icon">
+                                <i class="ri-play-fill"></i>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Видеоотзыв — Андрей, Краснодар</div>
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-placeholder">
+                            <div class="play-icon">
+                                <i class="ri-play-fill"></i>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Видеоотзыв — Николай, Тюмень</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="cta-section">
+                <div class="container cta-content">
+                    <div class="cta-text">
+                        <h2>Хотите так же?</h2>
+                        <p>Оставьте заявку — перезвоним за 15 минут, ответим на вопросы и поможем начать зарабатывать уже сегодня.</p>
+                        
+                        <div style="display: flex; gap: 24px; margin-top: 40px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--surface); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 24px;">
+                                    <i class="ri-rocket-line"></i>
+                                </div>
+                                <span style="font-weight: 500;">Быстрый старт</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--surface); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 24px;">
+                                    <i class="ri-money-ruble-circle-line"></i>
+                                </div>
+                                <span style="font-weight: 500;">Ежедневные выплаты</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form class="cta-form">
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" class="form-input" placeholder="Телефон (+7...)" required>
+                        </div>
+                        <label class="checkbox-group">
+                            <input type="checkbox" class="checkbox-input" required checked>
+                            <span class="checkbox-label">Я согласен с <a href="#">политикой обработки персональных данных</a></span>
+                        </label>
+                        <button type="submit" class="btn btn-primary btn-submit">Оставить заявку</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Col 1 -->
+                <div>
+                    <a href="#" class="footer-logo">
+                        <i class="ri-taxi-fill"></i>
+                        Таксопарк Партнёр
+                    </a>
+                    <p class="footer-desc">Надёжный таксопарк для водителей. Официальный партнёр Яндекс.Такси по всей России. Стабильный доход, комфортные условия.</p>
+                    <div class="footer-socials">
+                        <a href="#" class="social-btn"><i class="ri-vk-fill"></i></a>
+                        <a href="#" class="social-btn"><i class="ri-telegram-fill"></i></a>
+                        <a href="#" class="social-btn"><i class="ri-youtube-fill"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Col 2 -->
+                <div>
+                    <h4 class="footer-title">Разделы сайта</h4>
+                    <div class="footer-links">
+                        <a href="#">Города присутствия</a>
+                        <a href="#">Условия работы</a>
+                        <a href="#">Тарифы и авто</a>
+                        <a href="#">Калькулятор дохода</a>
+                        <a href="#">Отзывы водителей</a>
+                    </div>
+                </div>
+                
+                <!-- Col 3 -->
+                <div>
+                    <h4 class="footer-title">Информация</h4>
+                    <div class="footer-links">
+                        <a href="#">О компании</a>
+                        <a href="#">Частые вопросы (FAQ)</a>
+                        <a href="#">Блог водителя</a>
+                        <a href="#">Политика конфиденциальности</a>
+                        <a href="#">Пользовательское соглашение</a>
+                    </div>
+                </div>
+                
+                <!-- Col 4 -->
+                <div>
+                    <h4 class="footer-title">Контакты</h4>
+                    <div class="footer-contact">
+                        <i class="ri-phone-fill"></i>
+                        <div>
+                            <a href="tel:88001234567" class="footer-phone">8 (800) 123-45-67</a>
+                            <span style="color: var(--muted)">Круглосуточно, звонок бесплатный</span>
+                        </div>
+                    </div>
+                    <div class="footer-contact">
+                        <i class="ri-mail-fill"></i>
+                        <a href="/cdn-cgi/l/email-protection#4c25222a230c382d34253c2d3e3822293e623e39"><span class="__cf_email__" data-cfemail="96fff8f0f9d6e2f7eeffe6f7e4e2f8f3e4b8e4e3">[email&#160;protected]</span></a>
+                    </div>
+                    <div class="footer-contact">
+                        <i class="ri-map-pin-fill"></i>
+                        <span>г. Москва, БЦ "Омега Плаза", офис 404</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Таксопарк Партнёр. Все права защищены.</p>
+                <p>Не является публичной офертой</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <a href="#" class="float-btn float-whatsapp" title="Написать в WhatsApp">
+            <i class="ri-whatsapp-line"></i>
+        </a>
+        <a href="#" class="float-btn float-telegram" title="Написать в Telegram">
+            <i class="ri-telegram-line"></i>
+        </a>
+        <a href="tel:88001234567" class="float-btn float-call" title="Позвонить нам">
+            <i class="ri-phone-line"></i>
+        </a>
+    </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

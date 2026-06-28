@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пользовательское соглашение - Таксопарк Партнёр</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F6F7;
+            --surface: #FFFFFF;
+            --text: #1A1D21;
+            --muted: #6B7280;
+            --steel: #4A5568;
+            --accent: #2563EB;
+            --border: #E5E7EB;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            --container-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            width: 1440px; /* Enforce exact expected width */
+            margin: 0 auto;
+            position: relative;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 20px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--steel);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .phone {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Main Content */
+        main {
+            padding: 48px 0 80px;
+            background-color: var(--bg);
+        }
+
+        .breadcrumbs {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+
+        .breadcrumbs a {
+            color: var(--steel);
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .content-wrapper {
+            max-width: 720px;
+            background-color: var(--surface);
+            padding: 48px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .document-text {
+            font-size: 14px;
+            color: var(--steel);
+        }
+
+        .document-text > p:first-of-type {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 32px;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .section p {
+            margin-bottom: 12px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1A1D21;
+            color: white;
+            padding: 80px 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #F3F4F6;
+        }
+
+        .footer-col p {
+            font-size: 14px;
+            color: #9CA3AF;
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            font-size: 14px;
+            color: #9CA3AF;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            margin-top: 64px;
+            padding-top: 24px;
+            border-top: 1px solid #374151;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #9CA3AF;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <i class="ri-taxi-fill"></i>
+                Таксопарк Партнёр
+            </a>
+            <nav class="nav-links">
+                <a href="#">Города</a>
+                <a href="#">Условия</a>
+                <a href="#">Тарифы и авто</a>
+                <a href="#">Калькулятор</a>
+                <a href="#">Отзывы</a>
+                <a href="#">FAQ</a>
+                <a href="#">Контакты</a>
+            </nav>
+            <div class="header-right">
+                <a href="tel:88001234567" class="phone">8 (800) 123-45-67</a>
+                <button class="btn-primary">Оставить заявку</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="#">Главная</a> &nbsp;/&nbsp; Пользовательское соглашение
+            </div>
+
+            <div class="content-wrapper">
+                <h1>Пользовательское соглашение</h1>
+                
+                <div class="document-text">
+                    <p>Используя сайт, вы соглашаетесь с условиями настоящего Соглашения.</p>
+                    
+                    <div class="section">
+                        <h2>1. Предмет</h2>
+                        <p>Сайт предоставляет информацию об условиях подключения водителей такси и форму для подачи заявки.</p>
+                    </div>
+
+                    <div class="section">
+                        <h2>2. Информация на сайте</h2>
+                        <p>Данные калькулятора дохода носят ознакомительный характер и не являются гарантией заработка. Фактический доход зависит от множества факторов, включая количество выполненных заказов, тарифы в вашем городе, погодные условия и класс автомобиля.</p>
+                    </div>
+
+                    <div class="section">
+                        <h2>3. Ответственность</h2>
+                        <p>Администрация сайта не несёт ответственности за действия таксопарков-партнёров. Трудовые отношения оформляются непосредственно с партнёром после одобрения заявки и прохождения всех необходимых проверок.</p>
+                        <p>Сайт выступает исключительно в роли информационного посредника, предоставляя платформу для ознакомления с условиями и подачи первичной заявки.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <a href="#" class="logo" style="color: white; margin-bottom: 24px; display: inline-flex;">
+                        <i class="ri-taxi-fill"></i>
+                        Таксопарк Партнёр
+                    </a>
+                    <p>Официальный партнер агрегаторов такси. Помогаем водителям начать зарабатывать быстро и безопасно.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Разделы</h3>
+                    <div class="footer-links">
+                        <a href="#">Условия работы</a>
+                        <a href="#">Автопарк</a>
+                        <a href="#">Калькулятор дохода</a>
+                        <a href="#">Частые вопросы</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Информация</h3>
+                    <div class="footer-links">
+                        <a href="#">О компании</a>
+                        <a href="#">Пользовательское соглашение</a>
+                        <a href="#">Политика конфиденциальности</a>
+                        <a href="#">Реквизиты</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Контакты</h3>
+                    <div class="footer-links">
+                        <a href="tel:88001234567" style="font-size: 16px; font-weight: 600; color: white;">8 (800) 123-45-67</a>
+                        <a href="/cdn-cgi/l/email-protection#d4bdbab2bb94a0b5acbda4b5a6a0bab1a6faa6a1"><span class="__cf_email__" data-cfemail="127b7c747d5266736a7b627360667c77603c6067">[email&#160;protected]</span></a>
+                        <p style="margin-top: 8px;">Ежедневно с 9:00 до 21:00</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2024 Таксопарк Партнёр. Все права защищены.</span>
+                <span>Дизайн для надежных водителей</span>
+            </div>
+        </div>
+    </footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

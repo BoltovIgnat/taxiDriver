@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Частые вопросы - Таксопарк Партнёр</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F6F7;
+            --surface: #FFFFFF;
+            --text: #1A1D21;
+            --muted: #6B7280;
+            --steel: #4A5568;
+            --accent: #2563EB;
+            --border: #E5E7EB;
+            --font-family: 'Inter', system-ui, sans-serif;
+            --page-width: 1440px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            width: var(--page-width);
+            margin: 0 auto;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 28px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav a {
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--steel);
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .header-phone {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #FFFFFF;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #1D4ED8;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 24px 0;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .breadcrumbs a {
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumbs span {
+            margin: 0 8px;
+        }
+
+        /* Main Content */
+        .page-header {
+            margin-bottom: 48px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+
+        .layout {
+            display: flex;
+            gap: 48px;
+            padding-bottom: 80px;
+        }
+
+        .main-col {
+            flex: 1;
+            max-width: 720px;
+        }
+
+        .sidebar-col {
+            width: 380px;
+        }
+
+        /* Accordion */
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        details {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        details[open] {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-color: var(--accent);
+        }
+
+        summary {
+            padding: 24px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text);
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '\ea6e';
+            font-family: 'remixicon';
+            font-size: 24px;
+            color: var(--muted);
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+            color: var(--accent);
+        }
+
+        .details-content {
+            padding: 0 24px 24px;
+            font-size: 16px;
+            color: var(--steel);
+            line-height: 1.6;
+        }
+
+        /* Sidebar Form */
+        .sticky-sidebar {
+            position: sticky;
+            top: 104px;
+        }
+
+        .form-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .form-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-card p {
+            color: var(--steel);
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+        .form-phone {
+            display: block;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .checkbox-group input {
+            margin-top: 4px;
+            accent-color: var(--accent);
+        }
+
+        .checkbox-group label {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--text);
+            color: #FFFFFF;
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 64px;
+        }
+
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-logo i {
+            color: var(--accent);
+        }
+
+        .footer-desc {
+            color: #9CA3AF;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #FFFFFF;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: #9CA3AF;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #FFFFFF;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+
+        /* Floating Actions */
+        .floating-actions {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 90;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+
+        .fab:hover {
+            transform: scale(1.05);
+        }
+
+        .fab-wa { background-color: #25D366; }
+        .fab-tg { background-color: #0088CC; }
+        .fab-call { background-color: var(--accent); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="#" class="logo">
+                    <i class="ri-taxi-fill"></i>
+                    Таксопарк Партнёр
+                </a>
+                <nav class="nav">
+                    <a href="#">Города</a>
+                    <a href="#">Условия</a>
+                    <a href="#">Тарифы и авто</a>
+                    <a href="#">Калькулятор</a>
+                    <a href="#">Отзывы</a>
+                    <a href="#" style="color: var(--text);">FAQ</a>
+                    <a href="#">Контакты</a>
+                </nav>
+                <div class="header-actions">
+                    <a href="tel:88001234567" class="header-phone">8 (800) 123-45-67</a>
+                    <button class="btn-primary">Оставить заявку</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="#">Главная</a>
+                <span>/</span>
+                <span>FAQ</span>
+            </div>
+
+            <div class="page-header">
+                <h1>Частые вопросы</h1>
+            </div>
+
+            <div class="layout">
+                <!-- Accordion Section -->
+                <div class="main-col">
+                    <div class="accordion">
+                        <details>
+                            <summary>Какие документы нужны?</summary>
+                            <div class="details-content">
+                                Паспорт, права (стаж 3+ года), СНИЛС, ИНН. Для своего авто — ПТС, СТС, ОСАГО.
+                            </div>
+                        </details>
+                        
+                        <details>
+                            <summary>Нужна ли самозанятость?</summary>
+                            <div class="details-content">
+                                Да, НПД через «Мой налог», 10 минут, комиссия 4–6%.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Своё авто или аренда?</summary>
+                            <div class="details-content">
+                                На своём доход выше. Аренда от 800 ₽/сутки без залога.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Как и когда выплачивают?</summary>
+                            <div class="details-content">
+                                Ежедневно на карту, вечером. Мин. 500 ₽.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Свободный график?</summary>
+                            <div class="details-content">
+                                Да, 4–12 часов, 5–7 дней, минимальных смен нет.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Можно без опыта?</summary>
+                            <div class="details-content">
+                                Да, обучаем, первые смены с наставником.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Нужен ли залог?</summary>
+                            <div class="details-content">
+                                Нет, аренда без залога и взноса.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Помогаете с лицензией?</summary>
+                            <div class="details-content">
+                                Да, оформляем лицензию и разрешение.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Какая комиссия?</summary>
+                            <div class="details-content">
+                                От 15%, без скрытых платежей.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Срок подключения?</summary>
+                            <div class="details-content">
+                                1 рабочий день, иногда в день обращения.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Сколько реально заработать?</summary>
+                            <div class="details-content">
+                                Москва 130–170k, регионы 75–110k. Есть калькулятор.
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Кто платит штрафы?</summary>
+                            <div class="details-content">
+                                ПДД на водителе. Помогаем избежать штрафов агрегатора.
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- Sidebar Section -->
+                <aside class="sidebar-col">
+                    <div class="sticky-sidebar">
+                        <div class="form-card">
+                            <h3>Не нашли ответ?</h3>
+                            <p>Оставьте заявку или позвоните нам напрямую.</p>
+                            <a href="tel:88001234567" class="form-phone">8 (800) 123-45-67</a>
+                            
+                            <form>
+                                <div class="form-group">
+                                    <input type="text" class="form-input" placeholder="Ваше имя" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" class="form-input" placeholder="+7 (___) ___-__-__" required>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="consent" required checked>
+                                    <label for="consent">Я согласен на обработку персональных данных</label>
+                                </div>
+                                <button type="button" class="btn-primary btn-full">Оставить заявку</button>
+                            </form>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        <i class="ri-taxi-fill"></i>
+                        Таксопарк Партнёр
+                    </div>
+                    <p class="footer-desc">Надежный партнер для водителей. Стабильные выплаты и поддержка 24/7.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Разделы</h4>
+                    <div class="footer-links">
+                        <a href="#">Условия</a>
+                        <a href="#">Тарифы</a>
+                        <a href="#">Аренда авто</a>
+                        <a href="#">Отзывы</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-title">Информация</h4>
+                    <div class="footer-links">
+                        <a href="#">FAQ</a>
+                        <a href="#">Города</a>
+                        <a href="#">Блог</a>
+                        <a href="#">Политика конф.</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-title">Контакты</h4>
+                    <div class="footer-links">
+                        <a href="tel:88001234567">8 (800) 123-45-67</a>
+                        <a href="/cdn-cgi/l/email-protection#f79e999198b787968583999285d983968f9e"><span class="__cf_email__" data-cfemail="b7ded9d1d8f7c7d6c5c3d9d2c599c3d6cfde">[email&#160;protected]</span></a>
+                        <span style="color: #9CA3AF; font-size: 14px;">Ежедневно 9:00 - 21:00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2024 Таксопарк Партнёр. Все права защищены.</span>
+                <div style="display: flex; gap: 16px;">
+                    <a href="#"><i class="ri-vk-fill" style="font-size: 20px;"></i></a>
+                    <a href="#"><i class="ri-telegram-fill" style="font-size: 20px;"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Actions -->
+    <div class="floating-actions">
+        <a href="#" class="fab fab-wa"><i class="ri-whatsapp-line"></i></a>
+        <a href="#" class="fab fab-tg"><i class="ri-telegram-line"></i></a>
+        <a href="tel:88001234567" class="fab fab-call"><i class="ri-phone-line"></i></a>
+    </div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
