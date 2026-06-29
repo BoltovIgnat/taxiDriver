@@ -8,3 +8,4 @@
 next-env.d.ts
 payload.db
 payload.db-*
+src/payload-generated-schema.ts

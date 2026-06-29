@@ -48,4 +48,5 @@ if (articles.totalDocs === 0) {
   console.log(`Articles already exist (${articles.totalDocs})`);
 }
 
+await payload.db.destroy?.();
 process.exit(0);

@@ -44,11 +44,11 @@ export default buildConfig({
         pool: {
           connectionString: databaseUri,
           max: isServerless ? 1 : 10,
-          idleTimeoutMillis: isServerless ? 5000 : 30000,
-          connectionTimeoutMillis: isServerless ? 10000 : 30000,
+          idleTimeoutMillis: isServerless ? 10000 : 30000,
+          connectionTimeoutMillis: isServerless ? 60000 : 30000,
         },
-        push:
-          process.env.PAYLOAD_PUSH_SCHEMA === "true" || process.env.NODE_ENV !== "production",
+        migrationDir: path.resolve(dirname, "migrations"),
+        push: false,
       })
     : sqliteAdapter({
         client: {

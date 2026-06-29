@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "payload generate:importmap && tsx src/push-schema.ts && tsx src/seed.ts && next build",
+    "build": "payload generate:importmap && tsx src/migrate.ts && next build",
+    "migrate": "tsx src/migrate.ts",
+    "create-migration": "tsx src/create-migration.ts",
     "start": "next start",
     "lint": "next lint",
     "generate:importmap": "payload generate:importmap",
