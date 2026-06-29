@@ -11,26 +11,31 @@ const BADGE_ICONS: Record<TrustBadge, string> = {
 };
 
 const HIGHLIGHTS = [
-  { icon: "ri-wallet-3-line", label: "Выплаты каждый день" },
-  { icon: "ri-timer-flash-line", label: "Старт за 1 день" },
-  { icon: "ri-shield-check-line", label: "Без залога" },
-  { icon: "ri-group-line", label: "5 000+ водителей" },
-  { icon: "ri-star-fill", label: "Рейтинг 4.9" },
+  { icon: "ri-wallet-3-line", title: "Выплаты каждый день", text: "Деньги на карту вечером" },
+  { icon: "ri-timer-flash-line", title: "Старт за 1 день", text: "Документы и выход на линию" },
+  { icon: "ri-shield-check-line", title: "Без залога", text: "Аренда авто без депозита" },
+  { icon: "ri-group-line", title: "5 000+ водителей", text: "Уже работают с нами" },
+  { icon: "ri-star-fill", title: "Рейтинг 4.9", text: "Поддержка 24/7" },
 ];
 
 export function TrustStatsStrip() {
   return (
-    <section className="border-y border-black/10 bg-accent py-5 md:py-6">
+    <section id="trust-stats-strip" className="border-y border-black/10 bg-accent py-5 md:py-6">
       <div className="container-main">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5 lg:gap-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5 lg:gap-4">
           {HIGHLIGHTS.map((item) => (
-            <div key={item.label} className="flex items-center gap-2.5">
+            <div key={item.title} className="flex items-start gap-2.5">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-black text-lg text-accent">
                 <i className={item.icon} aria-hidden />
               </span>
-              <p className="text-sm font-bold leading-tight text-on-accent sm:text-base">
-                {item.label}
-              </p>
+              <div className="min-w-0">
+                <p className="whitespace-nowrap text-sm font-bold leading-tight text-on-accent lg:text-[13px] xl:text-sm">
+                  {item.title}
+                </p>
+                <p className="mt-0.5 text-xs leading-snug text-on-accent/70 sm:text-sm">
+                  {item.text}
+                </p>
+              </div>
             </div>
           ))}
         </div>

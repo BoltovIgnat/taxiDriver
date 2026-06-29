@@ -8,7 +8,7 @@ import { BezelCard } from "@/components/ui/BezelCard";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { Button } from "@/components/ui/Button";
-import { getFeaturedCities } from "@/data/cities";
+import { cities } from "@/data/cities";
 import { reviews } from "@/data/reviews";
 import { faqItems } from "@/data/faq";
 
@@ -20,8 +20,6 @@ const STEPS = [
 ];
 
 export default function HomePage() {
-  const featured = getFeaturedCities();
-
   return (
     <>
       <HomeHero />
@@ -52,12 +50,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <CityGrid cities={featured} title="Популярные города" />
-      <div className="container-main pb-16 text-center md:pb-24">
-        <Button href="/goroda" variant="secondary" showArrow>
-          Все города
-        </Button>
-      </div>
+      <CityGrid cities={cities} title="Все города" />
       <ReviewsSection reviews={reviews.slice(0, 3)} />
       <FAQSection items={faqItems.slice(0, 5)} />
       <section className="bg-[#111] py-16 md:py-24">
