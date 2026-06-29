@@ -46,7 +46,7 @@ export function HomeHero() {
           </FadeIn>
 
           <FadeIn delay={120} className="relative flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[480px] min-h-[380px] sm:min-h-[420px]">
+            <div className="relative w-full max-w-[480px] min-h-[460px] sm:min-h-[540px]">
               {/* Москва — такси на улице */}
               <div className="absolute inset-x-0 bottom-0 top-12 overflow-hidden rounded-3xl ring-1 ring-white/10">
                 <SiteImage
@@ -76,7 +76,7 @@ export function HomeHero() {
               </div>
 
               {/* Мокап приложения */}
-              <div className="relative z-10 ml-auto w-[64%] pt-4 sm:w-[62%] sm:pt-8">
+              <div className="relative z-10 ml-auto w-[68%] pt-2 sm:w-[64%] sm:pt-4">
                 <PhoneMockup />
               </div>
             </div>

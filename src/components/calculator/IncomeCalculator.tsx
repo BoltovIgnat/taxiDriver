@@ -159,10 +159,12 @@ export function IncomeCalculator({
                 <p className="text-xs font-bold uppercase tracking-[0.15em] opacity-70">
                   Примерный доход в {city.namePrepositional}
                 </p>
-                <p className="mt-3 text-5xl font-extrabold tabular-nums tracking-tight sm:text-6xl lg:text-7xl">
-                  ≈ {formatRub(result.monthly)}
+                <p className="mt-3 flex flex-wrap items-baseline justify-center gap-x-2">
+                  <span className="whitespace-nowrap text-4xl font-extrabold tabular-nums tracking-tight sm:text-5xl lg:text-6xl">
+                    ≈ {formatRub(result.monthly)}
+                  </span>
+                  <span className="text-sm font-semibold opacity-70 sm:text-base">в месяц</span>
                 </p>
-                <p className="mt-1 text-sm font-semibold opacity-70">в месяц</p>
                 <div className="mt-8 flex gap-10 text-sm">
                   <div>
                     <p className="text-xl font-bold tabular-nums">{formatRub(result.daily)}</p>

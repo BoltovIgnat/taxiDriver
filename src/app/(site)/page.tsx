@@ -32,10 +32,10 @@ export default function HomePage() {
           <FadeIn>
             <SectionHeader eyebrow="Процесс" title="Как это работает" />
           </FadeIn>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {STEPS.map((item, i) => (
-              <FadeIn key={item.title} delay={i * 60}>
-                <BezelCard className="h-full text-center">
+              <FadeIn key={item.title} delay={i * 60} className="h-full">
+                <BezelCard className="h-full" innerClassName="flex h-full flex-col text-center">
                   <div className="step-icon">
                     <i className={item.icon} aria-hidden />
                   </div>
