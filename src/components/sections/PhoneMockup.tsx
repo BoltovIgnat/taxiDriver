@@ -1,7 +1,22 @@
 import { SiteImage } from "@/components/ui/SiteImage";
 import { imageFallbacks, images } from "@/config/images";
 
-const CHART = [38, 52, 61, 55, 78, 70, 88];
+const WEEK_DAYS = [
+  { label: "Пн", amount: 4_820 },
+  { label: "Вт", amount: 6_120 },
+  { label: "Ср", amount: 5_640 },
+  { label: "Чт", amount: 5_980 },
+  { label: "Пт", amount: 7_240 },
+  { label: "Сб", amount: 6_880 },
+  { label: "Вс", amount: 6_400, today: true },
+] as const;
+
+const WEEK_TOTAL = WEEK_DAYS.reduce((sum, day) => sum + day.amount, 0);
+const WEEK_MAX = Math.max(...WEEK_DAYS.map((day) => day.amount));
+
+function formatCompactRub(amount: number): string {
+  return new Intl.NumberFormat("ru-RU").format(amount);
+}
 
 export function PhoneMockup() {
   return (
@@ -69,16 +84,42 @@ export function PhoneMockup() {
             </div>
 
             <div className="mt-4 rounded-2xl bg-[#1a1a1a] p-3.5 ring-1 ring-white/5">
-              <div className="flex h-16 items-end gap-1.5">
-                {CHART.map((h, i) => (
-                  <div
-                    key={i}
-                    className="flex-1 rounded-t-md bg-accent/75"
-                    style={{ height: `${h}%` }}
-                  />
-                ))}
+              <div className="mb-3 flex items-end justify-between gap-2">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+                  Заработок за неделю
+                </p>
+                <p className="text-base font-extrabold tabular-nums text-white">
+                  {formatCompactRub(WEEK_TOTAL)} ₽
+                </p>
               </div>
-              <p className="mt-2 text-center text-[10px] text-gray-500">Заработок за неделю</p>
+              <div className="flex items-end gap-1">
+                {WEEK_DAYS.map((day) => {
+                  const height = Math.round((day.amount / WEEK_MAX) * 100);
+                  return (
+                    <div key={day.label} className="flex flex-1 flex-col items-center gap-1.5">
+                      <div className="flex h-14 w-full items-end">
+                        <div
+                          className={
+                            day.today
+                              ? "w-full rounded-t-md bg-accent shadow-[0_0_12px_rgba(255,221,45,0.35)]"
+                              : "w-full rounded-t-md bg-accent/70"
+                          }
+                          style={{ height: `${height}%` }}
+                        />
+                      </div>
+                      <span
+                        className={
+                          day.today
+                            ? "text-[9px] font-bold text-accent"
+                            : "text-[9px] text-gray-500"
+                        }
+                      >
+                        {day.label}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="mt-3 grid grid-cols-2 gap-2.5">
