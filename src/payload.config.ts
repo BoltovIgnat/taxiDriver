@@ -24,6 +24,10 @@ if (process.env.VERCEL && !isPostgres) {
   throw new Error("DATABASE_URI (Postgres) is required on Vercel.");
 }
 
+if (process.env.VERCEL && !process.env.PAYLOAD_SECRET?.trim()) {
+  throw new Error("PAYLOAD_SECRET is required on Vercel.");
+}
+
 const isServerless = Boolean(process.env.VERCEL);
 
 const emailFromAddress =
@@ -62,6 +66,7 @@ export default buildConfig({
     meta: {
       titleSuffix: "— Таксопарк",
     },
+    suppressHydrationWarning: true,
   },
   collections: [Users, Articles],
   editor: lexicalEditor(),
