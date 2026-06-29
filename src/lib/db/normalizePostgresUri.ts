@@ -9,6 +9,28 @@ function ensureNeonPoolerHost(hostname: string): string {
   return hostname;
 }
 
+function ensureSupabasePooler(url: URL): void {
+  const host = url.hostname;
+  const isSupabase =
+    host.endsWith(".supabase.co") ||
+    host.endsWith(".pooler.supabase.com") ||
+    host.includes("supabase.com");
+
+  if (!isSupabase || !process.env.VERCEL) {
+    return;
+  }
+
+  // Direct port 5432 does not work reliably on Vercel serverless.
+  const port = url.port || "5432";
+  if (port === "5432") {
+    url.port = "6543";
+  }
+
+  if (!url.searchParams.has("pgbouncer")) {
+    url.searchParams.set("pgbouncer", "true");
+  }
+}
+
 export function normalizePostgresUri(uri: string): string {
   try {
     const url = new URL(uri);
@@ -17,17 +39,18 @@ export function normalizePostgresUri(uri: string): string {
       url.hostname = ensureNeonPoolerHost(url.hostname);
     }
 
-    // pg on Node/Vercel often fails with channel_binding=require
+    ensureSupabasePooler(url);
+
     url.searchParams.delete("channel_binding");
 
-    // Silence pg v8 SSL deprecation warning for Neon-style sslmode=require
     const sslmode = url.searchParams.get("sslmode");
     if (sslmode && ["require", "prefer", "verify-ca"].includes(sslmode)) {
       url.searchParams.set("uselibpqcompat", "true");
     }
 
     if (!url.searchParams.has("connect_timeout")) {
-      url.searchParams.set("connect_timeout", process.env.VERCEL ? "60" : "30");
+      // Stay under Vercel maxDuration (60s) — fail fast instead of hanging.
+      url.searchParams.set("connect_timeout", process.env.VERCEL ? "15" : "30");
     }
 
     return url.toString();
@@ -41,7 +64,8 @@ export function getPostgresPoolConfig(connectionString: string, isServerless: bo
     connectionString,
     max: isServerless ? 1 : 10,
     idleTimeoutMillis: isServerless ? 5000 : 30000,
-    connectionTimeoutMillis: isServerless ? 120000 : 30000,
+    // Must be below Vercel function maxDuration (60s on this project).
+    connectionTimeoutMillis: isServerless ? 20000 : 30000,
     allowExitOnIdle: isServerless,
   };
 }

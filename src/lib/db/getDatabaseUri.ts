@@ -24,24 +24,37 @@ function buildFromParts(pooled: boolean): string | undefined {
   return `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${database}?sslmode=require`;
 }
 
+const VERCEL_POOLED_KEYS = [
+  "STORADGE_POSTGRES_URL",
+  "POSTGRES_URL",
+  "DATABASE_URI",
+  "STORADGE_POSTGRES_PRISMA_URL",
+  "POSTGRES_PRISMA_URL",
+] as const;
+
+const LOCAL_POOLED_KEYS = [
+  "DATABASE_URI",
+  "STORADGE_POSTGRES_URL",
+  "POSTGRES_URL",
+  "DATABASE_URI_UNPOOLED",
+  "STORADGE_POSTGRES_URL_NON_POOLING",
+  "POSTGRES_URL_NON_POOLING",
+] as const;
+
+const VERCEL_DIRECT_KEYS = [
+  "STORADGE_POSTGRES_URL_NON_POOLING",
+  "POSTGRES_URL_NON_POOLING",
+  "STORADGE_POSTGRES_URL",
+  "POSTGRES_URL",
+  "DATABASE_URI_UNPOOLED",
+  "DATABASE_URI",
+] as const;
+
 /** Runtime URL (Vercel/serverless): pooled connection preferred. */
 export function getDatabaseUri(pooled = true): string | undefined {
   const raw = pooled
-    ? readEnv(
-        "DATABASE_URI",
-        "STORADGE_POSTGRES_URL",
-        "POSTGRES_URL",
-        "STORADGE_POSTGRES_PRISMA_URL",
-        "POSTGRES_PRISMA_URL",
-      )
-    : readEnv(
-        "DATABASE_URI_UNPOOLED",
-        "STORADGE_POSTGRES_URL_NON_POOLING",
-        "POSTGRES_URL_NON_POOLING",
-        "DATABASE_URI",
-        "STORADGE_POSTGRES_URL",
-        "POSTGRES_URL",
-      );
+    ? readEnv(...(process.env.VERCEL ? VERCEL_POOLED_KEYS : LOCAL_POOLED_KEYS))
+    : readEnv(...(process.env.VERCEL ? VERCEL_DIRECT_KEYS : LOCAL_POOLED_KEYS));
 
   const uri = raw ?? buildFromParts(pooled);
   return uri ? normalizePostgresUri(uri) : undefined;
