@@ -24,7 +24,7 @@ const config: Config = {
       },
       boxShadow: {
         soft: "0 24px 48px -12px rgba(15, 23, 42, 0.08), 0 8px 16px -8px rgba(15, 23, 42, 0.04)",
-        glow: "0 8px 32px -8px rgba(245, 184, 0, 0.45)",
+        glow: "0 8px 32px -8px rgba(255, 221, 45, 0.5)",
         float: "0 12px 40px -8px rgba(15, 23, 42, 0.12)",
       },
       transitionTimingFunction: {

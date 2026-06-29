@@ -17,6 +17,7 @@ interface IncomeCalculatorProps {
   showForm?: boolean;
   showHeader?: boolean;
   id?: string;
+  prominent?: boolean;
 }
 
 export function IncomeCalculator({
@@ -25,6 +26,7 @@ export function IncomeCalculator({
   showForm = true,
   showHeader = true,
   id = "calculator",
+  prominent = false,
 }: IncomeCalculatorProps) {
   const [citySlug, setCitySlug] = useState(defaultCitySlug);
   const [carType, setCarType] = useState<CarType>("own");
@@ -54,29 +56,41 @@ export function IncomeCalculator({
   };
 
   return (
-    <section id={id} className="section-padding bg-bg">
+    <section
+      id={id}
+      className={cn(
+        "section-padding",
+        prominent ? "bg-[#111] text-white" : "bg-bg",
+      )}
+    >
       <div className="container-main">
         {showHeader && (
           <FadeIn>
             <SectionHeader
               eyebrow="Калькулятор"
-              title="Рассчитайте свой примерный доход"
+              title="Рассчитайте свой доход"
               subtitle="Прикиньте заработок в вашем городе — и закрепите условия заявкой"
+              className={prominent ? "[&_h2]:text-white [&_p]:text-gray-400 [&_span]:text-accent" : undefined}
             />
           </FadeIn>
         )}
 
         <FadeIn delay={100} className={cn("mx-auto max-w-5xl", showHeader && "mt-12")}>
-          <BezelCard padding="lg">
+          <BezelCard
+            padding="lg"
+            className={prominent ? "!bg-[#1a1a1a] !ring-white/10" : undefined}
+          >
             <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
               <div className="space-y-6">
                 {!lockCity && (
                   <div>
-                    <label className="mb-2 block text-sm font-semibold text-steel">Город</label>
+                    <label className={cn("mb-2 block text-sm font-semibold", prominent ? "text-gray-300" : "text-steel")}>
+                      Город
+                    </label>
                     <select
                       value={citySlug}
                       onChange={(e) => { setCitySlug(e.target.value); trackInteraction(); }}
-                      className="input-field"
+                      className={cn("input-field", prominent && "!bg-[#111] !text-white !ring-white/10")}
                     >
                       {cities.map((c) => (
                         <option key={c.slug} value={c.slug}>{c.name}</option>
@@ -86,18 +100,23 @@ export function IncomeCalculator({
                 )}
 
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-steel">Тип авто</label>
+                  <label className={cn("mb-2 block text-sm font-semibold", prominent ? "text-gray-300" : "text-steel")}>
+                    Тип авто
+                  </label>
                   <div className="grid grid-cols-2 gap-3">
                     {(["own", "rental"] as CarType[]).map((type) => (
                       <button
                         key={type}
                         type="button"
                         onClick={() => { setCarType(type); trackInteraction(); }}
-                        className={`rounded-2xl px-4 py-3.5 text-sm font-semibold transition-all duration-500 ease-premium ${
+                        className={cn(
+                          "rounded-2xl px-4 py-3.5 text-sm font-semibold transition-all duration-500 ease-premium",
                           carType === type
                             ? "bg-accent text-on-accent shadow-glow"
-                            : "bg-bg text-steel ring-1 ring-black/[0.06] hover:ring-amber-200"
-                        }`}
+                            : prominent
+                              ? "bg-[#111] text-gray-300 ring-1 ring-white/10 hover:ring-accent/50"
+                              : "bg-bg text-steel ring-1 ring-black/[0.06] hover:ring-amber-200",
+                        )}
                       >
                         {type === "own" ? "Своё авто" : "Аренда"}
                       </button>
@@ -106,7 +125,7 @@ export function IncomeCalculator({
                 </div>
 
                 <div>
-                  <label className="mb-3 flex justify-between text-sm font-semibold text-steel">
+                  <label className={cn("mb-3 flex justify-between text-sm font-semibold", prominent ? "text-gray-300" : "text-steel")}>
                     <span>Часов в день</span>
                     <span className="tabular-nums text-accent">{hoursPerDay} ч</span>
                   </label>
@@ -121,7 +140,7 @@ export function IncomeCalculator({
                 </div>
 
                 <div>
-                  <label className="mb-3 flex justify-between text-sm font-semibold text-steel">
+                  <label className={cn("mb-3 flex justify-between text-sm font-semibold", prominent ? "text-gray-300" : "text-steel")}>
                     <span>Дней в неделю</span>
                     <span className="tabular-nums text-accent">{daysPerWeek}</span>
                   </label>
@@ -137,24 +156,24 @@ export function IncomeCalculator({
               </div>
 
               <div className="calc-result-panel">
-                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-muted">
+                <p className="text-xs font-bold uppercase tracking-[0.15em] opacity-70">
                   Примерный доход в {city.namePrepositional}
                 </p>
-                <p className="mt-3 text-5xl font-bold tabular-nums tracking-tight text-accent sm:text-6xl">
-                  ~{formatRub(result.monthly)}
+                <p className="mt-3 text-5xl font-extrabold tabular-nums tracking-tight sm:text-6xl lg:text-7xl">
+                  ≈ {formatRub(result.monthly)}
                 </p>
-                <p className="mt-1 text-sm text-muted">в месяц</p>
-                <div className="mt-8 flex gap-8 text-sm">
+                <p className="mt-1 text-sm font-semibold opacity-70">в месяц</p>
+                <div className="mt-8 flex gap-10 text-sm">
                   <div>
-                    <p className="font-bold tabular-nums">{formatRub(result.daily)}</p>
-                    <p className="text-muted">в день</p>
+                    <p className="text-xl font-bold tabular-nums">{formatRub(result.daily)}</p>
+                    <p className="opacity-70">в день</p>
                   </div>
                   <div>
-                    <p className="font-bold tabular-nums">{formatRub(result.weekly)}</p>
-                    <p className="text-muted">в неделю</p>
+                    <p className="text-xl font-bold tabular-nums">{formatRub(result.weekly)}</p>
+                    <p className="opacity-70">в неделю</p>
                   </div>
                 </div>
-                <p className="mt-8 max-w-xs text-xs leading-relaxed text-muted">
+                <p className="mt-8 max-w-xs text-xs leading-relaxed opacity-60">
                   Примерный расчёт. Фактический доход зависит от спроса, сезона и активности на линии.
                 </p>
               </div>
@@ -162,9 +181,14 @@ export function IncomeCalculator({
           </BezelCard>
 
           {showForm && (
-            <BezelCard className="mt-6" padding="md">
-              <h3 className="text-lg font-bold">Закрепите этот доход — оставьте заявку</h3>
-              <p className="mt-1 text-sm text-muted">
+            <BezelCard
+              className={cn("mt-6", prominent && "!bg-[#1a1a1a] !ring-white/10")}
+              padding="md"
+            >
+              <h3 className={cn("text-xl font-bold", prominent && "text-white")}>
+                Стать водителем — оставьте заявку
+              </h3>
+              <p className={cn("mt-1 text-sm", prominent ? "text-gray-400" : "text-muted")}>
                 Перезвоним за 15 минут и расскажем условия в {city.namePrepositional}
               </p>
               <div className="mt-5">

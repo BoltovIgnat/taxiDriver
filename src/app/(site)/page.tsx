@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { HeroSection } from "@/components/sections/HeroSection";
+import { HomeHero } from "@/components/sections/HomeHero";
+import { TrustStatsStrip } from "@/components/sections/TrustBadges";
 import { IncomeCalculator } from "@/components/calculator/IncomeCalculator";
 import { CityGrid } from "@/components/sections/CityGrid";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
@@ -24,11 +24,9 @@ export default function HomePage() {
 
   return (
     <>
-      <HeroSection
-        title="Работа водителем такси — стабильный доход каждый день"
-        subtitle="Подключение за 1 день. Аренда без залога, выплаты на карту ежедневно."
-      />
-      <IncomeCalculator />
+      <HomeHero />
+      <TrustStatsStrip />
+      <IncomeCalculator prominent />
       <section className="section-padding bg-surface">
         <div className="container-main">
           <FadeIn>
@@ -47,6 +45,11 @@ export default function HomePage() {
               </FadeIn>
             ))}
           </div>
+          <div className="mt-10 text-center">
+            <Button href="#calculator" className="!px-8 !py-4 !text-base !font-bold">
+              Стать водителем
+            </Button>
+          </div>
         </div>
       </section>
       <CityGrid cities={featured} title="Популярные города" />
@@ -57,6 +60,21 @@ export default function HomePage() {
       </div>
       <ReviewsSection reviews={reviews.slice(0, 3)} />
       <FAQSection items={faqItems.slice(0, 5)} />
+      <section className="bg-[#111] py-16 md:py-24">
+        <div className="container-main text-center">
+          <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+            Готовы выйти на линию?
+          </h2>
+          <p className="mx-auto mt-4 max-w-lg text-lg text-gray-400">
+            Оставьте заявку — подключим за 1 день, выплаты каждый вечер на карту
+          </p>
+          <div className="mt-8">
+            <Button href="#calculator" className="!px-10 !py-4 !text-base !font-bold">
+              Стать водителем
+            </Button>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

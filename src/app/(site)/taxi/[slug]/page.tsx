@@ -11,8 +11,8 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { cities, getCityBySlug } from "@/data/cities";
 import { getReviewsByIds } from "@/data/reviews";
 import { getFaqByIds } from "@/data/faq";
+import { getCityCardImage } from "@/config/cityImages";
 import { buildJobPostingSchema } from "@/lib/seo/job-posting";
-import { imageFallbacks, images } from "@/config/images";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -42,6 +42,8 @@ export default async function CityPage({ params }: Props) {
   const cityFaq = getFaqByIds(city.faqIds);
   const schema = buildJobPostingSchema(city);
 
+  const cityCard = getCityCardImage(city.slug);
+
   return (
     <>
       <script
@@ -59,8 +61,8 @@ export default async function CityPage({ params }: Props) {
         title={`Работа в такси в ${city.namePrepositional}`}
         subtitle={city.heroSubtitle}
         city={city.name}
-        imageSrc={images.city.hero}
-        imageFallback={city.photo.src || imageFallbacks.city.hero}
+        imageSrc={city.photo.src}
+        imageFallback={cityCard.fallback}
       />
       <section className="section-padding bg-surface pt-0">
         <div className="container-main">

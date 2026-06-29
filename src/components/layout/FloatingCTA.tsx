@@ -9,8 +9,8 @@ export function FloatingCTA() {
         href="/#calculator"
         className="btn-primary inline-flex items-center gap-2 shadow-float !px-5 !py-3.5 text-sm"
       >
-        Рассчитать доход
-        <i className="ri-calculator-line text-lg" aria-hidden />
+        Стать водителем
+        <i className="ri-steering-2-line text-lg" aria-hidden />
       </Link>
     </div>
   );

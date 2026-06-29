@@ -25,7 +25,7 @@ export function HeroSection({
   showForm = true,
   city,
   ctaHref = "#calculator",
-  ctaLabel = "Рассчитать доход",
+  ctaLabel = "Стать водителем",
   imageSrc = images.home.heroDesktop,
   imageFallback = imageFallbacks.home.heroDesktop,
   imageClassName = "object-cover object-[65%_center]",
@@ -65,7 +65,7 @@ export function HeroSection({
 
             {showForm && (
               <BezelCard className="lg:absolute lg:-bottom-8 lg:-left-8 lg:max-w-md lg:shadow-float">
-                <h2 className="text-xl font-bold text-[var(--color-text)]">Начать зарабатывать</h2>
+                <h2 className="text-xl font-bold text-[var(--color-text)]">Стать водителем</h2>
                 <p className="mt-1 text-sm text-muted">Перезвоним за 15 минут</p>
                 <div className="mt-5">
                   <LeadForm city={city} compact />

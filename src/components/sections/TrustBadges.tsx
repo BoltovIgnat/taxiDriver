@@ -10,6 +10,36 @@ const BADGE_ICONS: Record<TrustBadge, string> = {
   "direct-connection": "ri-rocket-line",
 };
 
+const HIGHLIGHTS = [
+  { icon: "ri-wallet-3-line", title: "Выплаты каждый день", text: "Деньги на карту вечером" },
+  { icon: "ri-timer-flash-line", title: "Подключение за 1 день", text: "Документы и выход на линию" },
+  { icon: "ri-shield-check-line", title: "Без залога", text: "Аренда авто без депозита" },
+  { icon: "ri-group-line", title: "5 000+ водителей", text: "Уже работают с нами" },
+  { icon: "ri-star-fill", title: "Рейтинг 4.9", text: "Поддержка 24/7" },
+];
+
+export function TrustStatsStrip() {
+  return (
+    <section className="border-y border-black/10 bg-accent py-6 md:py-8">
+      <div className="container-main">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          {HIGHLIGHTS.map((item) => (
+            <div key={item.title} className="flex items-start gap-3">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-black text-xl text-accent">
+                <i className={item.icon} aria-hidden />
+              </span>
+              <div>
+                <p className="font-bold text-on-accent">{item.title}</p>
+                <p className="text-sm text-on-accent/70">{item.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function TrustBadges({
   badges,
   variant = "dark",

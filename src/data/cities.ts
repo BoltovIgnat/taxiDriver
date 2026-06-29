@@ -1,5 +1,5 @@
 import type { City } from "@/types";
-import { placeholders } from "@/config/images";
+import { getCityPhoto } from "@/config/cityImages";
 
 const defaultBadges = [
   "no-deposit",
@@ -48,10 +48,7 @@ function city(
     },
     heroSubtitle: `Стабильный доход ${displayRange}. Подключение за 1 день, выплаты на карту каждый вечер.`,
     description: `Работа водителем такси в ${prep} — один из самых гибких способов заработка в городе. Мы подключаем к агрегаторам напрямую, без посредников и скрытых комиссий. Можно работать на своём автомобиле или взять авто в аренду без залога. График свободный: вы сами выбираете, сколько часов выходить на линию. Помогаем оформить самозанятость, лицензию такси и все документы. Выплаты на карту ежедневно, поддержка 24/7. Средний доход активных водителей в ${prep} — ${displayRange} при выходе 6–7 дней в неделю.`,
-    photo: {
-      src: placeholders.hero,
-      alt: `Работа водителем такси в ${name}`,
-    },
+    photo: getCityPhoto(slug, name),
     faqIds: ["docs", "self-employed", "rental-vs-own", "payouts", "schedule"],
     reviewIds: ["1", "2", "3"],
   };

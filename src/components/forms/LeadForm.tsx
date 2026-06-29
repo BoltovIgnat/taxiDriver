@@ -109,7 +109,7 @@ export function LeadForm({ city, carType, calculatedIncome, compact, className =
       {errors.consent && <p className="text-sm text-red-600">{errors.consent.message}</p>}
 
       <button type="submit" disabled={status === "loading"} className="btn-primary w-full !rounded-full sm:w-auto">
-        {status === "loading" ? "Отправка..." : "Оставить заявку"}
+        {status === "loading" ? "Отправка..." : "Стать водителем"}
       </button>
 
       {status === "error" && (
