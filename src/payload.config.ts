@@ -16,6 +16,24 @@ import {
   getPostgresPoolConfig,
 } from "./lib/db/normalizePostgresUri.js";
 
+/** pg reads PGUSER/PGPASSWORD when connectionString parsing fails — clear integration defaults. */
+function clearConflictingPostgresEnv(): void {
+  for (const key of [
+    "PGUSER",
+    "PGPASSWORD",
+    "PGHOST",
+    "PGPORT",
+    "PGDATABASE",
+    "POSTGRES_USER",
+    "POSTGRES_PASSWORD",
+    "POSTGRES_HOST",
+    "POSTGRES_PORT",
+    "POSTGRES_DATABASE",
+  ]) {
+    delete process.env[key];
+  }
+}
+
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -23,6 +41,7 @@ const databaseUri = getDatabaseUri(true);
 if (databaseUri) {
   process.env.DATABASE_URI = databaseUri;
 }
+clearConflictingPostgresEnv();
 const isPostgres =
   !!databaseUri &&
   (databaseUri.startsWith("postgres://") || databaseUri.startsWith("postgresql://"));

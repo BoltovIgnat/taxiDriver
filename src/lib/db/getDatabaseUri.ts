@@ -1,4 +1,4 @@
-import { normalizePostgresUri } from "./normalizePostgresUri.js";
+import { normalizePostgresUri, parsePostgresUri } from "./normalizePostgresUri.js";
 import { getSupabaseProjectRef } from "./supabaseRef.js";
 
 function readEnv(...keys: string[]): string | undefined {
@@ -60,8 +60,8 @@ function poolerUsername(uri: string): string | undefined {
 
 function describePostgresTarget(uri: string): string {
   try {
-    const url = new URL(uri);
-    return `${decodeURIComponent(url.username)}@${url.hostname}:${url.port || "5432"}`;
+    const { user, host, port } = parsePostgresUri(uri);
+    return `${user}@${host}:${port}`;
   } catch {
     return "(invalid uri)";
   }

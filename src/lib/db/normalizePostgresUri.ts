@@ -75,10 +75,39 @@ export function normalizePostgresUri(uri: string, _pooled = true, projectRef?: s
   }
 }
 
-export function getPostgresPoolConfig(connectionString: string, isServerless: boolean) {
+export function parsePostgresUri(uri: string): {
+  host: string;
+  port: number;
+  user: string;
+  password: string;
+  database: string;
+  sslRequired: boolean;
+} {
+  const url = new URL(uri);
   return {
-    connectionString,
-    // Admin init may run several parallel queries; max 1 causes pool connect timeouts.
+    host: url.hostname,
+    port: Number(url.port || 5432),
+    user: decodeURIComponent(url.username),
+    password: decodeURIComponent(url.password),
+    database: url.pathname.replace(/^\//, "") || "postgres",
+    sslRequired: ["require", "verify-ca", "verify-full"].includes(
+      url.searchParams.get("sslmode") ?? "require",
+    ),
+  };
+}
+
+export function getPostgresPoolConfig(connectionString: string, isServerless: boolean) {
+  const parsed = parsePostgresUri(connectionString);
+
+  // Use explicit fields — pg can mis-parse postgres.{ref} usernames from connectionString
+  // and fall back to PGUSER=postgres from Vercel Supabase integration env vars.
+  return {
+    host: parsed.host,
+    port: parsed.port,
+    user: parsed.user,
+    password: parsed.password,
+    database: parsed.database,
+    ssl: parsed.sslRequired ? { rejectUnauthorized: false } : undefined,
     max: isServerless ? 3 : 10,
     idleTimeoutMillis: isServerless ? 20000 : 30000,
     connectionTimeoutMillis: isServerless ? 55000 : 30000,
