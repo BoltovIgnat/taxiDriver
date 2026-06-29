@@ -37,8 +37,13 @@ function ensureSupabasePooler(url: URL, projectRef?: string): void {
 
   ensureSupabasePoolerUser(url, projectRef);
 
-  // Session pooler uses port 5432; transaction mode uses 6543 — do not override.
-  if (url.port === "6543" && !url.searchParams.has("pgbouncer")) {
+  // Payload needs session mode on Vercel (prepared statements, lateral joins).
+  if (process.env.VERCEL) {
+    if (url.port === "6543" || url.searchParams.has("pgbouncer")) {
+      url.port = "5432";
+      url.searchParams.delete("pgbouncer");
+    }
+  } else if (url.port === "6543" && !url.searchParams.has("pgbouncer")) {
     url.searchParams.set("pgbouncer", "true");
   }
 }
@@ -61,7 +66,7 @@ export function normalizePostgresUri(uri: string, _pooled = true, projectRef?: s
     }
 
     if (!url.searchParams.has("connect_timeout")) {
-      url.searchParams.set("connect_timeout", process.env.VERCEL ? "25" : "30");
+      url.searchParams.set("connect_timeout", process.env.VERCEL ? "50" : "30");
     }
 
     return url.toString();
@@ -73,10 +78,11 @@ export function normalizePostgresUri(uri: string, _pooled = true, projectRef?: s
 export function getPostgresPoolConfig(connectionString: string, isServerless: boolean) {
   return {
     connectionString,
-    max: isServerless ? 1 : 10,
-    idleTimeoutMillis: isServerless ? 5000 : 30000,
-    connectionTimeoutMillis: isServerless ? 40000 : 30000,
-    allowExitOnIdle: isServerless,
+    // Admin init may run several parallel queries; max 1 causes pool connect timeouts.
+    max: isServerless ? 3 : 10,
+    idleTimeoutMillis: isServerless ? 20000 : 30000,
+    connectionTimeoutMillis: isServerless ? 55000 : 30000,
+    allowExitOnIdle: false,
     keepAlive: true,
   };
 }

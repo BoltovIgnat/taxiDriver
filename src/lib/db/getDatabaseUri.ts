@@ -84,8 +84,8 @@ function scorePostgresUrl(uri: string, preferPooled: boolean): number {
 
     if (isSupabasePoolerHost(hostname)) {
       score += 100;
-      if (port === "5432" || port === "") score += 40;
-      if (port === "6543") score += 30;
+      if (port === "5432" || port === "") score += 50;
+      if (port === "6543") score -= 40;
       if (username.startsWith("postgres.")) score += 50;
       if (username === "postgres") score -= 60;
     }
