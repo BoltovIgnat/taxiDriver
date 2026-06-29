@@ -51,7 +51,7 @@ export function ArticleList({ articles }: { articles: Article[] }) {
               <Link
                 href={`/blog/${article.slug}`}
                 target="_blank"
-                className="rounded-full px-4 py-2 text-sm font-medium text-accent ring-1 ring-black/[0.08] hover:bg-blue-50"
+                className="rounded-full px-4 py-2 text-sm font-medium text-accent ring-1 ring-black/[0.08] hover:bg-accent-soft"
               >
                 Открыть
               </Link>

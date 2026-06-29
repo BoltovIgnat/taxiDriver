@@ -10,6 +10,6 @@
   <rect x="560" y="360" width="480" height="48" rx="24" fill="#cbd5e1"/>
   <rect x="560" y="440" width="380" height="32" rx="16" fill="#e2e8f0"/>
   <rect x="560" y="500" width="420" height="32" rx="16" fill="#e2e8f0"/>
-  <circle cx="800" cy="640" r="64" fill="#2563eb" opacity="0.12"/>
-  <path d="M800 610 L830 660 L770 660 Z" fill="#2563eb" opacity="0.35"/>
+  <circle cx="800" cy="640" r="64" fill="#f5b800" opacity="0.12"/>
+  <path d="M800 610 L830 660 L770 660 Z" fill="#f5b800" opacity="0.35"/>
 </svg>

@@ -38,7 +38,7 @@ export function PageHero({
         >
           <FadeIn className={centered ? "mx-auto" : undefined}>
             {eyebrow && (
-              <span className="mb-4 inline-block rounded-full bg-blue-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">
+              <span className="mb-4 inline-block rounded-full bg-accent-soft px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-steel)]">
                 {eyebrow}
               </span>
             )}

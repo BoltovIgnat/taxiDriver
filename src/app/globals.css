@@ -3,15 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #f3f4f6;
+  --color-bg: #fdf8e8;
   --color-surface: #ffffff;
-  --color-text: #111318;
-  --color-text-muted: #64748b;
-  --color-steel: #475569;
-  --color-accent: #2563eb;
-  --color-accent-hover: #1d4ed8;
-  --color-border: #e2e8f0;
-  --color-hero: #111318;
+  --color-text: #1a1a1a;
+  --color-text-muted: #6b6355;
+  --color-steel: #4a453c;
+  --color-accent: #f5b800;
+  --color-accent-hover: #dba400;
+  --color-accent-soft: #fef3c7;
+  --color-on-accent: #1a1a1a;
+  --color-border: #e8dfc4;
+  --color-hero: #14120b;
   --ease-premium: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
@@ -45,7 +47,7 @@ body::before {
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-accent px-6 py-3.5 text-base font-semibold text-white shadow-glow transition-all duration-500 ease-premium hover:opacity-90 active:scale-[0.98];
+    @apply inline-flex items-center justify-center rounded-full bg-accent px-6 py-3.5 text-base font-semibold text-on-accent shadow-glow transition-all duration-500 ease-premium hover:opacity-90 active:scale-[0.98];
   }
 
   .btn-secondary {
@@ -57,7 +59,7 @@ body::before {
   }
 
   .input-field {
-    @apply w-full rounded-2xl bg-bg px-4 py-3.5 text-base outline-none ring-1 ring-black/[0.06] transition-all duration-300 ease-premium placeholder:text-muted focus:bg-surface focus:ring-2 focus:ring-blue-200;
+    @apply w-full rounded-2xl bg-bg px-4 py-3.5 text-base outline-none ring-1 ring-black/[0.06] transition-all duration-300 ease-premium placeholder:text-muted focus:bg-surface focus:ring-2 focus:ring-amber-200;
   }
 
   .hero-dark {
@@ -68,7 +70,7 @@ body::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(37, 99, 235, 0.12), transparent 60%);
+    background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(245, 184, 0, 0.18), transparent 60%);
     pointer-events: none;
   }
 
@@ -77,7 +79,7 @@ body::before {
   }
 
   .trust-badge-light {
-    @apply inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3.5 py-2 text-xs font-medium text-accent sm:text-sm;
+    @apply inline-flex items-center gap-1.5 rounded-full bg-accent-soft px-3.5 py-2 text-xs font-medium text-[var(--color-steel)] sm:text-sm;
   }
 
   .calc-result-panel {
@@ -85,7 +87,7 @@ body::before {
   }
 
   .step-icon {
-    @apply mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-2xl text-accent;
+    @apply mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-accent-soft text-2xl text-[var(--color-steel)];
   }
 }
 

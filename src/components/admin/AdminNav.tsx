@@ -32,7 +32,7 @@ export function AdminNav() {
                 href={item.href}
                 className={
                   pathname === item.href
-                    ? "rounded-full bg-blue-50 px-3 py-1.5 text-sm font-semibold text-accent"
+                    ? "rounded-full bg-accent-soft px-3 py-1.5 text-sm font-semibold text-[var(--color-steel)]"
                     : "rounded-full px-3 py-1.5 text-sm font-medium text-muted hover:text-[var(--color-text)]"
                 }
               >

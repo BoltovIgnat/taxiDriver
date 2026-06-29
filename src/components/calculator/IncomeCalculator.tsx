@@ -95,8 +95,8 @@ export function IncomeCalculator({
                         onClick={() => { setCarType(type); trackInteraction(); }}
                         className={`rounded-2xl px-4 py-3.5 text-sm font-semibold transition-all duration-500 ease-premium ${
                           carType === type
-                            ? "bg-accent text-white shadow-glow"
-                            : "bg-bg text-steel ring-1 ring-black/[0.06] hover:ring-blue-200"
+                            ? "bg-accent text-on-accent shadow-glow"
+                            : "bg-bg text-steel ring-1 ring-black/[0.06] hover:ring-amber-200"
                         }`}
                       >
                         {type === "own" ? "Своё авто" : "Аренда"}

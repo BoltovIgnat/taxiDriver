@@ -118,7 +118,7 @@ export function SiteImage({
     return (
       <div
         className={cn(
-          "animate-pulse bg-gradient-to-br from-[#1e293b] to-[#0f172a]",
+          "animate-pulse bg-gradient-to-br from-[#fef3c7] to-[#f5e6b8]",
           fill ? "absolute inset-0" : "h-full w-full",
           className,
         )}

@@ -42,7 +42,7 @@ export default function SpasiboPage() {
 
             </div>
 
-            <span className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-2xl text-accent">
+            <span className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-accent-soft text-2xl text-accent">
 
               <i className="ri-check-line" aria-hidden />
 

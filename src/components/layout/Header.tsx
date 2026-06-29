@@ -38,7 +38,7 @@ export function Header() {
                 className={cn(
                   "rounded-full px-3 py-2 text-sm font-medium transition-colors duration-300 ease-premium",
                   pathname === item.href
-                    ? "bg-blue-50 text-accent"
+                    ? "bg-accent-soft font-semibold text-[var(--color-steel)]"
                     : "text-steel hover:text-[var(--color-text)]",
                 )}
               >

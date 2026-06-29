@@ -29,7 +29,7 @@ export function FloatingCTA() {
       <a
         href={`tel:${siteConfig.phone}`}
         onClick={() => reachGoal("phone_click")}
-        className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-white shadow-glow transition-transform duration-500 ease-premium hover:scale-105 active:scale-95"
+        className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-on-accent shadow-glow transition-transform duration-500 ease-premium hover:scale-105 active:scale-95"
         aria-label="Позвонить"
       >
         <i className="ri-phone-line text-xl" aria-hidden />

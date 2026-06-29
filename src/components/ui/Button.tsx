@@ -16,10 +16,10 @@ interface ButtonProps {
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-accent text-white shadow-glow hover:opacity-90 active:scale-[0.98]",
+    "bg-accent text-on-accent shadow-glow hover:opacity-90 active:scale-[0.98]",
   secondary:
     "bg-surface text-[var(--color-text)] ring-1 ring-black/[0.08] hover:bg-bg active:scale-[0.98]",
-  ghost: "text-accent hover:bg-blue-50",
+  ghost: "text-[var(--color-steel)] hover:bg-accent-soft",
 };
 
 export function Button({
@@ -45,7 +45,7 @@ export function Button({
     <>
       {children}
       {showArrow && (
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 transition-transform duration-500 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black/10 transition-transform duration-500 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105">
           <i className="ri-arrow-right-up-line text-base" aria-hidden />
         </span>
       )}
