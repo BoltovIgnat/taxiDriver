@@ -10,15 +10,16 @@ import sharp from "sharp";
 import { Articles } from "./collections/Articles.js";
 import { Users } from "./collections/Users.js";
 import {
+  getDatabaseUri,
+} from "./lib/db/getDatabaseUri.js";
+import {
   getPostgresPoolConfig,
-  normalizePostgresUri,
 } from "./lib/db/normalizePostgresUri.js";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
-const rawDatabaseUri = process.env.DATABASE_URI?.trim();
-const databaseUri = rawDatabaseUri ? normalizePostgresUri(rawDatabaseUri) : undefined;
+const databaseUri = getDatabaseUri(true);
 const isPostgres =
   !!databaseUri &&
   (databaseUri.startsWith("postgres://") || databaseUri.startsWith("postgresql://"));
@@ -26,7 +27,9 @@ const isPostgres =
 const isProduction = process.env.NODE_ENV === "production";
 
 if (process.env.VERCEL && !isPostgres) {
-  throw new Error("DATABASE_URI (Postgres pooled URL) is required on Vercel.");
+  throw new Error(
+    "Postgres URL is required on Vercel (DATABASE_URI or STORADGE_POSTGRES_URL).",
+  );
 }
 
 if (process.env.VERCEL && !process.env.PAYLOAD_SECRET?.trim()) {

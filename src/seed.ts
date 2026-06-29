@@ -2,16 +2,13 @@ import { config as loadEnv } from "dotenv";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 
-import { normalizePostgresUri } from "./lib/db/normalizePostgresUri.js";
+import { applyDatabaseUriEnv } from "./lib/db/getDatabaseUri.js";
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 loadEnv({ path: resolve(rootDir, ".env.local"), override: true });
 loadEnv({ path: resolve(rootDir, ".env") });
 
-const dbUri = process.env.DATABASE_URI_UNPOOLED || process.env.DATABASE_URI;
-if (dbUri) {
-  process.env.DATABASE_URI = normalizePostgresUri(dbUri);
-}
+applyDatabaseUriEnv(false);
 
 const { default: configPromise } = await import("@payload-config");
 const { getPayload } = await import("payload");
