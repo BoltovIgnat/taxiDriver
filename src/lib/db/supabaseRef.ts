@@ -25,6 +25,15 @@ function refFromPublicUrl(url: string): string | undefined {
   return match?.[1];
 }
 
+function refFromIntegrationUser(): string | undefined {
+  const user = readEnv("STORADGE_POSTGRES_USER", "POSTGRES_USER");
+  if (!user) {
+    return undefined;
+  }
+  const match = user.match(/^postgres\.([a-z0-9]+)$/i);
+  return match?.[1];
+}
+
 function refFromPostgresUri(uri: string): string | undefined {
   try {
     const url = new URL(uri);
@@ -46,6 +55,16 @@ function refFromPostgresUri(uri: string): string | undefined {
 
 /** Resolve Supabase project ref from public URL or any Postgres env var. */
 export function getSupabaseProjectRef(): string | undefined {
+  const explicitRef = readEnv("SUPABASE_PROJECT_REF", "STORADGE_SUPABASE_PROJECT_REF");
+  if (explicitRef) {
+    return explicitRef;
+  }
+
+  const integrationRef = refFromIntegrationUser();
+  if (integrationRef) {
+    return integrationRef;
+  }
+
   const publicUrl = readEnv(
     "NEXT_PUBLIC_SUPABASE_URL",
     "NEXT_PUBLIC_STORADGE_SUPABASE_URL",

@@ -38,16 +38,40 @@ function isDirectSupabaseHost(hostname: string): boolean {
   return hostname.startsWith("db.") && hostname.endsWith(".supabase.co");
 }
 
+function isNeonHost(hostname: string): boolean {
+  return hostname.endsWith(".neon.tech");
+}
+
+function isSupabasePoolerHost(hostname: string): boolean {
+  return hostname.includes("pooler.supabase.com");
+}
+
 function poolerUsername(uri: string): string | undefined {
   try {
     const url = new URL(uri);
-    if (!url.hostname.includes("pooler.supabase.com")) {
+    if (!isSupabasePoolerHost(url.hostname)) {
       return undefined;
     }
     return decodeURIComponent(url.username);
   } catch {
     return undefined;
   }
+}
+
+function describePostgresTarget(uri: string): string {
+  try {
+    const url = new URL(uri);
+    return `${decodeURIComponent(url.username)}@${url.hostname}:${url.port || "5432"}`;
+  } catch {
+    return "(invalid uri)";
+  }
+}
+
+export function logDatabaseTarget(uri: string): void {
+  if (!process.env.VERCEL) {
+    return;
+  }
+  console.info(`[payload-db] connecting as ${describePostgresTarget(uri)}`);
 }
 
 /** Higher score = better for Vercel serverless + Payload/pg. */
@@ -58,7 +82,7 @@ function scorePostgresUrl(uri: string, preferPooled: boolean): number {
     const url = new URL(uri);
     const { hostname, port, username } = url;
 
-    if (hostname.includes("pooler.supabase.com")) {
+    if (isSupabasePoolerHost(hostname)) {
       score += 100;
       if (port === "5432" || port === "") score += 40;
       if (port === "6543") score += 30;
@@ -67,7 +91,10 @@ function scorePostgresUrl(uri: string, preferPooled: boolean): number {
     }
 
     if (uri.includes("pgbouncer=true")) score += 20;
-    if (uri.includes(".neon.tech")) score += 5;
+
+    if (isNeonHost(hostname)) {
+      score -= 500;
+    }
 
     if (preferPooled && isDirectSupabaseHost(hostname)) {
       score -= 200;
@@ -111,14 +138,14 @@ function pickBestUrl(preferPooled: boolean): string | undefined {
 }
 
 function getSupabasePoolerHost(): string | undefined {
-  for (const key of ["DATABASE_POOLER_URL", "STORADGE_POSTGRES_URL", "POSTGRES_URL"] as const) {
+  for (const key of ["DATABASE_POOLER_URL", "STORADGE_POSTGRES_URL", "POSTGRES_URL", "DATABASE_URI"] as const) {
     const value = process.env[key]?.trim();
     if (!value) {
       continue;
     }
     try {
       const hostname = new URL(value).hostname;
-      if (hostname.includes("pooler.supabase.com")) {
+      if (isSupabasePoolerHost(hostname)) {
         return hostname;
       }
     } catch {
@@ -127,7 +154,7 @@ function getSupabasePoolerHost(): string | undefined {
   }
 
   const host = readEnv("STORADGE_POSTGRES_HOST", "POSTGRES_HOST");
-  return host?.includes("pooler.supabase.com") ? host : undefined;
+  return host && isSupabasePoolerHost(host) ? host : undefined;
 }
 
 /** Build Session pooler URI from Vercel Supabase integration parts. */
@@ -160,7 +187,7 @@ function buildFromParts(pooled: boolean): string | undefined {
   }
 
   const ref = getSupabaseProjectRef();
-  const isPoolerHost = host.includes("pooler.supabase.com");
+  const isPoolerHost = isSupabasePoolerHost(host);
   const user = isPoolerHost && ref
     ? `postgres.${ref}`
     : readEnv("STORADGE_POSTGRES_USER", "POSTGRES_USER");
@@ -185,6 +212,14 @@ export function validatePostgresUriForVercel(uri: string): void {
     throw new Error("Invalid DATABASE_URI on Vercel.");
   }
 
+  if (isNeonHost(url.hostname)) {
+    throw new Error(
+      "Neon DATABASE_URI is set on Vercel but this project uses Supabase. " +
+        "Remove DATABASE_URI / Neon variables and set DATABASE_POOLER_URL " +
+        "to the Supabase Session pooler URI (Supabase → Connect → Session mode).",
+    );
+  }
+
   if (isDirectSupabaseHost(url.hostname)) {
     throw new Error(
       "Direct Supabase URL (db.*.supabase.co) does not work on Vercel. " +
@@ -193,14 +228,20 @@ export function validatePostgresUriForVercel(uri: string): void {
     );
   }
 
-  if (
-    url.hostname.includes("pooler.supabase.com") &&
-    decodeURIComponent(url.username) === "postgres"
-  ) {
+  const username = decodeURIComponent(url.username);
+
+  if (isSupabasePoolerHost(url.hostname) && username === "postgres") {
     throw new Error(
       "Supabase pooler requires username postgres.{projectRef}, not postgres. " +
         "Set DATABASE_POOLER_URL on Vercel (Session pooler from Supabase → Connect) " +
-        "or ensure NEXT_PUBLIC_SUPABASE_URL / STORADGE_POSTGRES_URL_NON_POOLING is set.",
+        "or set SUPABASE_PROJECT_REF=your-project-ref.",
+    );
+  }
+
+  if (process.env.VERCEL && username === "postgres" && !isSupabasePoolerHost(url.hostname)) {
+    throw new Error(
+      `Postgres user "postgres" is not valid for Vercel deployment (${url.hostname}). ` +
+        "Set DATABASE_POOLER_URL to Supabase Session pooler with user postgres.{projectRef}.",
     );
   }
 }
@@ -213,7 +254,6 @@ function resolveRawUri(pooled: boolean): string | undefined {
     return explicitPooler;
   }
 
-  // On Vercel, integration-built pooler beats STORADGE_POSTGRES_URL (often user "postgres").
   if (process.env.VERCEL && pooled && builtPooler) {
     return builtPooler;
   }
@@ -238,6 +278,12 @@ export function getDatabaseUri(pooled = true): string | undefined {
   const projectRef = getSupabaseProjectRef();
   const uri = resolveRawUri(pooled) ?? buildFromParts(pooled);
   if (!uri) {
+    if (process.env.VERCEL) {
+      throw new Error(
+        "No Postgres URL on Vercel. Set DATABASE_POOLER_URL to your Supabase Session pooler URI " +
+          "(postgresql://postgres.{ref}:password@....pooler.supabase.com:5432/postgres).",
+      );
+    }
     return undefined;
   }
 
@@ -245,6 +291,7 @@ export function getDatabaseUri(pooled = true): string | undefined {
   if (pooled) {
     validatePostgresUriForVercel(normalized);
   }
+  logDatabaseTarget(normalized);
   return normalized;
 }
 
