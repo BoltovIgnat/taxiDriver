@@ -1,5 +1,6 @@
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { sqliteAdapter } from "@payloadcms/db-sqlite";
+import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
@@ -24,6 +25,33 @@ if (process.env.VERCEL && !isPostgres) {
 }
 
 const isServerless = Boolean(process.env.VERCEL);
+
+const emailFromAddress =
+  process.env.EMAIL_FROM || process.env.PAYLOAD_ADMIN_EMAIL || "noreply@example.com";
+const emailFromName = process.env.EMAIL_FROM_NAME || "Таксопарк";
+
+const email = await (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS
+  ? nodemailerAdapter({
+      defaultFromAddress: emailFromAddress,
+      defaultFromName: emailFromName,
+      transportOptions: {
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT || 587),
+        secure: process.env.SMTP_SECURE === "true",
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      },
+    })
+  : nodemailerAdapter({
+      defaultFromAddress: emailFromAddress,
+      defaultFromName: emailFromName,
+      skipVerify: true,
+      transportOptions: {
+        json: true,
+      } as import("nodemailer/lib/smtp-connection/index.js").Options,
+    }));
 
 export default buildConfig({
   admin: {
@@ -58,5 +86,6 @@ export default buildConfig({
         },
         push: true,
       }),
+  email,
   sharp,
 });
