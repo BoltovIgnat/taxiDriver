@@ -47,7 +47,8 @@ export default buildConfig({
           idleTimeoutMillis: isServerless ? 5000 : 30000,
           connectionTimeoutMillis: isServerless ? 10000 : 30000,
         },
-        push: process.env.NODE_ENV !== "production",
+        push:
+          process.env.PAYLOAD_PUSH_SCHEMA === "true" || process.env.NODE_ENV !== "production",
       })
     : sqliteAdapter({
         client: {

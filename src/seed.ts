@@ -6,6 +6,9 @@ const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 loadEnv({ path: resolve(rootDir, ".env.local"), override: true });
 loadEnv({ path: resolve(rootDir, ".env") });
 
+// Tables are created by push-schema; skip slow schema sync during seed.
+process.env.NODE_ENV = "production";
+
 const { default: configPromise } = await import("@payload-config");
 const { getPayload } = await import("payload");
 const { default: articlesSeed } = await import("../data/articles.json", {
