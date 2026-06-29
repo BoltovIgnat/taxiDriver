@@ -9,29 +9,38 @@ function ensureNeonPoolerHost(hostname: string): string {
   return hostname;
 }
 
-function ensureSupabasePooler(url: URL): void {
+function ensureSupabasePooler(url: URL, pooled: boolean): void {
   const host = url.hostname;
   const isSupabase =
     host.endsWith(".supabase.co") ||
     host.endsWith(".pooler.supabase.com") ||
     host.includes("supabase.com");
 
-  if (!isSupabase || !process.env.VERCEL) {
+  if (!isSupabase || !process.env.VERCEL || !pooled) {
     return;
   }
 
-  // Direct port 5432 does not work reliably on Vercel serverless.
-  const port = url.port || "5432";
-  if (port === "5432") {
-    url.port = "6543";
+  // Shared pooler (IPv4) — required for Vercel serverless on free tier.
+  if (host.includes("pooler.supabase.com")) {
+    if (!url.port || url.port === "5432") {
+      url.port = "6543";
+    }
+    if (!url.searchParams.has("pgbouncer")) {
+      url.searchParams.set("pgbouncer", "true");
+    }
+    return;
   }
 
-  if (!url.searchParams.has("pgbouncer")) {
-    url.searchParams.set("pgbouncer", "true");
+  // db.[ref].supabase.co direct host is IPv6-only on free tier — do NOT force :6543 here.
+  // pickBestUrl() should prefer STORADGE_POSTGRES_URL with pooler.supabase.com instead.
+  if (host.startsWith("db.") && host.endsWith(".supabase.co")) {
+    if (!url.searchParams.has("pgbouncer")) {
+      url.searchParams.set("pgbouncer", "true");
+    }
   }
 }
 
-export function normalizePostgresUri(uri: string): string {
+export function normalizePostgresUri(uri: string, pooled = true): string {
   try {
     const url = new URL(uri);
 
@@ -39,7 +48,7 @@ export function normalizePostgresUri(uri: string): string {
       url.hostname = ensureNeonPoolerHost(url.hostname);
     }
 
-    ensureSupabasePooler(url);
+    ensureSupabasePooler(url, pooled);
 
     url.searchParams.delete("channel_binding");
 
@@ -49,8 +58,7 @@ export function normalizePostgresUri(uri: string): string {
     }
 
     if (!url.searchParams.has("connect_timeout")) {
-      // Stay under Vercel maxDuration (60s) — fail fast instead of hanging.
-      url.searchParams.set("connect_timeout", process.env.VERCEL ? "15" : "30");
+      url.searchParams.set("connect_timeout", process.env.VERCEL ? "25" : "30");
     }
 
     return url.toString();
@@ -64,8 +72,8 @@ export function getPostgresPoolConfig(connectionString: string, isServerless: bo
     connectionString,
     max: isServerless ? 1 : 10,
     idleTimeoutMillis: isServerless ? 5000 : 30000,
-    // Must be below Vercel function maxDuration (60s on this project).
-    connectionTimeoutMillis: isServerless ? 20000 : 30000,
+    connectionTimeoutMillis: isServerless ? 25000 : 30000,
     allowExitOnIdle: isServerless,
+    keepAlive: true,
   };
 }
