@@ -1,9 +1,16 @@
+function normalizeSiteUrl(raw: string | undefined): string {
+  const value = raw?.trim() || "http://localhost:3000";
+  const withProtocol =
+    value.startsWith("http://") || value.startsWith("https://") ? value : `https://${value}`;
+  return withProtocol.replace(/\/$/, "");
+}
+
 export const siteConfig = {
   name: process.env.NEXT_PUBLIC_SITE_NAME ?? "Таксопарк Партнёр",
   description:
     process.env.NEXT_PUBLIC_SITE_DESCRIPTION ??
     "Подключение водителей такси в городах России. Аренда авто без залога, выплаты каждый день, помощь с самозанятостью.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
   phone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? process.env.CONTACT_PHONE ?? "+78001234567",
   phoneDisplay:
     process.env.NEXT_PUBLIC_PHONE_DISPLAY ?? "8 (800) 123-45-67",

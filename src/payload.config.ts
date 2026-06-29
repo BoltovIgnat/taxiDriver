@@ -12,9 +12,16 @@ import { Users } from "./collections/Users.js";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
-const databaseUri = process.env.DATABASE_URI || "file:./payload.db";
+const databaseUri = process.env.DATABASE_URI?.trim();
 const isPostgres =
-  databaseUri.startsWith("postgres://") || databaseUri.startsWith("postgresql://");
+  !!databaseUri &&
+  (databaseUri.startsWith("postgres://") || databaseUri.startsWith("postgresql://"));
+
+if (process.env.VERCEL && !isPostgres) {
+  throw new Error("DATABASE_URI (Postgres) is required on Vercel.");
+}
+
+const isServerless = Boolean(process.env.VERCEL);
 
 export default buildConfig({
   admin: {
@@ -36,12 +43,15 @@ export default buildConfig({
     ? postgresAdapter({
         pool: {
           connectionString: databaseUri,
+          max: isServerless ? 1 : 10,
+          idleTimeoutMillis: isServerless ? 5000 : 30000,
+          connectionTimeoutMillis: isServerless ? 10000 : 30000,
         },
         push: process.env.NODE_ENV !== "production",
       })
     : sqliteAdapter({
         client: {
-          url: databaseUri,
+          url: databaseUri || "file:./payload.db",
         },
         push: true,
       }),

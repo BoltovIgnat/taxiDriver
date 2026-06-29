@@ -31,24 +31,34 @@ async function getPayloadClient() {
 }
 
 export async function getArticles(): Promise<Article[]> {
-  const payload = await getPayloadClient();
-  const { docs } = await payload.find({
-    collection: "articles",
-    sort: "-date",
-    limit: 100,
-    depth: 0,
-  });
-  return docs.map((doc) => toArticle(doc as unknown as ArticleDoc));
+  try {
+    const payload = await getPayloadClient();
+    const { docs } = await payload.find({
+      collection: "articles",
+      sort: "-date",
+      limit: 100,
+      depth: 0,
+    });
+    return docs.map((doc) => toArticle(doc as unknown as ArticleDoc));
+  } catch (error) {
+    console.error("Failed to load articles from Payload:", error);
+    return [];
+  }
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | undefined> {
-  const payload = await getPayloadClient();
-  const { docs } = await payload.find({
-    collection: "articles",
-    where: { slug: { equals: slug } },
-    limit: 1,
-    depth: 0,
-  });
-  const doc = docs[0];
-  return doc ? toArticle(doc as unknown as ArticleDoc) : undefined;
+  try {
+    const payload = await getPayloadClient();
+    const { docs } = await payload.find({
+      collection: "articles",
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 0,
+    });
+    const doc = docs[0];
+    return doc ? toArticle(doc as unknown as ArticleDoc) : undefined;
+  } catch (error) {
+    console.error(`Failed to load article "${slug}" from Payload:`, error);
+    return undefined;
+  }
 }
