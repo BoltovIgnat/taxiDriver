@@ -9,38 +9,50 @@ function ensureNeonPoolerHost(hostname: string): string {
   return hostname;
 }
 
-function ensureSupabasePooler(url: URL, pooled: boolean): void {
-  const host = url.hostname;
-  const isSupabase =
-    host.endsWith(".supabase.co") ||
-    host.endsWith(".pooler.supabase.com") ||
-    host.includes("supabase.com");
+function getSupabaseProjectRefFromEnv(): string | undefined {
+  const publicUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ||
+    process.env.NEXT_PUBLIC_STORADGE_SUPABASE_URL?.trim();
+  if (!publicUrl) {
+    return undefined;
+  }
+  const match = publicUrl.match(/https?:\/\/([a-z0-9]+)\.supabase\.co/i);
+  return match?.[1];
+}
 
-  if (!isSupabase || !process.env.VERCEL || !pooled) {
+function ensureSupabasePoolerUser(url: URL): void {
+  if (!url.hostname.includes("pooler.supabase.com")) {
     return;
   }
 
-  // Shared pooler (IPv4) — required for Vercel serverless on free tier.
-  if (host.includes("pooler.supabase.com")) {
-    if (!url.port || url.port === "5432") {
-      url.port = "6543";
-    }
-    if (!url.searchParams.has("pgbouncer")) {
-      url.searchParams.set("pgbouncer", "true");
-    }
+  const ref = getSupabaseProjectRefFromEnv();
+  if (!ref) {
     return;
   }
 
-  // db.[ref].supabase.co direct host is IPv6-only on free tier — do NOT force :6543 here.
-  // pickBestUrl() should prefer STORADGE_POSTGRES_URL with pooler.supabase.com instead.
-  if (host.startsWith("db.") && host.endsWith(".supabase.co")) {
-    if (!url.searchParams.has("pgbouncer")) {
-      url.searchParams.set("pgbouncer", "true");
-    }
+  const expectedUser = `postgres.${ref}`;
+  const currentUser = decodeURIComponent(url.username);
+
+  if (currentUser === "postgres") {
+    url.username = expectedUser;
   }
 }
 
-export function normalizePostgresUri(uri: string, pooled = true): string {
+function ensureSupabasePooler(url: URL): void {
+  const host = url.hostname;
+  if (!host.includes("pooler.supabase.com")) {
+    return;
+  }
+
+  ensureSupabasePoolerUser(url);
+
+  // Session pooler uses port 5432; transaction mode uses 6543 — do not override.
+  if (url.port === "6543" && !url.searchParams.has("pgbouncer")) {
+    url.searchParams.set("pgbouncer", "true");
+  }
+}
+
+export function normalizePostgresUri(uri: string, _pooled = true): string {
   try {
     const url = new URL(uri);
 
@@ -48,7 +60,7 @@ export function normalizePostgresUri(uri: string, pooled = true): string {
       url.hostname = ensureNeonPoolerHost(url.hostname);
     }
 
-    ensureSupabasePooler(url, pooled);
+    ensureSupabasePooler(url);
 
     url.searchParams.delete("channel_binding");
 

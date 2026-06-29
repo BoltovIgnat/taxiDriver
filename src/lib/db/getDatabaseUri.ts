@@ -52,13 +52,15 @@ function scorePostgresUrl(uri: string, preferPooled: boolean): number {
   let score = 0;
 
   try {
-    const { hostname, port } = new URL(uri);
+    const url = new URL(uri);
+    const { hostname, port, username } = url;
 
     if (hostname.includes("pooler.supabase.com")) {
       score += 100;
-      // Session pooler (5432): IPv4 + prepared statements — best for Payload.
       if (port === "5432" || port === "") score += 40;
       if (port === "6543") score += 30;
+      if (username.startsWith("postgres.")) score += 50;
+      if (username === "postgres") score -= 60;
     }
 
     if (uri.includes("pgbouncer=true")) score += 20;
@@ -91,6 +93,11 @@ function collectCandidates(keys: readonly string[]): string[] {
 }
 
 function pickBestUrl(preferPooled: boolean): string | undefined {
+  const explicitPooler = readEnv("DATABASE_POOLER_URL");
+  if (explicitPooler && preferPooled) {
+    return explicitPooler;
+  }
+
   const candidates = collectCandidates(ALL_URI_KEYS);
   if (candidates.length === 0) {
     return undefined;
@@ -116,24 +123,34 @@ function buildSupabasePoolerFromIntegration(): string | undefined {
   }
 
   const ref = getSupabaseProjectRef();
-  const user =
-    readEnv("STORADGE_POSTGRES_USER", "POSTGRES_USER") ||
-    (ref ? `postgres.${ref}` : "postgres");
+  if (!ref) {
+    return undefined;
+  }
+
+  const user = `postgres.${ref}`;
 
   return `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:5432/${database}?sslmode=require`;
 }
 
 function buildFromParts(pooled: boolean): string | undefined {
-  const user = readEnv("STORADGE_POSTGRES_USER", "POSTGRES_USER");
   const password = readEnv("STORADGE_POSTGRES_PASSWORD", "POSTGRES_PASSWORD");
   const host = readEnv("STORADGE_POSTGRES_HOST", "POSTGRES_HOST");
   const database = readEnv("STORADGE_POSTGRES_DATABASE", "POSTGRES_DATABASE");
 
-  if (!user || !password || !host || !database) {
+  if (!password || !host || !database) {
     return undefined;
   }
 
+  const ref = getSupabaseProjectRef();
   const isPoolerHost = host.includes("pooler.supabase.com");
+  const user = isPoolerHost && ref
+    ? `postgres.${ref}`
+    : readEnv("STORADGE_POSTGRES_USER", "POSTGRES_USER");
+
+  if (!user) {
+    return undefined;
+  }
+
   const port = isPoolerHost && pooled ? "5432" : pooled ? "6543" : "5432";
   return `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${database}?sslmode=require`;
 }
