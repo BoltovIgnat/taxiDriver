@@ -1,51 +1,54 @@
-import { promises as fs } from "fs";
-import path from "path";
+import configPromise from "@payload-config";
+import { getPayload } from "payload";
 import type { Article } from "@/types";
 
-const DATA_PATH = path.join(process.cwd(), "data", "articles.json");
+type ArticleDoc = {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  readTime: string;
+  content: string;
+};
 
-async function readFile(): Promise<Article[]> {
-  try {
-    const raw = await fs.readFile(DATA_PATH, "utf-8");
-    const parsed = JSON.parse(raw) as Article[];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-      return [];
-    }
-    throw error;
-  }
+function formatDate(date: string): string {
+  return date.includes("T") ? date.split("T")[0]! : date;
 }
 
-async function writeFile(articles: Article[]): Promise<void> {
-  await fs.mkdir(path.dirname(DATA_PATH), { recursive: true });
-  await fs.writeFile(DATA_PATH, JSON.stringify(articles, null, 2) + "\n", "utf-8");
+function toArticle(doc: ArticleDoc): Article {
+  return {
+    slug: doc.slug,
+    title: doc.title,
+    description: doc.description,
+    date: formatDate(doc.date),
+    readTime: doc.readTime,
+    content: doc.content,
+  };
+}
+
+async function getPayloadClient() {
+  return getPayload({ config: configPromise });
 }
 
 export async function getArticles(): Promise<Article[]> {
-  const articles = await readFile();
-  return [...articles].sort((a, b) => b.date.localeCompare(a.date));
+  const payload = await getPayloadClient();
+  const { docs } = await payload.find({
+    collection: "articles",
+    sort: "-date",
+    limit: 100,
+    depth: 0,
+  });
+  return docs.map((doc) => toArticle(doc as unknown as ArticleDoc));
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | undefined> {
-  const articles = await readFile();
-  return articles.find((a) => a.slug === slug);
-}
-
-export async function createArticle(article: Article): Promise<Article> {
-  const articles = await readFile();
-  if (articles.some((a) => a.slug === article.slug)) {
-    throw new Error("Статья с таким URL уже существует");
-  }
-  articles.unshift(article);
-  await writeFile(articles);
-  return article;
-}
-
-export async function deleteArticle(slug: string): Promise<boolean> {
-  const articles = await readFile();
-  const next = articles.filter((a) => a.slug !== slug);
-  if (next.length === articles.length) return false;
-  await writeFile(next);
-  return true;
+  const payload = await getPayloadClient();
+  const { docs } = await payload.find({
+    collection: "articles",
+    where: { slug: { equals: slug } },
+    limit: 1,
+    depth: 0,
+  });
+  const doc = docs[0];
+  return doc ? toArticle(doc as unknown as ArticleDoc) : undefined;
 }
