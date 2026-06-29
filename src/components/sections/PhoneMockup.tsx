@@ -1,7 +1,9 @@
 import { SiteImage } from "@/components/ui/SiteImage";
 import { imageFallbacks, images } from "@/config/images";
 
-const WEEK_DAYS = [
+type WeekDay = { label: string; amount: number; today?: boolean };
+
+const WEEK_DAYS: WeekDay[] = [
   { label: "Пн", amount: 4_820 },
   { label: "Вт", amount: 6_120 },
   { label: "Ср", amount: 5_640 },
@@ -9,7 +11,7 @@ const WEEK_DAYS = [
   { label: "Пт", amount: 7_240 },
   { label: "Сб", amount: 6_880 },
   { label: "Вс", amount: 6_400, today: true },
-] as const;
+];
 
 const WEEK_TOTAL = WEEK_DAYS.reduce((sum, day) => sum + day.amount, 0);
 const WEEK_MAX = Math.max(...WEEK_DAYS.map((day) => day.amount));
