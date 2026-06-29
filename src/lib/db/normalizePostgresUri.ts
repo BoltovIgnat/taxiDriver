@@ -1,3 +1,5 @@
+import { getSupabaseProjectRef } from "./supabaseRef.js";
+
 function ensureNeonPoolerHost(hostname: string): string {
   if (hostname.includes("-pooler.")) {
     return hostname;
@@ -9,23 +11,12 @@ function ensureNeonPoolerHost(hostname: string): string {
   return hostname;
 }
 
-function getSupabaseProjectRefFromEnv(): string | undefined {
-  const publicUrl =
-    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ||
-    process.env.NEXT_PUBLIC_STORADGE_SUPABASE_URL?.trim();
-  if (!publicUrl) {
-    return undefined;
-  }
-  const match = publicUrl.match(/https?:\/\/([a-z0-9]+)\.supabase\.co/i);
-  return match?.[1];
-}
-
-function ensureSupabasePoolerUser(url: URL): void {
+function ensureSupabasePoolerUser(url: URL, projectRef?: string): void {
   if (!url.hostname.includes("pooler.supabase.com")) {
     return;
   }
 
-  const ref = getSupabaseProjectRefFromEnv();
+  const ref = projectRef ?? getSupabaseProjectRef();
   if (!ref) {
     return;
   }
@@ -38,13 +29,13 @@ function ensureSupabasePoolerUser(url: URL): void {
   }
 }
 
-function ensureSupabasePooler(url: URL): void {
+function ensureSupabasePooler(url: URL, projectRef?: string): void {
   const host = url.hostname;
   if (!host.includes("pooler.supabase.com")) {
     return;
   }
 
-  ensureSupabasePoolerUser(url);
+  ensureSupabasePoolerUser(url, projectRef);
 
   // Session pooler uses port 5432; transaction mode uses 6543 — do not override.
   if (url.port === "6543" && !url.searchParams.has("pgbouncer")) {
@@ -52,7 +43,7 @@ function ensureSupabasePooler(url: URL): void {
   }
 }
 
-export function normalizePostgresUri(uri: string, _pooled = true): string {
+export function normalizePostgresUri(uri: string, _pooled = true, projectRef?: string): string {
   try {
     const url = new URL(uri);
 
@@ -60,7 +51,7 @@ export function normalizePostgresUri(uri: string, _pooled = true): string {
       url.hostname = ensureNeonPoolerHost(url.hostname);
     }
 
-    ensureSupabasePooler(url);
+    ensureSupabasePooler(url, projectRef);
 
     url.searchParams.delete("channel_binding");
 

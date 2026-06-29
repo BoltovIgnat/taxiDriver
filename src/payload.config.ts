@@ -20,6 +20,9 @@ const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 const databaseUri = getDatabaseUri(true);
+if (databaseUri) {
+  process.env.DATABASE_URI = databaseUri;
+}
 const isPostgres =
   !!databaseUri &&
   (databaseUri.startsWith("postgres://") || databaseUri.startsWith("postgresql://"));
