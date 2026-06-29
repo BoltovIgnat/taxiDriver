@@ -10,15 +10,19 @@ function readEnv(...keys: string[]): string | undefined {
   return undefined;
 }
 
-const POOLED_CANDIDATE_KEYS = [
+const ALL_URI_KEYS = [
+  "DATABASE_POOLER_URL",
   "STORADGE_POSTGRES_URL",
   "POSTGRES_URL",
   "STORADGE_POSTGRES_PRISMA_URL",
   "POSTGRES_PRISMA_URL",
   "DATABASE_URI",
+  "STORADGE_POSTGRES_URL_NON_POOLING",
+  "POSTGRES_URL_NON_POOLING",
+  "DATABASE_URI_UNPOOLED",
 ] as const;
 
-const DIRECT_CANDIDATE_KEYS = [
+const DIRECT_URI_KEYS = [
   "STORADGE_POSTGRES_URL_NON_POOLING",
   "POSTGRES_URL_NON_POOLING",
   "DATABASE_URI_UNPOOLED",
@@ -27,43 +31,96 @@ const DIRECT_CANDIDATE_KEYS = [
   "DATABASE_URI",
 ] as const;
 
-/** Higher score = better for Vercel serverless. */
+export function getSupabaseProjectRef(): string | undefined {
+  const publicUrl = readEnv(
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_STORADGE_SUPABASE_URL",
+  );
+  if (!publicUrl) {
+    return undefined;
+  }
+  const match = publicUrl.match(/https?:\/\/([a-z0-9]+)\.supabase\.co/i);
+  return match?.[1];
+}
+
+function isDirectSupabaseHost(hostname: string): boolean {
+  return hostname.startsWith("db.") && hostname.endsWith(".supabase.co");
+}
+
+/** Higher score = better for Vercel serverless + Payload/pg. */
 function scorePostgresUrl(uri: string, preferPooled: boolean): number {
   let score = 0;
 
-  if (uri.includes("pooler.supabase.com")) score += 100;
-  if (uri.includes(":6543")) score += 60;
-  if (uri.includes("pgbouncer=true")) score += 30;
+  try {
+    const { hostname, port } = new URL(uri);
 
-  if (uri.includes(".supabase.co")) score += 10;
-  if (uri.includes(".neon.tech")) score += 5;
-
-  if (preferPooled) {
-    if (uri.includes("db.") && uri.includes(".supabase.co") && !uri.includes("pooler")) {
-      score -= 80;
+    if (hostname.includes("pooler.supabase.com")) {
+      score += 100;
+      // Session pooler (5432): IPv4 + prepared statements — best for Payload.
+      if (port === "5432" || port === "") score += 40;
+      if (port === "6543") score += 30;
     }
-    if (uri.includes(":5432")) score -= 40;
+
+    if (uri.includes("pgbouncer=true")) score += 20;
+    if (uri.includes(".neon.tech")) score += 5;
+
+    if (preferPooled && isDirectSupabaseHost(hostname)) {
+      score -= 200;
+    }
+  } catch {
+    return -999;
   }
 
   return score;
 }
 
-function pickBestUrl(keys: readonly string[], preferPooled: boolean): string | undefined {
-  const candidates = keys
-    .map((key) => process.env[key]?.trim())
-    .filter((value): value is string => !!value && /^postgres(ql)?:\/\//.test(value));
+function collectCandidates(keys: readonly string[]): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
 
+  for (const key of keys) {
+    const value = process.env[key]?.trim();
+    if (!value || !/^postgres(ql)?:\/\//.test(value) || seen.has(value)) {
+      continue;
+    }
+    seen.add(value);
+    result.push(value);
+  }
+
+  return result;
+}
+
+function pickBestUrl(preferPooled: boolean): string | undefined {
+  const candidates = collectCandidates(ALL_URI_KEYS);
   if (candidates.length === 0) {
     return undefined;
   }
 
-  if (process.env.VERCEL && preferPooled && candidates.length > 1) {
+  if (process.env.VERCEL || preferPooled) {
     return [...candidates].sort(
-      (a, b) => scorePostgresUrl(b, true) - scorePostgresUrl(a, true),
+      (a, b) => scorePostgresUrl(b, preferPooled) - scorePostgresUrl(a, preferPooled),
     )[0];
   }
 
   return candidates[0];
+}
+
+/** Build Session pooler URI from Vercel Supabase integration parts. */
+function buildSupabasePoolerFromIntegration(): string | undefined {
+  const password = readEnv("STORADGE_POSTGRES_PASSWORD", "POSTGRES_PASSWORD");
+  const host = readEnv("STORADGE_POSTGRES_HOST", "POSTGRES_HOST");
+  const database = readEnv("STORADGE_POSTGRES_DATABASE", "POSTGRES_DATABASE") || "postgres";
+
+  if (!password || !host?.includes("pooler.supabase.com")) {
+    return undefined;
+  }
+
+  const ref = getSupabaseProjectRef();
+  const user =
+    readEnv("STORADGE_POSTGRES_USER", "POSTGRES_USER") ||
+    (ref ? `postgres.${ref}` : "postgres");
+
+  return `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:5432/${database}?sslmode=require`;
 }
 
 function buildFromParts(pooled: boolean): string | undefined {
@@ -77,18 +134,48 @@ function buildFromParts(pooled: boolean): string | undefined {
   }
 
   const isPoolerHost = host.includes("pooler.supabase.com");
-  const port = pooled || isPoolerHost ? "6543" : "5432";
+  const port = isPoolerHost && pooled ? "5432" : pooled ? "6543" : "5432";
   return `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${database}?sslmode=require`;
+}
+
+export function validatePostgresUriForVercel(uri: string): void {
+  if (!process.env.VERCEL) {
+    return;
+  }
+
+  let hostname: string;
+  try {
+    hostname = new URL(uri).hostname;
+  } catch {
+    throw new Error("Invalid DATABASE_URI on Vercel.");
+  }
+
+  if (isDirectSupabaseHost(hostname)) {
+    throw new Error(
+      "Direct Supabase URL (db.*.supabase.co) does not work on Vercel. " +
+        "Set DATABASE_POOLER_URL to Session/Transaction pooler from Supabase → Connect " +
+        "(host must contain pooler.supabase.com, e.g. aws-0-eu-central-1.pooler.supabase.com).",
+    );
+  }
 }
 
 /** Runtime URL (Vercel/serverless): pooled / IPv4 pooler preferred. */
 export function getDatabaseUri(pooled = true): string | undefined {
+  const builtPooler = pooled ? buildSupabasePoolerFromIntegration() : undefined;
   const raw = pooled
-    ? pickBestUrl(POOLED_CANDIDATE_KEYS, true) ?? pickBestUrl(DIRECT_CANDIDATE_KEYS, true)
-    : readEnv(...DIRECT_CANDIDATE_KEYS);
+    ? pickBestUrl(true) ?? builtPooler ?? readEnv(...DIRECT_URI_KEYS)
+    : readEnv(...DIRECT_URI_KEYS);
 
   const uri = raw ?? buildFromParts(pooled);
-  return uri ? normalizePostgresUri(uri, pooled) : undefined;
+  if (!uri) {
+    return undefined;
+  }
+
+  const normalized = normalizePostgresUri(uri, pooled);
+  if (pooled) {
+    validatePostgresUriForVercel(normalized);
+  }
+  return normalized;
 }
 
 /** Sets DATABASE_URI for scripts that import @payload-config after dotenv. */

@@ -72,7 +72,7 @@ export function getPostgresPoolConfig(connectionString: string, isServerless: bo
     connectionString,
     max: isServerless ? 1 : 10,
     idleTimeoutMillis: isServerless ? 5000 : 30000,
-    connectionTimeoutMillis: isServerless ? 25000 : 30000,
+    connectionTimeoutMillis: isServerless ? 40000 : 30000,
     allowExitOnIdle: isServerless,
     keepAlive: true,
   };
