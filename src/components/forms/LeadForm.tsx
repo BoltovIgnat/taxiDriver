@@ -11,6 +11,7 @@ import type { CarType } from "@/types";
 const schema = z.object({
   name: z.string().min(2, "Введите имя"),
   phone: z.string().min(10, "Введите корректный телефон"),
+  city: z.string().optional(),
   consent: z.literal(true, { errorMap: () => ({ message: "Необходимо согласие" }) }),
 });
 
@@ -30,24 +31,31 @@ export function LeadForm({ city, carType, calculatedIncome, compact, className =
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { city: city ?? "" },
+  });
 
   const onSubmit = async (data: FormData) => {
     setStatus("loading");
+    const cityValue = data.city?.trim() || city || undefined;
+
     try {
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...data,
-          city,
+          name: data.name,
+          phone: data.phone,
+          consent: data.consent,
+          city: cityValue,
           carType,
           calculatedIncome,
           page: typeof window !== "undefined" ? window.location.pathname : "",
         }),
       });
       if (res.ok) {
-        reachGoal("form_submit", { city, carType, page: window.location.pathname });
+        reachGoal("form_submit", { city: cityValue, carType, page: window.location.pathname });
         window.location.href = "/spasibo";
       } else {
         setStatus("error");
@@ -79,6 +87,14 @@ export function LeadForm({ city, carType, calculatedIncome, compact, className =
           />
           {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
         </div>
+        <div className={compact ? "sm:col-span-2" : undefined}>
+          <input
+            {...register("city")}
+            placeholder="Город (необязательно)"
+            className="input-field"
+            autoComplete="address-level2"
+          />
+        </div>
       </div>
 
       <label className="flex items-start gap-2 text-sm text-muted">
@@ -97,7 +113,7 @@ export function LeadForm({ city, carType, calculatedIncome, compact, className =
       </button>
 
       {status === "error" && (
-        <p className="text-sm text-red-600">Ошибка отправки. Позвоните нам или напишите в WhatsApp.</p>
+        <p className="text-sm text-red-600">Ошибка отправки. Попробуйте ещё раз или перезвоните нам.</p>
       )}
     </form>
   );
