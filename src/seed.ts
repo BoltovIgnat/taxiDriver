@@ -2,11 +2,17 @@ import { config as loadEnv } from "dotenv";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 
+import { normalizePostgresUri } from "./lib/db/normalizePostgresUri.js";
+
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 loadEnv({ path: resolve(rootDir, ".env.local"), override: true });
 loadEnv({ path: resolve(rootDir, ".env") });
 
-// Tables are created by push-schema; skip slow schema sync during seed.
+const dbUri = process.env.DATABASE_URI_UNPOOLED || process.env.DATABASE_URI;
+if (dbUri) {
+  process.env.DATABASE_URI = normalizePostgresUri(dbUri);
+}
+
 process.env.NODE_ENV = "production";
 
 const { default: configPromise } = await import("@payload-config");
@@ -48,5 +54,4 @@ if (articles.totalDocs === 0) {
   console.log(`Articles already exist (${articles.totalDocs})`);
 }
 
-await payload.db.destroy?.();
 process.exit(0);

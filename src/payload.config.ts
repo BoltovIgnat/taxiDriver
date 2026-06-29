@@ -8,11 +8,13 @@ import sharp from "sharp";
 
 import { Articles } from "./collections/Articles.js";
 import { Users } from "./collections/Users.js";
+import { normalizePostgresUri } from "./lib/db/normalizePostgresUri.js";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
-const databaseUri = process.env.DATABASE_URI?.trim();
+const rawDatabaseUri = process.env.DATABASE_URI?.trim();
+const databaseUri = rawDatabaseUri ? normalizePostgresUri(rawDatabaseUri) : undefined;
 const isPostgres =
   !!databaseUri &&
   (databaseUri.startsWith("postgres://") || databaseUri.startsWith("postgresql://"));
