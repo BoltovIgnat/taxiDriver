@@ -9,7 +9,10 @@ import sharp from "sharp";
 
 import { Articles } from "./collections/Articles.js";
 import { Users } from "./collections/Users.js";
-import { normalizePostgresUri } from "./lib/db/normalizePostgresUri.js";
+import {
+  getPostgresPoolConfig,
+  normalizePostgresUri,
+} from "./lib/db/normalizePostgresUri.js";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -20,12 +23,18 @@ const isPostgres =
   !!databaseUri &&
   (databaseUri.startsWith("postgres://") || databaseUri.startsWith("postgresql://"));
 
+const isProduction = process.env.NODE_ENV === "production";
+
 if (process.env.VERCEL && !isPostgres) {
-  throw new Error("DATABASE_URI (Postgres) is required on Vercel.");
+  throw new Error("DATABASE_URI (Postgres pooled URL) is required on Vercel.");
 }
 
 if (process.env.VERCEL && !process.env.PAYLOAD_SECRET?.trim()) {
   throw new Error("PAYLOAD_SECRET is required on Vercel.");
+}
+
+if (isProduction && !isPostgres) {
+  throw new Error("DATABASE_URI (Postgres) is required in production.");
 }
 
 const isServerless = Boolean(process.env.VERCEL);
@@ -33,29 +42,6 @@ const isServerless = Boolean(process.env.VERCEL);
 const emailFromAddress =
   process.env.EMAIL_FROM || process.env.PAYLOAD_ADMIN_EMAIL || "noreply@example.com";
 const emailFromName = process.env.EMAIL_FROM_NAME || "Таксопарк";
-
-const email = await (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS
-  ? nodemailerAdapter({
-      defaultFromAddress: emailFromAddress,
-      defaultFromName: emailFromName,
-      transportOptions: {
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT || 587),
-        secure: process.env.SMTP_SECURE === "true",
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        },
-      },
-    })
-  : nodemailerAdapter({
-      defaultFromAddress: emailFromAddress,
-      defaultFromName: emailFromName,
-      skipVerify: true,
-      transportOptions: {
-        json: true,
-      } as import("nodemailer/lib/smtp-connection/index.js").Options,
-    }));
 
 export default buildConfig({
   admin: {
@@ -76,12 +62,7 @@ export default buildConfig({
   },
   db: isPostgres
     ? postgresAdapter({
-        pool: {
-          connectionString: databaseUri,
-          max: isServerless ? 1 : 10,
-          idleTimeoutMillis: isServerless ? 10000 : 30000,
-          connectionTimeoutMillis: isServerless ? 60000 : 30000,
-        },
+        pool: getPostgresPoolConfig(databaseUri!, isServerless),
         migrationDir: path.resolve(dirname, "migrations"),
         push: false,
       })
@@ -91,6 +72,13 @@ export default buildConfig({
         },
         push: true,
       }),
-  email,
+  email: nodemailerAdapter({
+    defaultFromAddress: emailFromAddress,
+    defaultFromName: emailFromName,
+    skipVerify: true,
+    transportOptions: {
+      json: true,
+    } as import("nodemailer/lib/smtp-connection/index.js").Options,
+  }),
   sharp,
 });
