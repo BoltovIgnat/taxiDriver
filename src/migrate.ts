@@ -1,5 +1,4 @@
 process.env.PAYLOAD_MIGRATING = "true";
-process.env.NODE_ENV = "production";
 
 import { config as loadEnv } from "dotenv";
 import { resolve, dirname } from "path";

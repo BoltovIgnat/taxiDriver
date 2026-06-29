@@ -13,8 +13,6 @@ if (dbUri) {
   process.env.DATABASE_URI = normalizePostgresUri(dbUri);
 }
 
-process.env.NODE_ENV = "production";
-
 const { default: configPromise } = await import("@payload-config");
 const { getPayload } = await import("payload");
 const { default: articlesSeed } = await import("../data/articles.json", {
