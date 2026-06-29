@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
 import { Onest } from "next/font/google";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { FloatingCTA } from "@/components/layout/FloatingCTA";
-import { YandexMetrika } from "@/components/analytics/YandexMetrika";
-import { siteConfig } from "@/config/site";
 import "./globals.css";
 
 const onest = Onest({
@@ -15,11 +10,9 @@ const onest = Onest({
 
 export const metadata: Metadata = {
   title: {
-    default: `${siteConfig.name} — работа водителем такси`,
-    template: `%s | ${siteConfig.name}`,
+    default: "Таксопарк Партнёр — работа водителем такси",
+    template: "%s | Таксопарк Партнёр",
   },
-  description: siteConfig.description,
-  metadataBase: new URL(siteConfig.url),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -31,15 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className={`${onest.variable} font-sans antialiased`}>
-        <div className="relative z-[1] flex min-h-[100dvh] flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
-        <FloatingCTA />
-        <YandexMetrika />
-      </body>
+      <body className={`${onest.variable} font-sans antialiased`}>{children}</body>
     </html>
   );
 }

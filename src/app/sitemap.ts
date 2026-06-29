@@ -1,10 +1,13 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 import { cities } from "@/data/cities";
-import { articles } from "@/data/articles";
+import { getArticles } from "@/lib/articles/store";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteConfig.url;
+  const articles = await getArticles();
 
   const staticPages = [
     "",

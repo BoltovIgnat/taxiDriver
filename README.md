@@ -32,6 +32,23 @@ npm run dev
 - `phone_click` — клик по телефону
 - `messenger_click` — WhatsApp / Telegram
 
+## Админка
+
+URL: `/admin` (логин: `/admin/login`)
+
+В `.env.local` задайте пароль:
+
+```env
+ADMIN_PASSWORD=ваш-пароль
+```
+
+Функции:
+- список статей блога
+- добавление новой статьи (заголовок, slug, описание, текст)
+- удаление статьи
+
+Статьи хранятся в `data/articles.json`. На Vercel файловая запись не сохраняется между деплоями — для production используйте VPS или подключите БД.
+
 ## Деплой на Vercel
 
 ```bash
