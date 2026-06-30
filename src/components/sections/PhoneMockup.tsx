@@ -14,9 +14,9 @@ const WEEK_DAYS: WeekDay[] = [
   { label: "Вс", amount: 6_400, today: true },
 ];
 
-const WEEK_TOTAL = WEEK_DAYS.reduce((sum, day) => sum + day.amount, 0);
+const WEEK_TOTAL = 43_080;
 const WEEK_MAX = Math.max(...WEEK_DAYS.map((day) => day.amount));
-const CHART_HEIGHT_PX = 48;
+const CHART_HEIGHT_PX = 44;
 
 function formatRub(amount: number): string {
   return `${new Intl.NumberFormat("ru-RU").format(amount)} ₽`;
@@ -101,35 +101,34 @@ export function PhoneMockup() {
               <p className="mt-1 text-base font-extrabold tabular-nums leading-none text-white">
                 {formatRub(WEEK_TOTAL)}
               </p>
-              <div className="mt-3 flex items-end justify-between gap-0.5">
+              <div className="mt-3 flex h-12 items-end justify-between gap-1">
                 {WEEK_DAYS.map((day) => {
                   const barHeight = Math.max(
-                    10,
+                    14,
                     Math.round((day.amount / WEEK_MAX) * CHART_HEIGHT_PX),
                   );
                   return (
                     <div
                       key={day.label}
-                      className="flex min-w-0 flex-1 flex-col items-center gap-1"
+                      className="flex flex-1 flex-col items-center gap-1"
                     >
                       <div
-                        className="relative w-full"
-                        style={{ height: CHART_HEIGHT_PX }}
-                      >
-                        <div
-                          className={
-                            day.today
-                              ? "absolute bottom-0 left-0 right-0 rounded-t bg-accent shadow-[0_0_10px_rgba(255,221,45,0.35)]"
-                              : "absolute bottom-0 left-0 right-0 rounded-t bg-accent/55"
-                          }
-                          style={{ height: barHeight }}
-                          title={`${formatRub(day.amount)}`}
-                        />
-                      </div>
+                        className="w-full rounded-t-[3px]"
+                        style={{
+                          height: barHeight,
+                          backgroundColor: day.today
+                            ? "#ffdd2d"
+                            : "rgba(255, 221, 45, 0.5)",
+                          boxShadow: day.today
+                            ? "0 0 10px rgba(255, 221, 45, 0.4)"
+                            : undefined,
+                        }}
+                        title={formatRub(day.amount)}
+                      />
                       <span
                         className={
                           day.today
-                            ? "text-[8px] font-bold text-accent"
+                            ? "text-[8px] font-bold text-[#ffdd2d]"
                             : "text-[8px] text-gray-500"
                         }
                       >
