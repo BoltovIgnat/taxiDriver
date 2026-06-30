@@ -3,21 +3,30 @@ import { imageFallbacks, images } from "@/config/images";
 
 type WeekDay = { label: string; amount: number; today?: boolean };
 
+/** Смена сегодня (Вс) = 6 400 ₽; остальные дни ~5–7 тыс. → итого за неделю */
 const WEEK_DAYS: WeekDay[] = [
-  { label: "Пн", amount: 4_820 },
-  { label: "Вт", amount: 6_120 },
-  { label: "Ср", amount: 5_640 },
-  { label: "Чт", amount: 5_980 },
-  { label: "Пт", amount: 7_240 },
-  { label: "Сб", amount: 6_880 },
+  { label: "Пн", amount: 5_200 },
+  { label: "Вт", amount: 6_100 },
+  { label: "Ср", amount: 5_800 },
+  { label: "Чт", amount: 6_300 },
+  { label: "Пт", amount: 7_100 },
+  { label: "Сб", amount: 6_180 },
   { label: "Вс", amount: 6_400, today: true },
 ];
 
 const WEEK_TOTAL = WEEK_DAYS.reduce((sum, day) => sum + day.amount, 0);
 const WEEK_MAX = Math.max(...WEEK_DAYS.map((day) => day.amount));
+const CHART_HEIGHT_PX = 48;
 
-function formatCompactRub(amount: number): string {
-  return new Intl.NumberFormat("ru-RU").format(amount);
+function formatRub(amount: number): string {
+  return `${new Intl.NumberFormat("ru-RU").format(amount)} ₽`;
+}
+
+function formatRubShort(amount: number): string {
+  if (amount >= 100_000) {
+    return `${Math.round(amount / 1000)} тыс ₽`;
+  }
+  return formatRub(amount);
 }
 
 export function PhoneMockup() {
@@ -32,88 +41,96 @@ export function PhoneMockup() {
           </div>
 
           <div className="px-4 pb-7 pt-1 sm:px-5">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <div className="relative h-11 w-11 overflow-hidden rounded-full ring-2 ring-accent">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex min-w-0 items-center gap-2.5">
+                <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full ring-2 ring-accent">
                   <SiteImage
                     src={images.home.driverPortrait}
                     fallback={imageFallbacks.home.driverPortrait}
                     alt="Водитель"
                     fill
-                    sizes="44px"
+                    sizes="40px"
                   />
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-white">Алексей</p>
-                  <p className="flex items-center gap-1 text-xs text-gray-400">
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-white">Алексей</p>
+                  <p className="flex items-center gap-1 text-[11px] text-gray-400">
                     <i className="ri-star-fill text-accent" aria-hidden />
                     4.98 · Pro
                   </p>
                 </div>
               </div>
-              <span className="rounded-full bg-green-500/15 px-2.5 py-1 text-[10px] font-semibold text-green-400">
+              <span className="shrink-0 rounded-full bg-green-500/15 px-2 py-0.5 text-[9px] font-semibold text-green-400">
                 На линии
               </span>
             </div>
 
-            <div className="mt-5 rounded-2xl bg-[#1a1a1a] p-4 ring-1 ring-white/5">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+            <div className="mt-4 rounded-2xl bg-[#1a1a1a] p-3.5 ring-1 ring-white/5">
+              <p className="text-[9px] font-semibold uppercase tracking-wider text-gray-500">
                 За смену
               </p>
-              <p className="mt-1 text-[2rem] font-extrabold leading-none tabular-nums tracking-tight text-accent sm:text-[2.125rem]">
+              <p className="mt-1 text-[1.75rem] font-extrabold leading-none tabular-nums tracking-tight text-accent">
                 6 400 ₽
               </p>
-              <p className="mt-2 text-xs text-green-400">+12% к вчера</p>
+              <p className="mt-1.5 text-[11px] text-green-400">+12% к вчера</p>
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-2.5">
-              <div className="rounded-2xl bg-[#1a1a1a] p-3.5 ring-1 ring-white/5">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-gray-500">
+            <div className="mt-2.5 grid grid-cols-2 gap-2">
+              <div className="min-w-0 rounded-2xl bg-[#1a1a1a] p-3 ring-1 ring-white/5">
+                <p className="text-[9px] font-medium uppercase leading-tight tracking-wide text-gray-500">
                   Этот месяц
                 </p>
-                <p className="mt-1.5 whitespace-nowrap text-base font-extrabold tabular-nums leading-tight text-white">
-                  87 650 ₽
+                <p className="mt-1 text-[13px] font-extrabold tabular-nums leading-tight text-white">
+                  {formatRubShort(87_650)}
                 </p>
               </div>
-              <div className="rounded-2xl bg-accent/10 p-3.5 ring-1 ring-accent/40">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-accent/80">
-                  Прошлый месяц
+              <div className="min-w-0 rounded-2xl bg-accent/10 p-3 ring-1 ring-accent/40">
+                <p className="text-[9px] font-medium uppercase leading-tight tracking-wide text-accent/80">
+                  Пр. месяц
                 </p>
-                <p className="mt-1.5 whitespace-nowrap text-base font-extrabold tabular-nums leading-tight text-accent">
-                  150 240 ₽
+                <p className="mt-1 text-[13px] font-extrabold tabular-nums leading-tight text-accent">
+                  {formatRubShort(150_240)}
                 </p>
               </div>
             </div>
 
-            <div className="mt-4 rounded-2xl bg-[#1a1a1a] p-3.5 ring-1 ring-white/5">
-              <div className="mb-3 flex items-baseline justify-between gap-2">
-                <p className="shrink-0 text-[10px] font-semibold uppercase tracking-wider text-gray-500">
-                  Заработок за неделю
-                </p>
-                <p className="whitespace-nowrap text-sm font-extrabold tabular-nums text-white sm:text-base">
-                  {formatCompactRub(WEEK_TOTAL)} ₽
-                </p>
-              </div>
-              <div className="flex items-end gap-1">
+            <div className="mt-3 rounded-2xl bg-[#1a1a1a] p-3 ring-1 ring-white/5">
+              <p className="text-[9px] font-semibold uppercase tracking-wider text-gray-500">
+                Заработок за неделю
+              </p>
+              <p className="mt-1 text-base font-extrabold tabular-nums leading-none text-white">
+                {formatRub(WEEK_TOTAL)}
+              </p>
+              <div className="mt-3 flex items-end justify-between gap-0.5">
                 {WEEK_DAYS.map((day) => {
-                  const height = Math.round((day.amount / WEEK_MAX) * 100);
+                  const barHeight = Math.max(
+                    10,
+                    Math.round((day.amount / WEEK_MAX) * CHART_HEIGHT_PX),
+                  );
                   return (
-                    <div key={day.label} className="flex flex-1 flex-col items-center gap-1.5">
-                      <div className="flex h-14 w-full items-end">
+                    <div
+                      key={day.label}
+                      className="flex min-w-0 flex-1 flex-col items-center gap-1"
+                    >
+                      <div
+                        className="relative w-full"
+                        style={{ height: CHART_HEIGHT_PX }}
+                      >
                         <div
                           className={
                             day.today
-                              ? "w-full rounded-t-md bg-accent shadow-[0_0_12px_rgba(255,221,45,0.35)]"
-                              : "w-full rounded-t-md bg-accent/70"
+                              ? "absolute bottom-0 left-0 right-0 rounded-t bg-accent shadow-[0_0_10px_rgba(255,221,45,0.35)]"
+                              : "absolute bottom-0 left-0 right-0 rounded-t bg-accent/55"
                           }
-                          style={{ height: `${height}%` }}
+                          style={{ height: barHeight }}
+                          title={`${formatRub(day.amount)}`}
                         />
                       </div>
                       <span
                         className={
                           day.today
-                            ? "text-[9px] font-bold text-accent"
-                            : "text-[9px] text-gray-500"
+                            ? "text-[8px] font-bold text-accent"
+                            : "text-[8px] text-gray-500"
                         }
                       >
                         {day.label}
@@ -124,14 +141,14 @@ export function PhoneMockup() {
               </div>
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-2.5">
-              <div className="rounded-xl bg-[#1a1a1a] p-3 text-center ring-1 ring-white/5">
-                <p className="text-lg font-bold tabular-nums text-white">18</p>
-                <p className="text-[10px] text-gray-500">заказов за смену</p>
+            <div className="mt-2.5 grid grid-cols-2 gap-2">
+              <div className="rounded-xl bg-[#1a1a1a] p-2.5 text-center ring-1 ring-white/5">
+                <p className="text-base font-bold tabular-nums text-white">18</p>
+                <p className="text-[9px] leading-tight text-gray-500">заказов за смену</p>
               </div>
-              <div className="rounded-xl bg-[#1a1a1a] p-3 text-center ring-1 ring-white/5">
-                <p className="text-lg font-bold tabular-nums text-white">7.2 ч</p>
-                <p className="text-[10px] text-gray-500">на линии</p>
+              <div className="rounded-xl bg-[#1a1a1a] p-2.5 text-center ring-1 ring-white/5">
+                <p className="text-base font-bold tabular-nums text-white">7.2 ч</p>
+                <p className="text-[9px] leading-tight text-gray-500">на линии</p>
               </div>
             </div>
           </div>
