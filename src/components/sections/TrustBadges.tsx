@@ -28,11 +28,11 @@ export function TrustStatsStrip() {
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-black text-lg text-accent">
                 <i className={item.icon} aria-hidden />
               </span>
-              <div className="min-w-0">
+              <div className="min-w-0 overflow-visible">
                 <p className="whitespace-nowrap text-sm font-bold leading-tight text-on-accent lg:text-[13px] xl:text-sm">
                   {item.title}
                 </p>
-                <p className="mt-0.5 text-xs leading-snug text-on-accent/70 sm:text-sm">
+                <p className="mt-0.5 whitespace-nowrap text-[10px] leading-tight text-on-accent/70 lg:text-[11px] xl:text-xs">
                   {item.text}
                 </p>
               </div>
