@@ -10,11 +10,7 @@ export function HomeHero() {
       <div className="container-main relative z-10">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <FadeIn>
-            <p className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-on-accent">
-              <i className="ri-flashlight-fill" aria-hidden />
-              Подключение за 1 день
-            </p>
-            <h1 className="mt-6 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.5rem]">
+            <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.5rem]">
               Зарабатывайте{" "}
               <span className="text-accent">от 120 000 ₽</span>{" "}
               в месяц водителем такси
@@ -76,7 +72,7 @@ export function HomeHero() {
               </div>
 
               {/* Мокап приложения */}
-              <div className="relative z-10 ml-auto w-[68%] pt-2 sm:w-[64%] sm:pt-4">
+              <div className="relative z-10 ml-auto w-[60%] pt-2 sm:w-[58%] sm:pt-4">
                 <PhoneMockup />
               </div>
             </div>

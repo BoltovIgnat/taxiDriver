@@ -22,7 +22,7 @@ function formatCompactRub(amount: number): string {
 
 export function PhoneMockup() {
   return (
-    <div className="relative mx-auto w-[272px] sm:w-[300px]">
+    <div className="relative mx-auto w-[248px] sm:w-[268px]">
       <div className="rounded-[2.75rem] bg-[#1a1a1a] p-3 shadow-[0_32px_64px_rgba(0,0,0,0.5)] ring-1 ring-white/10">
         <div className="overflow-hidden rounded-[2.25rem] bg-[#111]">
           <div className="flex items-center justify-between px-5 py-2.5 text-[10px] text-gray-500">
@@ -71,7 +71,7 @@ export function PhoneMockup() {
                 <p className="text-[10px] font-medium uppercase tracking-wide text-gray-500">
                   Этот месяц
                 </p>
-                <p className="mt-1.5 text-lg font-extrabold tabular-nums leading-tight text-white sm:text-xl">
+                <p className="mt-1.5 whitespace-nowrap text-base font-extrabold tabular-nums leading-tight text-white">
                   87 650 ₽
                 </p>
               </div>
@@ -79,18 +79,18 @@ export function PhoneMockup() {
                 <p className="text-[10px] font-medium uppercase tracking-wide text-accent/80">
                   Прошлый месяц
                 </p>
-                <p className="mt-1.5 text-lg font-extrabold tabular-nums leading-tight text-accent sm:text-xl">
+                <p className="mt-1.5 whitespace-nowrap text-base font-extrabold tabular-nums leading-tight text-accent">
                   150 240 ₽
                 </p>
               </div>
             </div>
 
             <div className="mt-4 rounded-2xl bg-[#1a1a1a] p-3.5 ring-1 ring-white/5">
-              <div className="mb-3 flex items-end justify-between gap-2">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+              <div className="mb-3 flex items-baseline justify-between gap-2">
+                <p className="shrink-0 text-[10px] font-semibold uppercase tracking-wider text-gray-500">
                   Заработок за неделю
                 </p>
-                <p className="text-base font-extrabold tabular-nums text-white">
+                <p className="whitespace-nowrap text-sm font-extrabold tabular-nums text-white sm:text-base">
                   {formatCompactRub(WEEK_TOTAL)} ₽
                 </p>
               </div>

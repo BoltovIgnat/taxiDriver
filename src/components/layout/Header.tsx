@@ -14,8 +14,8 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[#111]">
-        <div className="container-main flex h-16 items-center justify-between gap-4 md:h-[4.5rem] lg:max-w-[80%]">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#111]">
+        <div className="container-main flex h-16 items-center justify-between gap-4 md:h-[4.5rem] lg:max-w-[90%]">
           <Link
             href="/"
             className="flex items-center gap-2 text-base font-bold tracking-tight text-white md:text-lg"
@@ -50,7 +50,7 @@ export function Header() {
             >
               {siteConfig.phoneDisplay}
             </a>
-            <Button href="/#calculator" className="!px-5 !py-2.5 !text-sm !font-bold" showArrow>
+            <Button id="header-cta" href="/#calculator" className="!px-5 !py-2.5 !text-sm !font-bold" showArrow>
               Стать водителем
             </Button>
           </div>

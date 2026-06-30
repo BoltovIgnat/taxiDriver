@@ -6,6 +6,7 @@ type Variant = "primary" | "secondary" | "ghost";
 interface ButtonProps {
   children: React.ReactNode;
   href?: string;
+  id?: string;
   variant?: Variant;
   className?: string;
   type?: "button" | "submit";
@@ -25,6 +26,7 @@ const variants: Record<Variant, string> = {
 export function Button({
   children,
   href,
+  id,
   variant = "primary",
   className,
   type = "button",
@@ -54,14 +56,14 @@ export function Button({
 
   if (href) {
     return (
-      <Link href={href} className={classes}>
+      <Link id={id} href={href} className={classes}>
         {content}
       </Link>
     );
   }
 
   return (
-    <button type={type} className={classes} disabled={disabled} onClick={onClick}>
+    <button id={id} type={type} className={classes} disabled={disabled} onClick={onClick}>
       {content}
     </button>
   );
