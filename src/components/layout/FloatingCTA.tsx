@@ -19,7 +19,6 @@ function rectsOverlap(a: DOMRect, b: DOMRect, padding = 12): boolean {
 export function FloatingCTA() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [hidden, setHidden] = useState(false);
-  const [desktopAligned, setDesktopAligned] = useState(false);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -27,29 +26,8 @@ export function FloatingCTA() {
 
     let frame = 0;
 
-    const alignUnderHeaderCta = () => {
-      const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-      const headerCta = document.getElementById("header-cta");
-
-      if (!isDesktop || !headerCta) {
-        root.style.top = "";
-        root.style.right = "";
-        root.style.left = "";
-        setDesktopAligned(false);
-        return;
-      }
-
-      const rect = headerCta.getBoundingClientRect();
-      root.style.top = `${rect.bottom + 8}px`;
-      root.style.right = `${window.innerWidth - rect.right}px`;
-      root.style.left = "auto";
-      setDesktopAligned(true);
-    };
-
     const checkOverlap = () => {
       frame = 0;
-      alignUnderHeaderCta();
-
       const buttonRect = root.getBoundingClientRect();
       const zoneOverlap = HIDE_ZONES.some((selector) => {
         const zone = document.querySelector(selector);
@@ -81,7 +59,6 @@ export function FloatingCTA() {
       ref={rootRef}
       className={cn(
         "fixed bottom-5 right-5 z-40 transition-all duration-300 ease-premium sm:bottom-6 sm:right-6",
-        desktopAligned && "bottom-auto sm:bottom-auto",
         hidden && "pointer-events-none translate-y-3 scale-95 opacity-0",
       )}
     >
