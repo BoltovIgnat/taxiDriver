@@ -37,7 +37,7 @@ export const images = {
     hero: "/images/kak-nachat/hero.jpg",
   },
   tarify: {
-    /** Wikimedia: Yellow cab Nashville (CC BY-SA) */
+    /** Wikimedia: Yandex.Taxi, Москва (CC BY 2.0) */
     hero: "/images/tarify/hero.jpg",
     svoeAvto: "/images/tarify/svoe-avto.png",
     arenda: "/images/tarify/arenda.png",
