@@ -11,11 +11,21 @@ interface FadeInProps {
 
 export function FadeIn({ children, className, delay = 0 }: FadeInProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+      setVisible(true);
+      return;
+    }
+
     const el = ref.current;
     if (!el) return;
+
+    setVisible(false);
+    setAnimate(true);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -35,11 +45,12 @@ export function FadeIn({ children, className, delay = 0 }: FadeInProps) {
     <div
       ref={ref}
       className={cn(
-        "transition-all duration-700 ease-premium will-change-transform",
-        visible ? "translate-y-0 opacity-100 blur-0" : "translate-y-8 opacity-0 blur-[2px]",
+        "fade-in-content",
+        animate && "transition-all duration-700 ease-premium will-change-transform",
+        animate && (visible ? "translate-y-0 opacity-100 blur-0" : "translate-y-8 opacity-0 blur-[2px]"),
         className,
       )}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={animate ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}
     </div>

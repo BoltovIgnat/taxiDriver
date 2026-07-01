@@ -73,7 +73,7 @@ export function HomeHero() {
               </div>
 
               {/* Мокап приложения */}
-              <div className="relative z-10 ml-auto w-[60%] pt-2 sm:w-[58%] sm:pt-4">
+              <div className="relative z-10 ml-auto w-[60%] pt-2 sm:w-[58%] sm:pt-4" data-floating-cta-hide>
                 <PhoneMockup />
               </div>
             </div>

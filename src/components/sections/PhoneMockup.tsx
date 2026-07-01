@@ -1,6 +1,6 @@
 import { SiteImage } from "@/components/ui/SiteImage";
 import { imageFallbacks, images } from "@/config/images";
-import { formatRub, formatRubShort, OFFER } from "@/data/siteCopy";
+import { formatRub, OFFER } from "@/data/siteCopy";
 
 const { phoneMockup: mockup } = OFFER;
 const WEEK_MAX = Math.max(...mockup.weekDays.map((day) => day.amount));
@@ -57,16 +57,16 @@ export function PhoneMockup() {
                 <p className="text-[9px] font-medium uppercase leading-tight tracking-wide text-gray-500">
                   Этот месяц
                 </p>
-                <p className="mt-1 text-[13px] font-extrabold tabular-nums leading-tight text-white">
-                  {formatRubShort(mockup.monthCurrent)}
+                <p className="mt-1 text-[11px] font-extrabold tabular-nums leading-tight text-white sm:text-[13px]">
+                  {formatRub(mockup.monthCurrent)}
                 </p>
               </div>
               <div className="min-w-0 rounded-2xl bg-accent/10 p-3 ring-1 ring-accent/40">
                 <p className="text-[9px] font-medium uppercase leading-tight tracking-wide text-accent/80">
                   Пр. месяц
                 </p>
-                <p className="mt-1 text-[13px] font-extrabold tabular-nums leading-tight text-accent">
-                  {formatRubShort(mockup.monthPrevious)}
+                <p className="mt-1 text-[11px] font-extrabold tabular-nums leading-tight text-accent sm:text-[13px]">
+                  {formatRub(mockup.monthPrevious)}
                 </p>
               </div>
             </div>

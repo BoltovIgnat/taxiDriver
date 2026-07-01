@@ -58,6 +58,7 @@ export function IncomeCalculator({
   return (
     <section
       id={id}
+      data-floating-cta-hide
       className={cn(
         "section-padding",
         prominent ? "bg-[#111] text-white" : "bg-bg",
@@ -88,6 +89,8 @@ export function IncomeCalculator({
                       Город
                     </label>
                     <select
+                      id="calc-city"
+                      aria-label="Выберите город для расчёта дохода"
                       value={citySlug}
                       onChange={(e) => { setCitySlug(e.target.value); trackInteraction(); }}
                       className={cn("input-field", prominent && "!bg-[#111] !text-white !ring-white/10")}
@@ -134,6 +137,10 @@ export function IncomeCalculator({
                     min={4}
                     max={12}
                     value={hoursPerDay}
+                    aria-label="Часов в день на линии"
+                    aria-valuemin={4}
+                    aria-valuemax={12}
+                    aria-valuenow={hoursPerDay}
                     onChange={(e) => { setHoursPerDay(Number(e.target.value)); trackInteraction(); }}
                     className="w-full"
                   />
@@ -149,6 +156,10 @@ export function IncomeCalculator({
                     min={5}
                     max={7}
                     value={daysPerWeek}
+                    aria-label="Дней в неделю на линии"
+                    aria-valuemin={5}
+                    aria-valuemax={7}
+                    aria-valuenow={daysPerWeek}
                     onChange={(e) => { setDaysPerWeek(Number(e.target.value)); trackInteraction(); }}
                     className="w-full"
                   />

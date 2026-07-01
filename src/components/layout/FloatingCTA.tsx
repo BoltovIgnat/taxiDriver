@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { useMobileMenu } from "@/components/layout/MobileMenuContext";
 import { cn } from "@/lib/utils";
 
 const HIDE_ZONES = ["#trust-stats-strip", "[data-floating-cta-hide]"];
@@ -18,11 +20,15 @@ function rectsOverlap(a: DOMRect, b: DOMRect, padding = 12): boolean {
 
 export function FloatingCTA() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [hidden, setHidden] = useState(false);
+  const pathname = usePathname();
+  const { open: menuOpen } = useMobileMenu();
+  const [zoneHidden, setZoneHidden] = useState(false);
+
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const root = rootRef.current;
-    if (!root) return;
+    if (!root || !isHome || menuOpen) return;
 
     let frame = 0;
 
@@ -35,7 +41,7 @@ export function FloatingCTA() {
         return rectsOverlap(buttonRect, zone.getBoundingClientRect());
       });
 
-      setHidden(zoneOverlap);
+      setZoneHidden(zoneOverlap);
     };
 
     const scheduleCheck = () => {
@@ -52,13 +58,17 @@ export function FloatingCTA() {
       window.removeEventListener("scroll", scheduleCheck);
       window.removeEventListener("resize", scheduleCheck);
     };
-  }, []);
+  }, [isHome, menuOpen]);
+
+  const hidden = menuOpen || zoneHidden || !isHome;
+
+  if (!isHome) return null;
 
   return (
     <div
       ref={rootRef}
       className={cn(
-        "fixed bottom-5 right-5 z-40 transition-all duration-300 ease-premium sm:bottom-6 sm:right-6",
+        "fixed bottom-5 right-5 z-40 transition-all duration-300 ease-premium sm:bottom-6 sm:right-6 lg:hidden",
         hidden && "pointer-events-none translate-y-3 scale-95 opacity-0",
       )}
     >

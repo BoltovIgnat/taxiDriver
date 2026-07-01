@@ -43,19 +43,22 @@ export default function HomePage() {
               </FadeIn>
             ))}
           </div>
-          <div className="mt-10 text-center">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <Button href="/goroda" variant="secondary">
+              Все 26 городов
+            </Button>
             <Button href="#calculator" className="!px-8 !py-4 !text-base !font-bold">
               Стать водителем
             </Button>
           </div>
         </div>
       </section>
-      <CityGrid cities={cities} title="Все города" />
+      <CityGrid cities={cities.slice(0, 24)} title="Города" />
       <ReviewsSection reviews={reviews.slice(0, 3)} />
       <FAQSection items={faqItems.slice(0, 5)} />
-      <section className="bg-[#111] py-16 md:py-24">
+      <section className="bg-[#111] py-10 md:py-12 lg:py-12">
         <div className="container-main text-center">
-          <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
             Готовы выйти на линию?
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-lg text-gray-400">

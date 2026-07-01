@@ -5,6 +5,9 @@ import { getArticles } from "@/lib/articles/store";
 
 export const dynamic = "force-dynamic";
 
+/** Дата последнего обновления статических страниц (деплой / правки контента) */
+const STATIC_CONTENT_UPDATED = new Date("2026-06-29");
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteConfig.url;
   const articles = await getArticles();
@@ -29,13 +32,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...staticPages.map((path) => ({
       url: `${base}${path}`,
-      lastModified: new Date(),
+      lastModified: STATIC_CONTENT_UPDATED,
       changeFrequency: "weekly" as const,
       priority: path === "" ? 1 : 0.8,
     })),
     ...cities.map((city) => ({
       url: `${base}/taxi/${city.slug}`,
-      lastModified: new Date(),
+      lastModified: STATIC_CONTENT_UPDATED,
       changeFrequency: "weekly" as const,
       priority: 0.9,
     })),

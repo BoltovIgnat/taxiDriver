@@ -42,10 +42,12 @@ function ReviewAvatar({ review }: { review: Review }) {
 export function ReviewsSection({
   reviews,
   title = "Отзывы водителей",
+  subtitle = "Примеры историй водителей — цифры и условия могут отличаться в зависимости от города и графика.",
   showHeader = true,
 }: {
   reviews: Review[];
   title?: string;
+  subtitle?: string;
   showHeader?: boolean;
 }) {
   return (
@@ -53,7 +55,7 @@ export function ReviewsSection({
       <div className="container-main">
         {showHeader && (
           <FadeIn>
-            <SectionHeader eyebrow="Отзывы" title={title} />
+            <SectionHeader eyebrow="Отзывы" title={title} subtitle={subtitle} />
           </FadeIn>
         )}
         <div className={showHeader ? "mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3" : "grid gap-6 md:grid-cols-2 lg:grid-cols-3"}>

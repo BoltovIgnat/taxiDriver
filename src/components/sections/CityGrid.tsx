@@ -15,11 +15,11 @@ export function CityGrid({ cities, title }: { cities: City[]; title?: string }) 
             <SectionHeader eyebrow="География" title={title} align="left" className="mb-12" />
           </FadeIn>
         )}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="-mx-2 flex flex-wrap justify-center gap-y-4">
           {cities.map((city, i) => {
             const cardImage = getCityCardImage(city.slug);
             return (
-            <FadeIn key={city.slug} delay={i * 40}>
+            <FadeIn key={city.slug} delay={i * 40} className="w-full px-2 sm:w-1/2 lg:w-1/3 xl:w-1/4">
               <Link href={`/taxi/${city.slug}`} className="group block">
                 <BezelCard padding="sm" className="h-full transition-transform duration-500 ease-premium group-hover:-translate-y-1">
                   <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-[calc(2rem-0.75rem)]">
