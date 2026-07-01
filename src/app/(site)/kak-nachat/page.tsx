@@ -5,6 +5,7 @@ import { BezelCard } from "@/components/ui/BezelCard";
 import { Button } from "@/components/ui/Button";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { imageFallbacks, images } from "@/config/images";
+import { COPY } from "@/data/siteCopy";
 
 export const metadata: Metadata = {
   title: "Как начать работать водителем такси",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 
 const steps = [
   { icon: "ri-edit-line", title: "Оставьте заявку", text: "Заполните короткую форму на сайте — имя и телефон. Менеджер перезвонит за 15 минут." },
-  { icon: "ri-file-list-3-line", title: "Подготовьте документы", text: "Пасport, водительское удостоверение (стаж от 3 лет), СНИЛС, ИНН. Для своего авто — ПТС, СТС, ОСАГО." },
+  { icon: "ri-file-list-3-line", title: "Подготовьте документы", text: `${COPY.passportList}. ${COPY.passportListOwnCar}.` },
   { icon: "ri-government-line", title: "Оформите самозанятость", text: "Зарегистрируйтесь в приложении «Мой налог» — мы поможем, это занимает 10 минут." },
   { icon: "ri-car-line", title: "Получите авто", text: "Работайте на своём или возьмите в аренду без залога. Выберем машину под ваш город." },
   { icon: "ri-smartphone-line", title: "Пройдите подключение", text: "Установим приложение агрегатора, оформим лицензию такси, проведём короткий инструктаж." },

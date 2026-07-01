@@ -12,7 +12,8 @@
     "lint": "next lint",
     "generate:importmap": "payload generate:importmap",
     "generate:types": "payload generate:types",
-    "seed": "tsx src/seed.ts"
+    "seed": "tsx src/seed.ts",
+    "check:copy": "node scripts/check-homoglyphs.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

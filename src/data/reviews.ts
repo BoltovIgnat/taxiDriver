@@ -1,4 +1,5 @@
 import type { Review } from "@/types";
+import { REVIEW_COPY } from "@/data/siteCopy";
 
 export const reviews: Review[] = [
   {
@@ -6,7 +7,7 @@ export const reviews: Review[] = [
     name: "Алексей М.",
     city: "Москва",
     rating: 5,
-    text: "Подключился за один день. Взял авто в аренду без залога — Kia Rio, 1 800 ₽ в сутки. За первый месяц вышло около 145 000 ₽ чистыми при графике 6/1. Выплаты каждый вечер на карту, без задержек.",
+    text: REVIEW_COPY.alexeyMoscow,
     date: "2025-11-12",
   },
   {
@@ -36,7 +37,7 @@ export const reviews: Review[] = [
   {
     id: "5",
     name: "Андрей Л.",
-    city: "Кrasnodar",
+    city: "Краснодар",
     rating: 5,
     text: "Летом в Сочи переключился — доход вырос до 150 тысяч. Парк помог с переоформлением документов за один день.",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",

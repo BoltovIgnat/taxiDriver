@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { PhoneMockup } from "@/components/sections/PhoneMockup";
 import { SiteImage } from "@/components/ui/SiteImage";
 import { imageFallbacks, images } from "@/config/images";
+import { formatRub, OFFER } from "@/data/siteCopy";
 
 export function HomeHero() {
   return (
@@ -11,9 +12,9 @@ export function HomeHero() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <FadeIn>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.5rem]">
-              Зарабатывайте{" "}
-              <span className="text-accent">от 120 000 ₽</span>{" "}
-              в месяц водителем такси
+              <span>Зарабатывайте </span>
+              <span className="text-accent">от {formatRub(OFFER.heroFromMonthly)}</span>
+              <span> в месяц водителем такси</span>
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-gray-400 lg:text-xl">
               Выплаты каждый день на карту. Аренда без залога или работа на своём авто — в Москве и других городах России.

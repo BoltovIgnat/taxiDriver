@@ -1,33 +1,10 @@
 import { SiteImage } from "@/components/ui/SiteImage";
 import { imageFallbacks, images } from "@/config/images";
+import { formatRub, formatRubShort, OFFER } from "@/data/siteCopy";
 
-type WeekDay = { label: string; amount: number; today?: boolean };
-
-/** Смена сегодня (Вс) = 6 400 ₽; остальные дни ~5–7 тыс. → итого за неделю */
-const WEEK_DAYS: WeekDay[] = [
-  { label: "Пн", amount: 5_200 },
-  { label: "Вт", amount: 6_100 },
-  { label: "Ср", amount: 5_800 },
-  { label: "Чт", amount: 6_300 },
-  { label: "Пт", amount: 7_100 },
-  { label: "Сб", amount: 6_180 },
-  { label: "Вс", amount: 6_400, today: true },
-];
-
-const WEEK_TOTAL = 43_080;
-const WEEK_MAX = Math.max(...WEEK_DAYS.map((day) => day.amount));
+const { phoneMockup: mockup } = OFFER;
+const WEEK_MAX = Math.max(...mockup.weekDays.map((day) => day.amount));
 const CHART_HEIGHT_PX = 44;
-
-function formatRub(amount: number): string {
-  return `${new Intl.NumberFormat("ru-RU").format(amount)} ₽`;
-}
-
-function formatRubShort(amount: number): string {
-  if (amount >= 100_000) {
-    return `${Math.round(amount / 1000)} тыс ₽`;
-  }
-  return formatRub(amount);
-}
 
 export function PhoneMockup() {
   return (
@@ -70,7 +47,7 @@ export function PhoneMockup() {
                 За смену
               </p>
               <p className="mt-1 text-[1.75rem] font-extrabold leading-none tabular-nums tracking-tight text-accent">
-                6 400 ₽
+                {formatRub(mockup.shiftToday)}
               </p>
               <p className="mt-1.5 text-[11px] text-green-400">+12% к вчера</p>
             </div>
@@ -81,7 +58,7 @@ export function PhoneMockup() {
                   Этот месяц
                 </p>
                 <p className="mt-1 text-[13px] font-extrabold tabular-nums leading-tight text-white">
-                  {formatRubShort(87_650)}
+                  {formatRubShort(mockup.monthCurrent)}
                 </p>
               </div>
               <div className="min-w-0 rounded-2xl bg-accent/10 p-3 ring-1 ring-accent/40">
@@ -89,7 +66,7 @@ export function PhoneMockup() {
                   Пр. месяц
                 </p>
                 <p className="mt-1 text-[13px] font-extrabold tabular-nums leading-tight text-accent">
-                  {formatRubShort(150_240)}
+                  {formatRubShort(mockup.monthPrevious)}
                 </p>
               </div>
             </div>
@@ -99,10 +76,10 @@ export function PhoneMockup() {
                 Заработок за неделю
               </p>
               <p className="mt-1 text-base font-extrabold tabular-nums leading-none text-white">
-                {formatRub(WEEK_TOTAL)}
+                {formatRub(mockup.weekTotal)}
               </p>
               <div className="mt-3 flex h-12 items-end justify-between gap-1">
-                {WEEK_DAYS.map((day) => {
+                {mockup.weekDays.map((day) => {
                   const barHeight = Math.max(
                     14,
                     Math.round((day.amount / WEEK_MAX) * CHART_HEIGHT_PX),
