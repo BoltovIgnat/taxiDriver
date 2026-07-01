@@ -28,8 +28,8 @@ function city(
     namePrepositional: prep,
     region,
     isFeatured: featured,
-    metaTitle: `Работа в такси в ${prep} — ${displayRange} | Таксопарк Партнёр`,
-    metaDescription: `Подключение водителей такси в ${prep}. ${displayRange}, выплаты каждый день, авто без залога или на своём. Оставьте заявку — перезвоним за 15 минут.`,
+    metaTitle: `Работа в такси в ${prep} — ${displayRange}`,
+    metaDescription: `Подключение водителей такси в ${prep} — ${displayRange}. Выплаты каждый день, авто без залога или на своём. Оставьте заявку — перезвоним за 15 минут.`,
     income: {
       ownCar: { rubPerHour, commissionPercent: 15 },
       rental: {

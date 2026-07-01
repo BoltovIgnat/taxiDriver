@@ -6,6 +6,7 @@ import { FloatingCTA } from "@/components/layout/FloatingCTA";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { siteConfig } from "@/config/site";
+import { getRootSocialDefaults } from "@/lib/seo/metadata";
 import { getServerSideURL } from "@/lib/getServerSideURL";
 
 import "../globals.css";
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
     default: "Таксопарк Партнёр — работа водителем такси",
     template: "%s | Таксопарк Партнёр",
   },
+  ...getRootSocialDefaults(),
 };
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {

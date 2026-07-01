@@ -13,6 +13,7 @@ import { getReviewsByIds } from "@/data/reviews";
 import { getFaqByIds } from "@/data/faq";
 import { getCityCardImage } from "@/config/cityImages";
 import { buildJobPostingSchema } from "@/lib/seo/job-posting";
+import { withSocialMetadata } from "@/lib/seo/metadata";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -26,11 +27,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const city = getCityBySlug(slug);
   if (!city) return {};
-  return {
+  return withSocialMetadata({
     title: city.metaTitle,
     description: city.metaDescription,
-    alternates: { canonical: `/taxi/${city.slug}` },
-  };
+    path: `/taxi/${city.slug}`,
+  });
 }
 
 export default async function CityPage({ params }: Props) {
